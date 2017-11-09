@@ -71,14 +71,21 @@ data:
     postgresql['listen_address'] = '0.0.0.0'
     postgresql['port'] = {{ .Values.service.ports.psql }}
     postgresql['shared_buffers'] = {{ .Values.psql.shared_buffers | quote }}
-    #postgresql['md5_auth_cidr_addresses'] = %w{{ .Values.trusted_proxies }}
+    postgresql['md5_auth_cidr_addresses'] = %w{{ .Values.trusted_proxies }}
     postgresql['trust_auth_cidr_addresses'] = ['127.0.0.1/24', '172.16.0.0/12']
+    {{- if .Values.psql.sql_user_password }}
+    postgresql['sql_user_password'] = {{ .Values.psql.sql_user_password | quote }}
+    {{- end }}
     ###################
     # Redis
     redis['enable'] = {{ .Values.redis.enabled }}
     redis['bind'] = '0.0.0.0'
     redis['port'] = {{ .Values.service.ports.redis }}
     redis['password'] = File.read("/etc/gitlab-redis/password")
+    redis_exporter['flags'] = {
+      'redis.addr' => "redis://{{ default '127.0.0.1' .Values.redis.host }}:{{ default .Values.service.ports.redis .Values.redis.port }}",
+      'redis.password' => File.read("/etc/gitlab-redis/password")
+    }
     ###################
     # DISABLED SERVICES
     # registry, pages, mattermost, prometheus
