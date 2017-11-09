@@ -14,3 +14,17 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- $name := default .Chart.Name .Values.nameOverride -}}
 {{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
+
+{{/*
+Return the db hostname
+If the postgresql host is provided, it will use that, otherwise it will fallback
+to the service name
+*/}}
+{{- define "unicorn.psql.host" -}}
+{{- if .Values.psql.host -}}
+{{- .Values.psql.host | quote -}}
+{{- else -}}
+{{- $name := default "omnibus" .Value.psql.serviceName -}}
+{{- printf "%s-%s" .Release.Name $name -}}
+{{- end -}}
+{{- end -}}
