@@ -254,11 +254,11 @@ production:
       --set registry.registry.tokenIssuer="omnibus-gitlab-issuer" \
       --set registry.registry.certBundle.secretName="gitlab-registry" \
       --set registry.registry.certBundle.bundleName="registry-auth.crt" \
-      --set unicorn.enabled=true \
-      --set unicorn.redis.password.secret=gitlab-redis \
-      --set unicorn.redis.password.key=redis-password \
-      --set unicorn.psql.serviceName=omnibus \
-      --set unicorn.psql.password=d3adb33f \
+      --set gitlab.unicorn.enabled=true \
+      --set gitlab.unicorn.redis.password.secret=gitlab-redis \
+      --set gitlab.unicorn.redis.password.key=redis-password \
+      --set gitlab.unicorn.psql.serviceName=omnibus \
+      --set gitlab.unicorn.psql.password=d3adb33f \
       --set gitlab.omnibus.enabled=true \
       --set gitlab.omnibus.service.type=NodePort \
       --set gitlab.omnibus.external_url="https://gitlab$DOMAIN" \
