@@ -24,5 +24,9 @@ data:
     production:
       # Redis (single instance)
       url: redis://:<%= File.read("/etc/gitlab-redis/password") %>@{{ template "unicorn.redis.host" . }}:{{ default 6379 .Values.redis.port }}
+  workhorse-config.toml.erb: |
+    [redis]
+    URL = "tcp://{{ template "unicorn.redis.host" . }}:{{ default 6379 .Values.redis.port }}"
+    Password = "<%= File.read("/etc/gitlab-redis/password") %>"
 # Leave this here - This line denotes end of block to the parser.
 {{- end }}

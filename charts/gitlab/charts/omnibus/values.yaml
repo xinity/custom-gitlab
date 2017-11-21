@@ -59,7 +59,7 @@ unicorn:
 workhorse:
   enabled: false
   # point to Unicorn
-  auth_backend:
+  auth_backend: {}
     # host: "http://0.0.0.0"
     # serviceName: "unicorn"
     # port: 8080

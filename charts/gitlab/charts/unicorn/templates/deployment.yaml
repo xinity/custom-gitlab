@@ -24,11 +24,14 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: {{ .Values.service.internalPort }}
+            - containerPort: {{ .Values.service.workhorseInternalPort }}
           env:
             - name: CONFIG_TEMPLATE_DIRECTORY
               value: '/var/opt/gitlab/templates'
             - name: CONFIG_DIRECTORY
-              value: '/home/git/gitlab/config'
+              value: '/var/opt/gitlab/config/gitlab/'
+            - name: GITLAB_HOST
+              value: {{ .Values.gitlab_host }}
           volumeMounts:
             - name: unicorn-config
               mountPath: '/var/opt/gitlab/templates'

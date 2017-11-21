@@ -11,7 +11,10 @@ service:
   type: ClusterIP
   externalPort: 8080
   internalPort: 8080
+  workhorseExternalPort: 8181
+  workhorseInternalPort: 8181
 enabled: false
+gitlab_host: localhost
 redis:
   # host: '0.0.0.0'
   # serviceName: 'omnibus'
