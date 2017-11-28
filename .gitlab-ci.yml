@@ -234,7 +234,7 @@ production:
     helm upgrade --install \
       --wait \
       --set releaseOverride="$CI_ENVIRONMENT_SLUG" \
-      --set nginx.service.loadBalancerIP="$DOMAIN_IP" \
+      --set nginx.service.type="nodePort" \
       --set nginx.ingress.hosts[0].name="gitlab$DOMAIN" \
       --set nginx.ingress.hosts[0].serviceName="omnibus" \
       --set nginx.ingress.hosts[0].servicePort="og-workhorse" \
