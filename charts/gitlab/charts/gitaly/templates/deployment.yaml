@@ -32,6 +32,9 @@ spec:
           volumeMounts:
             - name: gitaly-config
               mountPath: '/etc/gitaly/templates'
+            - name: gitaly-secret
+              mountPath: '/etc/gitlab-secrets'
+              readOnly: true
             - name: gitaly-shell
               mountPath: '/etc/gitlab-secrets'
               readOnly: true
@@ -58,6 +61,13 @@ spec:
       - name: gitaly-config
         configMap:
           name: {{ template "fullname" . }}
+      - name: gitaly-secret
+        secret:
+          secretName: {{ .Values.secret.name }}
+          items:
+            - key: {{ .Values.secret.key }}
+              path: "gitaly_token"
+          defaultMode: 0440
       - name: gitaly-shell
         secret:
           secretName: {{ .Values.shell.secret }}
@@ -70,7 +80,7 @@ spec:
           secretName: {{ .Values.redis.password.secret }}
           items:
             - key: {{ .Values.redis.password.key }}
-              path: redis-password
+              path: redis_password
           defaultMode: 0440
     {{- if .Values.nodeSelector }}
       nodeSelector:

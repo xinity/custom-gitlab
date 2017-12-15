@@ -12,6 +12,9 @@ service:
   externalPort: 8075
   internalPort: 8075
 enabled: false
+secret:
+  name: gitaly-secret
+  key: token
 unicorn: {}
   # host: '0.0.0.0'
   # serviceName: 'unicorn'
