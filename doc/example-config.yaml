@@ -76,11 +76,11 @@ gitlab:
         password:
           secret: gitlab-redis
           key: redis-password
-
     gitaly:
       enabled: true
       secret:
         name: gitaly-secret
+        key: token
 
     # omnibus sub-chart (development only)
     omnibus:
