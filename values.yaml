@@ -25,3 +25,12 @@ gitlab:
     enabled: false
   gitlab-shell:
     enabled: false
+
+## Global configuration items
+global:
+  ## Configuration
+  # domain: Top-Level Domain for deployment
+  ## Feature gating
+  # emptyDir.sizeLimit is alpha in Kubernetes v1.7.x, standard in v1.8.x
+  # When available, it is used to limit the size of ephemeral data
+  emptyDirLimits: true
