@@ -15,6 +15,13 @@ ingress:
     #   - registry.example.local
     #   secretName: registry-example-tls
 
+global:
+  gitlabHost:
+    name: gitlab.example.local
+  registryHost:
+    name: registry.example.local
+    serviceName: registry
+
 gitaly:
   enabled: false
 gitlab-shell:

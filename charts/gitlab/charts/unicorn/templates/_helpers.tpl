@@ -66,7 +66,20 @@ to the service name
 {{-   if .Values.registry.api.host -}}
 {{-     .Values.registry.api.host -}}
 {{-   else -}}
-{{-     $name := default "registry" .Values.registry.api.serviceName -}}
+{{-     $name := default .Values.global.registryHost.serviceName .Values.registry.api.serviceName -}}
 {{-     printf "%s-%s" .Release.Name $name -}}
+{{-   end -}}
+{{- end -}}
+
+{{/*
+Return the registry external hostname
+If the chart registry host is provided, it will use that, otherwise it will fallback
+to the global registr host name.
+*/}}
+{{- define "unicorn.registry.host" -}}
+{{-   if .Values.registry.host -}}
+{{-     .Values.registry.host -}}
+{{-   else -}}
+{{-     .Values.global.registryHost.name -}}
 {{-   end -}}
 {{- end -}}

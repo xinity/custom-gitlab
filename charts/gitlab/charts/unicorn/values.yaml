@@ -14,7 +14,12 @@ service:
   workhorseExternalPort: 8181
   workhorseInternalPort: 8181
 enabled: false
-gitlabHost: localhost
+global:
+  gitlabHost:
+    name: gitlabes.example.local
+  registryHost:
+    name: registry.example.local
+    serviceName: registry
 redis:
   # host: '0.0.0.0'
   # serviceName: 'redis'

@@ -231,16 +231,11 @@ production:
     helm upgrade --install \
       --wait \
       --set releaseOverride="$CI_ENVIRONMENT_SLUG" \
+      --set global.gitlabHost.name="gitlab$DOMAIN" \
+      --set global.gitlabHost.tls.secretName=helm-charts-win-tls  \
+      --set global.registryHost.name="registry$DOMAIN" \
+      --set global.registryHost.tls.secretName=helm-charts-win-tls \
       --set nginx.service.loadBalancerIP="$DOMAIN_IP" \
-      --set nginx.ingress.hosts[0].name="gitlab$DOMAIN" \
-      --set nginx.ingress.hosts[0].serviceName="unicorn" \
-      --set nginx.ingress.hosts[0].servicePort="workhorse" \
-      --set nginx.ingress.hosts[1].name="registry$DOMAIN" \
-      --set nginx.ingress.hosts[1].serviceName="registry" \
-      --set nginx.ingress.hosts[1].servicePort="registry" \
-      --set nginx.ingress.tls[0].secretName=helm-charts-win-tls \
-      --set nginx.ingress.tls[0].hosts[0]="gitlab$DOMAIN" \
-      --set nginx.ingress.tls[0].hosts[1]="registry$DOMAIN" \
       --set registry.enabled=true \
       --set registry.service.type=NodePort \
       --set registry.replicas=1 \
@@ -263,7 +258,6 @@ production:
       --set gitlab.sidekiq.gitaly.authToken.secret=gitaly-secret \
       --set gitlab.sidekiq.gitaly.authToken.key=token \
       --set gitlab.unicorn.enabled=true \
-      --set gitlab.unicorn.gitlabHost="gitlab$DOMAIN" \
       --set gitlab.unicorn.redis.serviceName=redis \
       --set gitlab.unicorn.redis.password.secret=gitlab-redis \
       --set gitlab.unicorn.redis.password.key=redis-password \
