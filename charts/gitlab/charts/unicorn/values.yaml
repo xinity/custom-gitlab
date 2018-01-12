@@ -45,7 +45,7 @@ gitaly:
     secret: gitaly-secret
     key: token
 registry:
-  host: nil
+  host:
   # port: 443
   api:
     protocol: http
