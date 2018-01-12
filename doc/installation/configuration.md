@@ -25,10 +25,9 @@ information:
 
 Set the following properties in `configuration.yaml` (in order of appearance):
 - nginx.service.loadBalancerIP: [static-ip][]
-- nginx.ingress.hosts[0].name: registry.helm-charts.win
-- nginx.ingress.hosts[1].name: gitlab.helm-charts.win
+- global.gitlabHost.name=gitlab.helm-charts.win
+- global.registryHost.name=registry.helm-charts.win
 - registry.registry.authEndpoint: 'https://gitlab.helm-charts.win'
-- gitlab.unicorn.gitlabHost: gitlab.helm-charts.win
 - gitlab.unicorn.registry.host: registry.helm-charts.win
 - gitlab.unicorn.psql.password: SQLPassword
 - gitlab.sidekiq.psql.password: SQLPassword
@@ -40,8 +39,8 @@ If you are using [Let's Encrypt certificates](secrets.md#lets-encrypt):
 - nginx.ingress.acme: true
 
 If you are using [Wildcard certificates](secrets.md#wildcard-certificates):
-- nginx.ingress.tls[0].secretName: helm-charts-win-tls
-- nginx.ingress.tls[0].hosts[]: gitlab.helm-charts.win, registry.helm-charts.win
+- global.gitlabHost.tls.secretName: helm-charts-win-tls
+- global.registryHost.tls.secretName: helm-charts-win-tls
 
 If you are using a cluster with [RBAC](rbac.md):
 - nginx.servieAccount.autoGenerate: true

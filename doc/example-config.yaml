@@ -3,8 +3,12 @@
 global:
   gitlabHost:
     name: gitlab.example.local
+    # tls:
+    #   secretName: example-local-tls
   registryHost:
     name: registry.example.local
+    # tls:
+    #   secretName: example-local-tls
 
 # NGINX chart provides
 # - HTTP(S) Ingress services with SSL termination to all external facing services
