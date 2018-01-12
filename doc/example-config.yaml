@@ -2,11 +2,11 @@
 
 global:
   gitlabHost:
-    name: gitlab.example.local
+    url: http://gitlab.example.local
     # tls:
     #   secretName: example-local-tls
   registryHost:
-    name: registry.example.local
+    url: http://registry.example.local
     # tls:
     #   secretName: example-local-tls
 

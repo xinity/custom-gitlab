@@ -31,7 +31,7 @@ data:
   gitlab.yml.erb: |
     production: &base
       gitlab:
-        https: false # Set to true if using HTTPS, see installation.md#using-https for additional HTTPS configuration details
+        https: {{ hasPrefix "https://" .Values.global.gitlabHost.url }}
         trusted_proxies:
         email_from: example@example.com
         email_display_name: GitLab

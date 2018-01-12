@@ -17,9 +17,9 @@ ingress:
 
 global:
   gitlabHost:
-    name: gitlab.example.local
+    url: http://gitlab.example.local
   registryHost:
-    name: registry.example.local
+    url: http://registry.example.local
     serviceName: registry
 
 gitaly:

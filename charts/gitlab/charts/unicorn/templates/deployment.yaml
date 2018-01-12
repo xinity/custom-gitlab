@@ -35,7 +35,7 @@ spec:
             - name: CONFIG_DIRECTORY
               value: '/var/opt/gitlab/config/gitlab/'
             - name: GITLAB_HOST
-              value: {{ .Values.global.gitlabHost.name }}
+              value: {{ template "hostname" .Values.global.gitlabHost.url }}
           volumeMounts:
             - name: unicorn-config
               mountPath: '/var/opt/gitlab/templates'

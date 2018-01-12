@@ -25,8 +25,8 @@ information:
 
 Set the following properties in `configuration.yaml` (in order of appearance):
 - nginx.service.loadBalancerIP: [static-ip][]
-- global.gitlabHost.name=gitlab.helm-charts.win
-- global.registryHost.name=registry.helm-charts.win
+- global.gitlabHost.url=https://gitlab.helm-charts.win
+- global.registryHost.url=https://registry.helm-charts.win
 - gitlab.unicorn.registry.host: registry.helm-charts.win
 - gitlab.unicorn.psql.password: SQLPassword
 - gitlab.sidekiq.psql.password: SQLPassword

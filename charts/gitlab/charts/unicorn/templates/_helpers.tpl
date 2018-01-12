@@ -80,6 +80,14 @@ to the global registr host name.
 {{-   if .Values.registry.host -}}
 {{-     .Values.registry.host -}}
 {{-   else -}}
-{{-     .Values.global.registryHost.name -}}
+{{-     template "hostname" .Values.global.registryHost.url -}}
 {{-   end -}}
+{{- end -}}
+
+{{/*
+Take a url (eg: http://gitlab.example.local) and return the hostname.
+*/}}
+{{- define "hostname" -}}
+{{- $urlParts := split "://" . -}}
+{{- $urlParts._1 -}}
 {{- end -}}

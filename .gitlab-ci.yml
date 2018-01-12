@@ -231,9 +231,9 @@ production:
     helm upgrade --install \
       --wait \
       --set releaseOverride="$CI_ENVIRONMENT_SLUG" \
-      --set global.gitlabHost.name="gitlab$DOMAIN" \
+      --set global.gitlabHost.url="https://gitlab$DOMAIN" \
       --set global.gitlabHost.tls.secretName=helm-charts-win-tls  \
-      --set global.registryHost.name="registry$DOMAIN" \
+      --set global.registryHost.url="https://registry$DOMAIN" \
       --set global.registryHost.tls.secretName=helm-charts-win-tls \
       --set nginx.service.loadBalancerIP="$DOMAIN_IP" \
       --set registry.enabled=true \

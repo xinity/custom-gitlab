@@ -24,6 +24,6 @@ to the chart
 {{- if .Values.authEndpoint -}}
 {{- .Values.authEndpoint -}}
 {{- else -}}
-{{- printf "%s%s" "http://" .Values.global.gitlabHost.name -}}
+{{- .Values.global.gitlabHost.url -}}
 {{- end -}}
 {{- end -}}
