@@ -29,7 +29,6 @@ nginx:
 # Registry chart Provides services to Unicorn/Omnibus chart(s) and external clients
 registry:
   enabled: true
-  authEndpoint: 'http://gitlab.example.local'
   tokenIssuer: gitlab-issuer
   certificate:
     secret: gitlab-registry

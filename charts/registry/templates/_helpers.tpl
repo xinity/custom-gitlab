@@ -14,3 +14,16 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- $name := default .Chart.Name .Values.nameOverride -}}
 {{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
+
+{{/*
+Return the registry authEndpoint
+Defaults to the globally set gitlabHostname if an authEndpoint hasn't been provided
+to the chart
+*/}}
+{{- define "registry.authEndpoint" -}}
+{{- if .Values.authEndpoint -}}
+{{- .Values.authEndpoint -}}
+{{- else -}}
+{{- printf "%s%s" "http://" .Values.global.gitlabHost.name -}}
+{{- end -}}
+{{- end -}}

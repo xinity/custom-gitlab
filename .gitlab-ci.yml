@@ -242,7 +242,6 @@ production:
       --set registry.storage.filesystem.rootdirectory="/var/lib/registry" \
       --set registry.storage.cache.blobdescriptor="inmemory" \
       --set registry.storage.delete.enabled=true \
-      --set registry.authEndpoint="https://gitlab$DOMAIN" \
       --set registry.tokenIssuer="gitlab-issuer" \
       --set registry.certificate.secret="gitlab-registry" \
       --set registry.certificate.key="registry-auth.crt" \
@@ -267,7 +266,6 @@ production:
       --set gitlab.unicorn.shell.authToken.key=secret \
       --set gitlab.unicorn.gitaly.authToken.secret=gitaly-secret \
       --set gitlab.unicorn.gitaly.authToken.key=token \
-      --set gitlab.unicorn.registry.host=registry$DOMAIN \
       --set gitlab.unicorn.registry.api.serviceName=registry \
       --set gitlab.unicorn.registry.tokenIssuer="gitlab-issuer" \
       --set gitlab.unicorn.registry.certificate.secret=gitlab-registry \
