@@ -22,9 +22,5 @@ gitlab:
 global:
   gitlabHost:
     name: gitlab.example.local
-    serviceName: unicorn
-    servicePort: workhorse
   registryHost:
     name: registry.example.local
-    serviceName: registry
-    servicePort: registry

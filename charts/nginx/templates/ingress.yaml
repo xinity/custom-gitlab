@@ -5,16 +5,6 @@
 {{- $ingressHosts := .Values.ingress.hosts -}}
 {{- $ingressHosts := prepend $ingressHosts .Values.global.registryHost -}}
 {{- $ingressHosts := prepend $ingressHosts .Values.global.gitlabHost -}}
-{{- if or .Values.ingress.tls .Values.global.registryHost.tls.secretName .Values.global.gitlabHost.tls.secretName -}}
-{{- $useTLS := true -}}
-{{- $ingressTLS := .Values.ingress.tls -}}
-{{-   if .Values.global.registryHost.tls.secretName -}}
-{{-     $registryTLS := dict -}}
-{{-     $_ := set $registryTLS "secretName" .Values.global.registryHost.tls.secretName -}}
-{{-     $_ := set $registryTLS "hosts" (list .Values.global.registryHost.name) -}}
-{{-     $ingressTLS := prepend $ingressTLS $registryTLS -}}
-{{-   end -}}
-{{- end -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
@@ -43,17 +33,27 @@ spec:
               servicePort: {{ $host.servicePort }}
     {{- end -}}
 
-  {{- if or .Values.ingress.acme .Values.ingress.tls }}
+  {{- if or .Values.ingress.acme .Values.ingress.tls .Values.global.registryHost.tls.secretName .Values.global.gitlabHost.tls.secretName }}
   tls:
   {{- end }}
   {{- if .Values.ingress.acme }}
     - hosts:
-      {{- range $host := .Values.ingress.hosts }}
+      {{- range $host := $ingressHosts }}
       - {{ $host.name }}
       {{- end }}
       secretName: {{ .Release.Name }}-acme-tls
   {{- end }}
-  {{- if .Values.ingress.tls }}
-{{ toYaml $ingressTLS | indent 4 }}
+  {{- if .Values.global.gitlabHost.tls.secretName }}
+    - hosts:
+      - .Values.global.gitlabHost.name
+      secretName: {{ .Values.global.gitlabHost.tls.secretName }}
+  {{- end }}
+  {{- if .Values.global.registryHost.tls.secretName }}
+    - hosts:
+      - .Values.global.registryHost.name
+      secretName: {{ .Values.global.registryHost.tls.secretName }}
+  {{- end }}
+  {{- if $.Values.ingress.tls }}
+{{ toYaml .Values.ingress.tls | indent 4 }}
   {{- end -}}
 {{- end -}}
