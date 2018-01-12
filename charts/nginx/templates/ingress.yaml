@@ -45,12 +45,12 @@ spec:
   {{- end }}
   {{- if .Values.global.gitlabHost.tls.secretName }}
     - hosts:
-      - .Values.global.gitlabHost.name
+      - {{ .Values.global.gitlabHost.name }}
       secretName: {{ .Values.global.gitlabHost.tls.secretName }}
   {{- end }}
   {{- if .Values.global.registryHost.tls.secretName }}
     - hosts:
-      - .Values.global.registryHost.name
+      - {{ .Values.global.registryHost.name }}
       secretName: {{ .Values.global.registryHost.tls.secretName }}
   {{- end }}
   {{- if $.Values.ingress.tls }}
