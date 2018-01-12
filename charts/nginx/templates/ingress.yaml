@@ -3,8 +3,12 @@
 {{- $servicePort := .Values.service.externalPort -}}
 {{- $releaseName := .Release.Name -}}
 {{- $ingressHosts := .Values.ingress.hosts -}}
-{{- $ingressHosts := prepend $ingressHosts .Values.global.registryHost -}}
-{{- $ingressHosts := prepend $ingressHosts .Values.global.gitlabHost -}}
+{{- $registryHost := .Values.global.registryHost -}}
+{{- $_ := set $registryHost "name" (include "global.hostname" $registryHost.url) -}}
+{{- $ingressHosts := prepend $ingressHosts $registryHost -}}
+{{- $gitlabHost := .Values.global.gitlabHost -}}
+{{- $_ := set $gitlabHost "name" (include "global.hostname" $gitlabHost.url) -}}
+{{- $ingressHosts := prepend $ingressHosts $gitlabHost -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
@@ -45,12 +49,12 @@ spec:
   {{- end }}
   {{- if .Values.global.gitlabHost.tls.secretName }}
     - hosts:
-      - {{ .Values.global.gitlabHost.name }}
+      - {{ template "global.hostname" .Values.global.gitlabHost.name }}
       secretName: {{ .Values.global.gitlabHost.tls.secretName }}
   {{- end }}
   {{- if .Values.global.registryHost.tls.secretName }}
     - hosts:
-      - {{ .Values.global.registryHost.name }}
+      - {{ template "global.hostname" .Values.global.registryHost.name }}
       secretName: {{ .Values.global.registryHost.tls.secretName }}
   {{- end }}
   {{- if $.Values.ingress.tls }}
