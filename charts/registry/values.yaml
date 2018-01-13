@@ -11,7 +11,7 @@ service:
 
 global:
   gitlabHost:
-    name: gitlab.example.local
+    url: http://gitlab.example.local
 
 # define some sane resource requests and limitations
 resources: {}
