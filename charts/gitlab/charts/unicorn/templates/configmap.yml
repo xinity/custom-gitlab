@@ -31,7 +31,7 @@ data:
   gitlab.yml.erb: |
     production: &base
       gitlab:
-        https: {{ hasPrefix "https://" .Values.global.gitlabHost.url }}
+        https: {{ hasPrefix "https://" (include "gitlabUrl" .) }}
         trusted_proxies:
         email_from: example@example.com
         email_display_name: GitLab

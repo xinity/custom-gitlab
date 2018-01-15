@@ -10,8 +10,13 @@ service:
   clusterIP: '0.0.0.0'
 
 global:
-  gitlabHost:
-    url: http://gitlab.example.local
+  hosts:
+    domain: example.local
+    hostSuffix:
+    https: false
+    gitlab:
+      #name: gitlab.example.local
+      #https: false
 
 # define some sane resource requests and limitations
 resources: {}

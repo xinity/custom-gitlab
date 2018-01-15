@@ -32,18 +32,26 @@ hstsIncludeSubdomains: false
 serverNameHashBucketSize: 256
 
 global:
-  gitlabHost:
-    url: http://gitlab.example.local
-    serviceName: unicorn
-    servicePort: workhorse
+  hosts:
+    domain: example.local
+    hostSuffix:
+    https: false
     tls: {}
       # secretName:
-  registryHost:
-    url: http://registry.example.local
-    serviceName: registry
-    servicePort: registry
-    tls: {}
-      # secretName:
+    gitlab:
+      #name: gitlab.example.local
+      #https: false
+      serviceName: unicorn
+      servicePort: workhorse
+      tls: {}
+        # secretName:
+    registry:
+      #name: registry.example.local
+      #https: false
+      serviceName: registry
+      servicePort: registry
+      tls: {}
+        # secretName:
 
 shell:
   name: gitlab-shell

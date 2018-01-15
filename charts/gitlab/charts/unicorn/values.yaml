@@ -15,11 +15,17 @@ service:
   workhorseInternalPort: 8181
 enabled: false
 global:
-  gitlabHost:
-    url: http://gitlab.example.local
-  registryHost:
-    url: http://registry.example.local
-    serviceName: registry
+  hosts:
+    domain: example.local
+    hostSuffix:
+    https: false
+    gitlab:
+      #name: gitlab.example.local
+      #https: false
+    registry:
+      #name: registry.example.local
+      #https: false
+      serviceName: registry
 redis:
   # host: '0.0.0.0'
   # serviceName: 'redis'

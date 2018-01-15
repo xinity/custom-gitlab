@@ -16,11 +16,17 @@ ingress:
     #   secretName: registry-example-tls
 
 global:
-  gitlabHost:
-    url: http://gitlab.example.local
-  registryHost:
-    url: http://registry.example.local
-    serviceName: registry
+  hosts:
+    domain: example.local
+    hostSuffix:
+    https: false
+    gitlab:
+      #name: gitlab.example.local
+      #https: false
+    registry:
+      #name: registry.example.local
+      #https: false
+      serviceName: registry
 
 gitaly:
   enabled: false

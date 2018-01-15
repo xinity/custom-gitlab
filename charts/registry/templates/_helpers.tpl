@@ -24,6 +24,28 @@ to the chart
 {{- if .Values.authEndpoint -}}
 {{- .Values.authEndpoint -}}
 {{- else -}}
-{{- .Values.global.gitlabHost.url -}}
+{{- template "gitlabUrl" . -}}
 {{- end -}}
+{{- end -}}
+
+{{- define "assembleHost" -}}
+{{- if $.Values.global.hosts.domain -}}
+{{-   $domainHost := printf ".%s" $.Values.global.hosts.domain -}}
+{{-   if $.Values.global.hosts.hostSuffix -}}
+{{-     $domainHost := printf "-%s%s" $.Values.global.hosts.hostSuffix $domainHost -}}
+{{-   end -}}
+{{-   $domainHost := printf "%s-%s" . $domainHost -}}
+{{- end -}}
+{{- $domainHost -}}
+{{- end -}}
+
+{{- define "gitlabHost" -}}
+{{- coalesce .Values.gitlab.host .Values.global.hosts.gitlab.name (include "assembleHost" "gitlab") -}}
+{{- end -}}
+
+{{- define "gitlabUrl" -}}
+{{- if or .Values.global.hosts.https .Values.global.hosts.gitlab.https -}}
+{{-   $protocol := "https" -}}
+{{- end -}}
+{{- printf "%s://%s" (default "http" $protocol) (include "gitlabHost" .) -}}
 {{- end -}}

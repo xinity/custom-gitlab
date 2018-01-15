@@ -15,12 +15,38 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
-{{/*
-Take a url (eg: http://gitlab.example.local) and return the hostname.
-*/}}
-{{- define "hostname" -}}
-{{- $urlParts := split "://" . -}}
-{{- $urlParts._1 -}}
+{{- define "assembleHost" -}}
+{{- if $.Values.global.hosts.domain -}}
+{{-   $domainHost := printf ".%s" $.Values.global.hosts.domain -}}
+{{-   if $.Values.global.hosts.hostSuffix -}}
+{{-     $domainHost := printf "-%s%s" $.Values.global.hosts.hostSuffix $domainHost -}}
+{{-   end -}}
+{{-   $domainHost := printf "%s-%s" . $domainHost -}}
+{{- end -}}
+{{- $domainHost -}}
+{{- end -}}
+
+{{- define "gitlabHost" -}}
+{{- coalesce .Values.gitlab.host .Values.global.hosts.gitlab.name (include "assembleHost" "gitlab") -}}
+{{- end -}}
+
+{{- define "gitlabUrl" -}}
+{{- if or .Values.global.hosts.https .Values.global.hosts.gitlab.https -}}
+{{-   $protocol := "https" -}}
+{{- end -}}
+{{- printf "%s://%s" (default "http" $protocol) (include "gitlabHost" .) -}}
+{{- end -}}
+
+{{- define "registryHost" -}}
+{{- coalesce .Values.registry.host .Values.global.hosts.registry.name (include "assembleHost" "registry") -}}
+{{- end -}}
+
+{{- define "registryTLSSecret" -}}
+{{- coalesce .Values.global.hosts.registry.tls.secretName .Values.global.hosts.tls.secretName "" -}}
+{{- end -}}
+
+{{- define "gitlabTLSSecret" -}}
+{{- coalesce .Values.global.hosts.gitlab.tls.secretName .Values.global.hosts.tls.secretName "" -}}
 {{- end -}}
 
 {{/*

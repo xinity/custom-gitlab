@@ -74,6 +74,7 @@ review:
     url: https://gitlab-$CI_ENVIRONMENT_SLUG.$AUTO_DEVOPS_DOMAIN
     on_stop: stop_review
   variables:
+    HOST_SUFFIX: "$CI_ENVIRONMENT_SLUG"
     DOMAIN: "-$CI_ENVIRONMENT_SLUG.$AUTO_DEVOPS_DOMAIN"
   only:
     refs:
@@ -231,10 +232,10 @@ production:
     helm upgrade --install \
       --wait \
       --set releaseOverride="$CI_ENVIRONMENT_SLUG" \
-      --set global.gitlabHost.url="https://gitlab$DOMAIN" \
-      --set global.gitlabHost.tls.secretName=helm-charts-win-tls  \
-      --set global.registryHost.url="https://registry$DOMAIN" \
-      --set global.registryHost.tls.secretName=helm-charts-win-tls \
+      --set global.hosts.hostSuffix="$HOST_SUFFIX" \
+      --set global.hosts.domain="$AUTO_DEVOPS_DOMAIN" \
+      --set global.hosts.https=true \
+      --set global.hosts.tls.secretName=helm-charts-win-tls \
       --set nginx.service.loadBalancerIP="$DOMAIN_IP" \
       --set registry.enabled=true \
       --set registry.service.type=NodePort \

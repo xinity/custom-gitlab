@@ -66,7 +66,7 @@ to the service name
 {{-   if .Values.registry.api.host -}}
 {{-     .Values.registry.api.host -}}
 {{-   else -}}
-{{-     $name := default .Values.global.registryHost.serviceName .Values.registry.api.serviceName -}}
+{{-     $name := default .Values.global.hosts.registry.serviceName .Values.registry.api.serviceName -}}
 {{-     printf "%s-%s" .Release.Name $name -}}
 {{-   end -}}
 {{- end -}}
@@ -80,14 +80,32 @@ to the global registr host name.
 {{-   if .Values.registry.host -}}
 {{-     .Values.registry.host -}}
 {{-   else -}}
-{{-     template "hostname" .Values.global.registryHost.url -}}
+{{-     template "registryHost" . -}}
 {{-   end -}}
 {{- end -}}
 
-{{/*
-Take a url (eg: http://gitlab.example.local) and return the hostname.
-*/}}
-{{- define "hostname" -}}
-{{- $urlParts := split "://" . -}}
-{{- $urlParts._1 -}}
+{{- define "assembleHost" -}}
+{{- if $.Values.global.hosts.domain -}}
+{{-   $domainHost := printf ".%s" $.Values.global.hosts.domain -}}
+{{-   if $.Values.global.hosts.hostSuffix -}}
+{{-     $domainHost := printf "-%s%s" $.Values.global.hosts.hostSuffix $domainHost -}}
+{{-   end -}}
+{{-   $domainHost := printf "%s-%s" . $domainHost -}}
+{{- end -}}
+{{- $domainHost -}}
+{{- end -}}
+
+{{- define "gitlabHost" -}}
+{{- coalesce .Values.gitlab.host .Values.global.hosts.gitlab.name (include "assembleHost" "gitlab") -}}
+{{- end -}}
+
+{{- define "gitlabUrl" -}}
+{{- if or .Values.global.hosts.https .Values.global.hosts.gitlab.https -}}
+{{-   $protocol := "https" -}}
+{{- end -}}
+{{- printf "%s://%s" (default "http" $protocol) (include "gitlabHost" .) -}}
+{{- end -}}
+
+{{- define "registryHost" -}}
+{{- coalesce .Values.registry.host .Values.global.hosts.registry.name (include "assembleHost" "registry") -}}
 {{- end -}}

@@ -3,12 +3,14 @@
 {{- $servicePort := .Values.service.externalPort -}}
 {{- $releaseName := .Release.Name -}}
 {{- $ingressHosts := .Values.ingress.hosts -}}
-{{- $registryHost := .Values.global.registryHost -}}
-{{- $_ := set $registryHost "name" (include "hostname" $registryHost.url) -}}
+{{- $registryHost := .Values.global.hosts.registry -}}
+{{- $_ := set $registryHost "name" (include "registryHost" .) -}}
 {{- $ingressHosts := prepend $ingressHosts $registryHost -}}
-{{- $gitlabHost := .Values.global.gitlabHost -}}
-{{- $_ := set $gitlabHost "name" (include "hostname" $gitlabHost.url) -}}
+{{- $registryTLSSecret := include "registryTLSSecret" . -}}
+{{- $gitlabHost := .Values.global.hosts.gitlab -}}
+{{- $_ := set $gitlabHost "name" (include "gitlabHost" .) -}}
 {{- $ingressHosts := prepend $ingressHosts $gitlabHost -}}
+{{- $gitlabTLSSecret := include "gitlabTLSSecret" . -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
@@ -37,7 +39,7 @@ spec:
               servicePort: {{ $host.servicePort }}
     {{- end -}}
 
-  {{- if or .Values.ingress.acme .Values.ingress.tls .Values.global.registryHost.tls.secretName .Values.global.gitlabHost.tls.secretName }}
+  {{- if or .Values.ingress.acme .Values.ingress.tls $registryTLSSecret $gitlabTLSSecret }}
   tls:
   {{- end }}
   {{- if .Values.ingress.acme }}
@@ -47,15 +49,15 @@ spec:
       {{- end }}
       secretName: {{ .Release.Name }}-acme-tls
   {{- end }}
-  {{- if .Values.global.gitlabHost.tls.secretName }}
+  {{- if $gitlabTLSSecret }}
     - hosts:
-      - {{ template "hostname" .Values.global.gitlabHost.url }}
-      secretName: {{ .Values.global.gitlabHost.tls.secretName }}
+      - {{ template "gitlabHost" . }}
+      secretName: {{ $gitlabTLSSecret }}
   {{- end }}
-  {{- if .Values.global.registryHost.tls.secretName }}
+  {{- if $registryTLSSecret }}
     - hosts:
-      - {{ template "hostname" .Values.global.registryHost.url }}
-      secretName: {{ .Values.global.registryHost.tls.secretName }}
+      - {{ template "registryHost" . }}
+      secretName: {{ $registryTLSSecret }}
   {{- end }}
   {{- if $.Values.ingress.tls }}
 {{ toYaml .Values.ingress.tls | indent 4 }}

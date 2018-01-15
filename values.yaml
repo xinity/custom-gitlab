@@ -20,7 +20,6 @@ gitlab:
     enabled: false
 
 global:
-  gitlabHost:
-    url: http://gitlab.example.local
-  registryHost:
-    url: http://registry.example.local
+  hosts:
+    domain: example.local
+    https: false
