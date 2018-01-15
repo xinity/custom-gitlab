@@ -29,23 +29,27 @@ to the chart
 {{- end -}}
 
 {{- define "assembleHost" -}}
-{{- if $.Values.global.hosts.domain -}}
-{{-   $domainHost := printf ".%s" $.Values.global.hosts.domain -}}
-{{-   if $.Values.global.hosts.hostSuffix -}}
-{{-     $domainHost := printf "-%s%s" $.Values.global.hosts.hostSuffix $domainHost -}}
+{{- $name := .name -}}
+{{- $context := .context -}}
+{{- $result := dict -}}
+{{- if $context.Values.global.hosts.domain -}}
+{{-   $_ := set $result "domainHost" (printf ".%s" $context.Values.global.hosts.domain) -}}
+{{-   if $context.Values.global.hosts.hostSuffix -}}
+{{-     $_ := set $result "domainHost" (printf "-%s%s" $context.Values.global.hosts.hostSuffix $result.domainHost) -}}
 {{-   end -}}
-{{-   $domainHost := printf "%s-%s" . $domainHost -}}
+{{-   $_ := set $result "domainHost" (printf "%s%s" $name $result.domainHost) -}}
 {{- end -}}
-{{- $domainHost -}}
+{{- $result.domainHost -}}
 {{- end -}}
 
 {{- define "gitlabHost" -}}
-{{- coalesce .Values.gitlab.host .Values.global.hosts.gitlab.name (include "assembleHost" "gitlab") -}}
+{{- coalesce .Values.global.hosts.gitlab.name (include "assembleHost"  (dict "name" "gitlab" "context" . )) -}}
 {{- end -}}
 
 {{- define "gitlabUrl" -}}
 {{- if or .Values.global.hosts.https .Values.global.hosts.gitlab.https -}}
-{{-   $protocol := "https" -}}
+{{-   printf "https://%s" (include "gitlabHost" .) -}}
+{{- else -}}
+{{-   printf "http://%s" (include "gitlabHost" .) -}}
 {{- end -}}
-{{- printf "%s://%s" (default "http" $protocol) (include "gitlabHost" .) -}}
 {{- end -}}

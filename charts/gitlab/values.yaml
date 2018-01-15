@@ -20,7 +20,7 @@ global:
     domain: example.local
     hostSuffix:
     https: false
-    gitlab:
+    gitlab: {}
       #name: gitlab.example.local
       #https: false
     registry:
