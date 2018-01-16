@@ -25,9 +25,8 @@ information:
 
 Set the following properties in `configuration.yaml` (in order of appearance):
 - nginx.service.loadBalancerIP: [static-ip][]
-- global.gitlabHost.url=https://gitlab.helm-charts.win
-- global.registryHost.url=https://registry.helm-charts.win
-- gitlab.unicorn.registry.host: registry.helm-charts.win
+- global.hosts.domain=helm-charts.win
+- global.hosts.https=true
 - gitlab.unicorn.psql.password: SQLPassword
 - gitlab.sidekiq.psql.password: SQLPassword
 - gitlab.migrations.initialRootPassword: initialRootPassword
@@ -38,11 +37,10 @@ If you are using [Let's Encrypt certificates](secrets.md#lets-encrypt):
 - nginx.ingress.acme: true
 
 If you are using [Wildcard certificates](secrets.md#wildcard-certificates):
-- global.gitlabHost.tls.secretName: helm-charts-win-tls
-- global.registryHost.tls.secretName: helm-charts-win-tls
+- global.hosts.tls.secretName: helm-charts-win-tls
 
 If you are using a cluster with [RBAC](rbac.md):
-- nginx.servieAccount.autoGenerate: true
+- nginx.serviceAccount.autoGenerate: true
 
 Now that the template is generated, we can proceed [to deployment](README.md#deploy).
 

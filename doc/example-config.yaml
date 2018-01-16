@@ -1,14 +1,10 @@
 # Global chart properties
-
 global:
-  gitlabHost:
-    url: http://gitlab.example.local
+  hosts:
+    domain: example.local
+    https: false
     # tls:
-    #   secretName: example-local-tls
-  registryHost:
-    url: http://registry.example.local
-    # tls:
-    #   secretName: example-local-tls
+    #   secretName:  example-local-tls
 
 # NGINX chart provides
 # - HTTP(S) Ingress services with SSL termination to all external facing services
