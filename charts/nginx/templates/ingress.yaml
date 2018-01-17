@@ -6,11 +6,11 @@
 {{- $registryHost := .Values.global.hosts.registry -}}
 {{- $_ := set $registryHost "name" (include "registryHost" .) -}}
 {{- $ingressHosts := prepend $ingressHosts $registryHost -}}
-{{- $registryTLSSecret := include "registryTLSSecret" . -}}
+{{- $registryTLSSecret := include "registryTLSSecret" . | toString -}}
 {{- $gitlabHost := .Values.global.hosts.gitlab -}}
 {{- $_ := set $gitlabHost "name" (include "gitlabHost" .) -}}
 {{- $ingressHosts := prepend $ingressHosts $gitlabHost -}}
-{{- $gitlabTLSSecret := include "gitlabTLSSecret" . -}}
+{{- $gitlabTLSSecret := include "gitlabTLSSecret" . | toString  -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
@@ -39,7 +39,7 @@ spec:
               servicePort: {{ $host.servicePort }}
     {{- end -}}
 
-  {{- if or .Values.ingress.acme .Values.ingress.tls (not (empty $registryTLSSecret)) (not (empty $gitlabTLSSecret)) }}
+  {{- if or .Values.ingress.acme .Values.ingress.tls $registryTLSSecret $gitlabTLSSecret }}
   tls:
   {{- end }}
   {{- if .Values.ingress.acme }}
@@ -49,12 +49,12 @@ spec:
       {{- end }}
       secretName: {{ .Release.Name }}-acme-tls
   {{- end }}
-  {{- if not (empty $gitlabTLSSecret) }}
+  {{- if $gitlabTLSSecret }}
     - hosts:
       - {{ template "gitlabHost" . }}
       secretName: {{ $gitlabTLSSecret }}
   {{- end }}
-  {{- if not (empty $registryTLSSecret) }}
+  {{- if $registryTLSSecret }}
     - hosts:
       - {{ template "registryHost" . }}
       secretName: {{ $registryTLSSecret }}
