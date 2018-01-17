@@ -47,6 +47,13 @@ redis:
     secret: gitlab-redis
     key: redis-password
 
+# Minio chart provides Minio servics for Object Storage
+minio:
+  enabled: true
+  ## default values for authentication provided in `charts/minio/values.yaml`
+  # accessKey:
+  # secretKey:
+
 # GitLab sub-chart
 gitlab:
     # Unicorn (and workhorse) chart

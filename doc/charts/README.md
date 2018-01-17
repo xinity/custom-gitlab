@@ -8,6 +8,7 @@ Non-GitLab components are packaged and documented on the top level. GitLab compo
 ## Charts:
 - [NGINX](nginx/README.md)
 - [Redis](redis/README.md)
+- [Minio](minio/README.md)
 - [Registry](registry/README.md)
 - GitLab/[Omnibus](gitlab/omnibus/README.md)
 - GitLab/[sidekiq](gitlab/sidekiq/README.md)
