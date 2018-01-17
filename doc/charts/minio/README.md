@@ -22,6 +22,7 @@ minio:
   enabled:
   init:
   persistence: (upstream)
+    volumeName:
   serviceType: (upstream)
   servicePort: (upstream)
   defaultBucket: (upstream)
@@ -69,6 +70,17 @@ The `image`, `imageTag` and `imagePullPolicy` defaults are [documented upstream]
 The behaviors for [`persistence`][minio-persistence] are [documented upstream][minio-config]. The key summary is:
 
 > This chart provisions a PersistentVolumeClaim and mounts corresponding persistent volume to default location /export. You'll need physical storage available in the Kubernetes cluster for this to work. If you'd rather use emptyDir, disable PersistentVolumeClaim by: `persitence.enabled: false`
+
+GitLab has added one item:
+
+```
+persistence:
+  volumeName:
+```
+
+### volumeName
+
+When `volumeName` is provided, the `PersistentVolumeClaim` will use the provided `PersistentVolume` by name, in place of creating a `PersistentVolume` dynamically. This overrides the upstream behavior.
 
 ## Service Type and Port
 
