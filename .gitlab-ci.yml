@@ -237,6 +237,7 @@ production:
       --set global.hosts.hostSuffix="$HOST_SUFFIX" \
       --set global.hosts.domain="$AUTO_DEVOPS_DOMAIN" \
       --set global.hosts.https=true \
+      --set global.hosts.tls.secretName=helm-charts-win-tls \
       --set nginx.service.loadBalancerIP="$DOMAIN_IP" \
       --set registry.enabled=true \
       --set registry.service.type=NodePort \
