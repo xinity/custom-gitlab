@@ -75,7 +75,7 @@ Returns the secret name for the Secret containing the registry TLS certificate a
 Uses `global.hosts.registry.tls.secretName` if set, otherwise falls back to `global.hosts.tls.secretName`
 */}}
 {{- define "registryTLSSecret" -}}
-{{- coalesce "" "" -}}
+{{- default "" (coalesce .Values.global.hosts.registry.tls.secretName .Values.global.hosts.tls.secretName) -}}
 {{- end -}}
 
 {{/*
@@ -83,7 +83,7 @@ Returns the secret name for the Secret containing the gitlab TLS certificate and
 Uses `global.hosts.gitlab.tls.secretName` if set, otherwise falls back to `global.hosts.tls.secretName`
 */}}
 {{- define "gitlabTLSSecret" -}}
-{{- coalesce "" "" -}}
+{{- default "" (coalesce .Values.global.hosts.gitlab.tls.secretName .Values.global.hosts.tls.secretName) -}}
 {{- end -}}
 
 {{/*
