@@ -419,6 +419,7 @@ production:
     fi
 
     helm delete --purge "$name" || true
+    kubectl -n "$KUBE_NAMESPACE" delete jobs -l "release=$name"
   }
 
   function terraform_up() {
