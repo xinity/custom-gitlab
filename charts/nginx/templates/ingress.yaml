@@ -6,11 +6,11 @@
 {{- $registryHost := .Values.global.hosts.registry -}}
 {{- $_ := set $registryHost "name" (include "registryHost" .) -}}
 {{- $ingressHosts := prepend $ingressHosts $registryHost -}}
-{{- $registryTLSSecret := include "registryTLSSecret" . | toString -}}
+{{- $registryTLSSecret := (include "registryTLSSecret" .) | toString -}}
 {{- $gitlabHost := .Values.global.hosts.gitlab -}}
 {{- $_ := set $gitlabHost "name" (include "gitlabHost" .) -}}
 {{- $ingressHosts := prepend $ingressHosts $gitlabHost -}}
-{{- $gitlabTLSSecret := include "gitlabTLSSecret" . | toString  -}}
+{{- $gitlabTLSSecret := (include "gitlabTLSSecret" .) | toString -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
