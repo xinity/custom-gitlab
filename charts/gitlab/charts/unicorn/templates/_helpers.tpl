@@ -74,7 +74,7 @@ to the service name
 {{/*
 Return the registry external hostname
 If the chart registry host is provided, it will use that, otherwise it will fallback
-to the global registr host name.
+to the global registry host name.
 */}}
 {{- define "unicorn.registry.host" -}}
 {{-   if .Values.registry.host -}}
