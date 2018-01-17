@@ -39,7 +39,7 @@ spec:
               servicePort: {{ $host.servicePort }}
     {{- end -}}
 
-  {{- if or .Values.ingress.acme .Values.ingress.tls (not empty $registryTLSSecret) (not empty $gitlabTLSSecret) }}
+  {{- if or .Values.ingress.acme .Values.ingress.tls (not (empty $registryTLSSecret)) (not (empty $gitlabTLSSecret)) }}
   tls:
   {{- end }}
   {{- if .Values.ingress.acme }}
@@ -49,12 +49,12 @@ spec:
       {{- end }}
       secretName: {{ .Release.Name }}-acme-tls
   {{- end }}
-  {{- if not empty $gitlabTLSSecret }}
+  {{- if not (empty $gitlabTLSSecret) }}
     - hosts:
       - {{ template "gitlabHost" . }}
       secretName: {{ $gitlabTLSSecret }}
   {{- end }}
-  {{- if not empty $registryTLSSecret }}
+  {{- if not (empty $registryTLSSecret) }}
     - hosts:
       - {{ template "registryHost" . }}
       secretName: {{ $registryTLSSecret }}
