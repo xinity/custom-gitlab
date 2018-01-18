@@ -17,12 +17,13 @@ init:
   script: |-
     sed -e 's@ACCESS_KEY@'"$(cat /config/accesskey)"'@' -e 's@SECRET_KEY@'"$(cat /config/secretkey)"'@' /config/config.json > /minio/config.json
 
-## Set default accesskey, secretkey, Minio config file path, volume mount path and
+credentials:
+  secret: gitlab-minio
+
+## Set default Minio config file path, volume mount path and
 ## number of nodes (only used for Minio distributed mode)
 ## Distributed Minio ref: https://docs.minio.io/docs/distributed-minio-quickstart-guide
 ##
-accessKey: "AKIAIOSFODNN7EXAMPLE"
-secretKey: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
 configPath: ""
 mountPath: "/export"
 replicas: 4

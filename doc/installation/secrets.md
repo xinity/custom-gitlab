@@ -97,5 +97,13 @@ $ ruby -e "require 'securerandom'; print SecureRandom.hex(64)" > ./gitaly_secret
 $ kubectl create secret generic gitaly-secret --from-file=token=gitaly_secret
 ```
 
+### Minio Secret
+
+```
+$ ruby -e "require 'securerandom'; print SecureRandom.hex(20)" > ./minio_accesskey
+$ ruby -e "require 'securerandom'; print SecureRandom.hex(64)" > ./minio_secretkey
+$ kubectl create secret generic gitlab-minio --from-file=accesskey=minio_accesskey --from-file=secretkey=minio_secretkey
+```
+
 Once all secrets have been generated and stored, you can proceed to generating
 a [Configuration file](README.md#configuration-file).

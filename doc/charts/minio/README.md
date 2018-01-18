@@ -11,7 +11,7 @@ Design choices related to the [upstream chart][minio-chart] can be found in thei
 GitLab chose to alter that chart in order to simplify configuration of the secrets, and to remove all use of secrets in environment variables. GitLab added `initContainer`s to control the population of secrets into the `config.json` and a chart-wide `enabled` flag.
 
 This chart makes use of only one secret:
-- `{{ .Relase.Name }}-minio-user`: A secret containing the `accesskey` and `secretkey` values that will be used for authentication to the bucket(s).
+- `minio-credentials`: A secret containing the `accesskey` and `secretkey` values that will be used for authentication to the bucket(s).
 
 # Configuration
 
@@ -98,7 +98,7 @@ defaultBuckets:
 
 ### name
 
-The value of `name` will be the name of the bucket that is created. The provided value should conform to [AWS ucket naming rules][bucket-naming], meaning that it should be compliant with DNS and contain only the characters a-z, 0-9, and – (hyphen) in strings no longer than 63 characters.
+The value of `name` will be the name of the bucket that is created. The provided value should conform to [AWS ucket naming rules][bucket-naming], meaning that it should be compliant with DNS and contain only the characters a-z, 0-9, and – (hyphen) in strings between 3 and 63 characters in length.
 
 The `name` property is _required_ for all entries.
 

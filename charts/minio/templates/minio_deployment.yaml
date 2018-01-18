@@ -48,7 +48,7 @@ spec:
             - configMap:
                 name: {{ template "minio.fullname" . }}-config-cm
             - secret:
-                name: {{ template "minio.fullname" . }}-user
+                name: {{ .Values.credentials.secret }}
         - name: minio-server-config
           emptyDir:
             medium: "Memory"

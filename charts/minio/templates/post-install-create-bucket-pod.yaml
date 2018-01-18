@@ -20,7 +20,7 @@ spec:
   volumes:
     - name: minio-user
       secret:
-        secretName: {{ template "minio.fullname" . }}-user
+        secretName: {{ .Values.credentials.secret }}
   containers:
   - name: minio-mc
     image: minio/mc
