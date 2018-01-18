@@ -25,7 +25,7 @@ minio:
     volumeName:
   serviceType: (upstream)
   servicePort: (upstream)
-  defaultBucket: (upstream)
+  defaultBuckets:
   minioConfig: (upstream)
 ```
 
@@ -82,6 +82,44 @@ persistence:
 
 When `volumeName` is provided, the `PersistentVolumeClaim` will use the provided `PersistentVolume` by name, in place of creating a `PersistentVolume` dynamically. This overrides the upstream behavior.
 
+## defaultBuckets
+
+`defaultBuckets` provides a mechanism to automatically create buckets on the Minio pod at _installation_. This property contains an array of items, each with up to three properties: `name`, `policy`, and `purge`.
+
+```
+defaultBuckets:
+  - name: public
+    policy: public
+    purge: true
+  - name: private
+  - name: public-read
+    policy: download
+```
+
+### name
+
+The value of `name` will be the name of the bucket that is created. The provided value should conform to [AWS ucket naming rules][bucket-naming], meaning that it should be compliant with DNS and contain only the characters a-z, 0-9, and – (hyphen) in strings no longer than 63 characters.
+
+The `name` property is _required_ for all entries.
+
+### policy
+
+The value of `policy` controlls the policy of the bucket on Minio.
+
+Possible values are listed below, with description in regards to **anonymous** access:
+- `none`: no anonymous access
+- `download`: anonymous read-only access
+- `upload`: anonymounts write-only access
+- `public`: anonymous read/write access
+
+The `policy` property is not required, and default value is `none`.
+
+### purge
+
+The `purge` property is provided as a means to cause any existing bucket to be removed with force, at installation time. This only comes into play when using a pre-existing `PersistentVolume` for the [volumeName](#volumeName) property of [persistence](#persistence). If you make use of a dynamically created `PersistentVolume`, this will have no valuable affect as it only happens at chart installation and there will be no data in the `PersistentVolume` that was just created.
+
+This property is not required, and the default value is `false`. You may specify this property, with a value of `true`, in order to cause a bucket to purged with force: `mc rm -r --force`
+
 ## Service Type and Port
 
 These are [documented upstream][minio-config], and the key summary is:
@@ -102,7 +140,6 @@ The [upstream documentation][minio-chart] for the following does not need furthe
 - `mode`
 - `resources`
 - `nodeSelector`
-- `defaultBucket`
 - `minioConfig`
 
 
@@ -111,3 +148,4 @@ The [upstream documentation][minio-chart] for the following does not need furthe
 [minio-043]: https://github.com/kubernetes/charts/tree/aaaf98b5d25c26cc2d483925f7256f2ce06be080/stable/minio
 [minio-config]: https://github.com/kubernetes/charts/tree/master/stable/minio#configuration
 [minio-persistence]: https://github.com/kubernetes/charts/tree/master/stable/minio#persistence
+[bucket-naming]: https://docs.aws.amazon.com/AmazonS3/latest/dev/BucketRestrictions.html

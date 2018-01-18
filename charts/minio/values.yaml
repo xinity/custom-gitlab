@@ -77,14 +77,15 @@ resources:
     memory: 256Mi
     cpu: 250m
 
-## Create a bucket after minio install
-##
-defaultBucket:
-  enabled: false
+## Create a buckets after minio install
+## An array of items, with name, policy, and purge
+defaultBuckets:
   ## If enabled, must be a string with length > 0
-  # name: example
-  ## Can be one of none|download|upload|public
-  # policy: download
+  # - name: example
+  ## Can be one of none|download|upload|public, defaults to `none`
+  #   policy: none
+  ## Can be omitted. If present, and `true`, will `rm -rf` the bucket
+  #   purge: false
 
 ## https://docs.minio.io/docs/minio-bucket-notification-guide
 ##
