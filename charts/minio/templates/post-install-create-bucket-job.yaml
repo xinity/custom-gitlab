@@ -34,10 +34,9 @@ spec:
         "set -e ;
         ATTEMPTS=0 ; LIMIT=30 ;
         ACCESS=$(cat /secrets/accesskey) ; SECRET=$(cat /secrets/secretkey) ;
-        echo \"$MINIO_ENDPOINT\" > ENDPOINT
         set +e ;
-        echo \"Connecting to Minio server: http://$MINIO_ENDPOINT:9000\" ;
-        MC_COMMAND=\"mc config host add myminio http://$MINIO_ENDPOINT:9000 $ACCESS $SECRET\" ;
+        echo \"Connecting to Minio server: http://$MINIO_ENDPOINT:$MINIO_PORT\" ;
+        MC_COMMAND=\"mc config host add myminio http://$MINIO_ENDPOINT:$MINIO_PORT $ACCESS $SECRET\" ;
         $MC_COMMAND ;
         STATUS=$? ;
         until [ $STATUS ] ;
@@ -64,6 +63,8 @@ spec:
         env:
           - name: MINIO_ENDPOINT
             value: {{ template "minio.fullname" . }}-svc
+          - name: MINIO_PORT
+            value: {{ .Values.servicePort }}
         volumeMounts:
           - name: minio-user
             mountPath: /secrets

@@ -53,8 +53,7 @@ minio:
   credentials:
     secret: gitlab-minio
   defaultBuckets:
-    - name: public
-      policy: public
+    - name: registry
 
 # GitLab sub-chart
 gitlab:
