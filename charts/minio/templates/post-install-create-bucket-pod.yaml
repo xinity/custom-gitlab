@@ -1,6 +1,6 @@
 {{- if and .Values.enabled .Values.defaultBuckets }}
-apiVersion: v1
-kind: Pod
+apiVersion: batch/v1
+kind: Job
 metadata:
   name: {{ template "minio.fullname" . }}-create-bucket
   labels:
@@ -10,33 +10,63 @@ metadata:
     heritage: "{{ .Release.Service }}"
   annotations:
     "helm.sh/hook": post-install
-    "helm.sh/hook-delete-policy": hook-succeeded
+    #"helm.sh/hook-delete-policy": hook-succeeded
 spec:
-  restartPolicy: OnFailure
-{{- if .Values.nodeSelector }}
-  nodeSelector:
-{{ toYaml .Values.nodeSelector | indent 4 }}
-{{- end }}
-  volumes:
-    - name: minio-user
-      secret:
-        secretName: {{ .Values.credentials.secret }}
-  containers:
-  - name: minio-mc
-    image: minio/mc
-    command: ["/bin/sh", "-c",
-    "/usr/bin/mc config host add myminio http://$MINIO_ENDPOINT:9000 $(cat /secrets/accesskey) $(cat /secrets/secretkey);
-    {{- range $bucket := .Values.defaultBuckets }}
-    {{-   if default false .purge | eq true }}
-    /usr/bin/mc rm -r --force myminio/{{ .name }};
-    {{-   end }}
-    /usr/bin/mc mb myminio/{{ .name }};
-    /usr/bin/mc policy {{ default "none" .policy }} myminio/{{ .name }};
-    {{- end }}"]
-    env:
-      - name: MINIO_ENDPOINT
-        value: {{ template "minio.fullname" . }}-svc
-    volumeMounts:
-      - name: minio-user
-        mountPath: /secrets
-{{- end }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "minio.fullname" . }}
+        release: {{ .Release.Name }}
+    spec:
+      restartPolicy: OnFailure
+    {{- if .Values.nodeSelector }}
+      nodeSelector:
+    {{ toYaml .Values.nodeSelector | indent 8 }}
+    {{- end }}
+      volumes:
+        - name: minio-user
+          secret:
+            secretName: {{ .Values.credentials.secret }}
+      containers:
+      - name: minio-mc
+        image: minio/mc
+        command: ["/bin/sh", "-c",
+        "set -e ;
+        ATTEMPTS=0 ; LIMIT=30 ;
+        ACCESS=$(cat /secrets/accesskey) ; SECRET=$(cat /secrets/secretkey) ;
+        cd /tmp ;
+        echo \"$MINIO_ENDPOINT\" > ENDPOINT
+        set +e ;
+        echo \"Connecting to Minio server: http://$MINIO_ENDPOINT:9000\" ;
+        MC_COMMAND=\"mc -C /tmp config host add myminio http://$MINIO_ENDPOINT:9000 $ACCESS $SECRET\" ;
+        $MC_COMMAND ;
+        STATUS=$? ;
+        until [ $STATUS ] ;
+        do
+          ATTEMPTS=`expr $ATTEMPTS + 1` ;
+          echo \"Failed attempts: $ATTEMPTS\" ;
+          if [ $ATTEMPTS -gt $LIMIT ]; then
+            exit 1 ;
+          fi ;
+          sleep 1 ;
+          $MC_COMMAND ;
+          STATUS=$? ;
+        done ;
+        {{- range $bucket := .Values.defaultBuckets }}
+        {{-   if default false .purge | eq true }}
+        set +e ;
+        /usr/bin/mc rm -r --force myminio/{{ .name }};
+        set -e ;
+        {{-   end }}
+        /usr/bin/mc mb myminio/{{ .name }};
+        /usr/bin/mc policy {{ default "none" .policy }} myminio/{{ .name }};
+        /usr/bin/mc -C /tmp cp ENDPOINT myminio/{{ .name }}/ENDPOINT;
+        {{- end }}
+        sleep 900 ;"]
+        env:
+          - name: MINIO_ENDPOINT
+            value: {{ template "minio.fullname" . }}-svc
+        volumeMounts:
+          - name: minio-user
+            mountPath: /secrets
+    {{- end }}
