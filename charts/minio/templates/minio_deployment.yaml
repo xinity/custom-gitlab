@@ -67,9 +67,9 @@ spec:
           image: {{ .Values.image }}:{{ .Values.imageTag }}
           imagePullPolicy: {{ .Values.imagePullPolicy }}
           {{- if .Values.configPath }}
-          args: ["-C", "{{ .Values.configPath }}", "server", "{{ .Values.mountPath }}"]
+          args: ["-C", "{{ .Values.configPath }}", "--quiet", "server", "{{ .Values.mountPath }}"]
           {{- else }}
-          args: ["server", "{{ .Values.mountPath }}"]
+          args: ["--quiet", "server", "{{ .Values.mountPath }}"]
           {{- end }}
           volumeMounts:
             - name: export
