@@ -50,9 +50,11 @@ redis:
 # Minio chart provides Minio servics for Object Storage
 minio:
   enabled: true
-  ## default values for authentication provided in `charts/minio/values.yaml`
-  # accessKey:
-  # secretKey:
+  credentials:
+    secret: gitlab-minio
+  defaultBuckets:
+    - name: public
+      policy: public
 
 # GitLab sub-chart
 gitlab:
