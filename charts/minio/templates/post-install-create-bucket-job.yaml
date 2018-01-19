@@ -34,11 +34,10 @@ spec:
         "set -e ;
         ATTEMPTS=0 ; LIMIT=30 ;
         ACCESS=$(cat /secrets/accesskey) ; SECRET=$(cat /secrets/secretkey) ;
-        cd /tmp ;
         echo \"$MINIO_ENDPOINT\" > ENDPOINT
         set +e ;
         echo \"Connecting to Minio server: http://$MINIO_ENDPOINT:9000\" ;
-        MC_COMMAND=\"mc -C /tmp config host add myminio http://$MINIO_ENDPOINT:9000 $ACCESS $SECRET\" ;
+        MC_COMMAND=\"mc config host add myminio http://$MINIO_ENDPOINT:9000 $ACCESS $SECRET\" ;
         $MC_COMMAND ;
         STATUS=$? ;
         until [ $STATUS ] ;
@@ -60,7 +59,6 @@ spec:
         {{-   end }}
         /usr/bin/mc mb myminio/{{ .name }};
         /usr/bin/mc policy {{ default "none" .policy }} myminio/{{ .name }};
-        /usr/bin/mc -C /tmp cp ENDPOINT myminio/{{ .name }}/ENDPOINT;
         {{- end }}
         sleep 900 ;"]
         env:
