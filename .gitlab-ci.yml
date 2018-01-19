@@ -261,7 +261,7 @@ production:
     helm upgrade --install \
       --wait \
       --set releaseOverride="$CI_ENVIRONMENT_SLUG" \
-      --set minio.enabled=true
+      --set minio.enabled=true \
       --namespace="$KUBE_NAMESPACE" \
       --version="$CI_PIPELINE_ID-$CI_JOB_ID" \
       "$name" \
