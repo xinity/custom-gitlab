@@ -81,14 +81,18 @@ $ kubectl create secret generic gitlab-redis --from-literal=redis-password=<pass
 ```
 > Note: GitLab Inc. employees have this password generated and stored in `1Password Cloud Native` vault for development in this project.
 
+### GitLab Shell
 
-### Secret tokens for services
-
-Generate secret tokens for authenticating communication with GitLab Shell and Gitaly. Run the following command from
-the root of this repo:
+Generate a random secret for GitLab Shell.
 
 ```
-$ ./scripts/create-secret-tokens
+$ ./scripts/create-secret-token --name="gitlab-shell-secret" --key="secret"
+```
+
+### Gitaly Secret
+
+```
+$ ./scripts/create-secret-token --name="gitaly-secret" --key="token"
 ```
 
 Once all secrets have been generated and stored, you can proceed to generating

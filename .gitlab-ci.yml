@@ -397,7 +397,8 @@ qa:
       --docker-email="$GITLAB_USER_EMAIL" \
       -o yaml --dry-run | kubectl replace -n "$KUBE_NAMESPACE" --force -f -
 
-    ./scripts/create-secret-tokens -n "$KUBE_NAMESPACE"
+    ./scripts/create-secret-token -n "$KUBE_NAMESPACE" --name="gitlab-shell-secret" --key="secret"
+    ./scripts/create-secret-token -n "$KUBE_NAMESPACE" --name="gitaly-secret" --key="token"
   }
 
   function delete() {
