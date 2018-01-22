@@ -58,14 +58,8 @@ gitlab:
         certificate:
           secret: gitlab-registry
           key: registry-auth.key
-      shell:
-        authToken:
-          secret: gitlab-shell-secret
       gitaly:
         serviceName: gitaly
-        authToken:
-          secret: gitaly-secret
-          key: token
       redis:
         serviceName: redis
         password:
@@ -81,9 +75,6 @@ gitlab:
       timeout: 5
       gitaly:
         serviceName: gitaly
-        authToken:
-          secret: gitaly-secret
-          key: token
       redis:
         serviceName: redis
         password:
@@ -105,9 +96,6 @@ gitlab:
     # Gitaly provides storage & API access to Git repository data
     gitaly:
       enabled: true
-      authToken:
-        name: gitaly-secret
-        key: token
     # Handle database init and upgrade migrations, via gitlab-rails codebase
     migrations:
       enabled: true

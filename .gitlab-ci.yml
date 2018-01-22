@@ -290,18 +290,12 @@ qa:
       --set gitlab.sidekiq.redis.password.key=redis-password \
       --set gitlab.sidekiq.psql.serviceName=omnibus \
       --set gitlab.sidekiq.psql.password="$ROOT_PASSWORD" \
-      --set gitlab.sidekiq.gitaly.authToken.secret=gitaly-secret \
-      --set gitlab.sidekiq.gitaly.authToken.key=token \
       --set gitlab.unicorn.enabled=true \
       --set gitlab.unicorn.redis.serviceName=redis \
       --set gitlab.unicorn.redis.password.secret=gitlab-redis \
       --set gitlab.unicorn.redis.password.key=redis-password \
       --set gitlab.unicorn.psql.serviceName=omnibus \
       --set gitlab.unicorn.psql.password="$ROOT_PASSWORD" \
-      --set gitlab.unicorn.shell.authToken.secret=gitlab-shell-secret \
-      --set gitlab.unicorn.shell.authToken.key=secret \
-      --set gitlab.unicorn.gitaly.authToken.secret=gitaly-secret \
-      --set gitlab.unicorn.gitaly.authToken.key=token \
       --set gitlab.unicorn.registry.api.serviceName=registry \
       --set gitlab.unicorn.registry.tokenIssuer="gitlab-issuer" \
       --set gitlab.unicorn.registry.certificate.secret=gitlab-registry \
@@ -314,11 +308,7 @@ qa:
       --set gitlab.migrations.psql.password="$ROOT_PASSWORD" \
       --set gitlab.migrations.initialRootPassword="$ROOT_PASSWORD" \
       --set gitlab.gitlab-shell.enabled=true \
-      --set gitlab.gitlab-shell.authToken.secret=gitlab-shell-secret \
-      --set gitlab.gitlab-shell.authToken.key=secret \
       --set gitlab.gitaly.enabled=true \
-      --set gitlab.gitaly.authToken.secret=gitaly-secret \
-      --set gitlab.gitaly.authToken.key=token \
       --set gitlab.omnibus.enabled=true \
       --set gitlab.omnibus.service.type=NodePort \
       --set gitlab.omnibus.psql.password="$ROOT_PASSWORD" \
@@ -406,6 +396,8 @@ qa:
       --docker-password="$CI_REGISTRY_PASSWORD" \
       --docker-email="$GITLAB_USER_EMAIL" \
       -o yaml --dry-run | kubectl replace -n "$KUBE_NAMESPACE" --force -f -
+
+    ./scripts/create-secret-tokens -n "$KUBE_NAMESPACE"
   }
 
   function delete() {
