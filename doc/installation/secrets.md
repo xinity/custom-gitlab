@@ -99,9 +99,7 @@ kubectl create secret generic gitaly-secret --from-literal=token=$(head -c 512 /
 ### Minio Secret
 
 ```
-$ ruby -e "require 'securerandom'; print SecureRandom.hex(20)" > ./minio_accesskey
-$ ruby -e "require 'securerandom'; print SecureRandom.hex(64)" > ./minio_secretkey
-$ kubectl create secret generic gitlab-minio --from-file=accesskey=minio_accesskey --from-file=secretkey=minio_secretkey
+$ kubectl create secret generic gitlab-minio --from-literal=accesskey=$(head -c 512 /dev/urandom | tr -cd 'a-zA-Z0-9' | head -c 20) --from-literal=secretkey=$(head -c 512 /dev/urandom | tr -cd 'a-zA-Z0-9' | head -c 64)
 ```
 
 Once all secrets have been generated and stored, you can proceed to generating
