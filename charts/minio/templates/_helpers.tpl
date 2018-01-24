@@ -25,3 +25,16 @@ Return the appropriate apiVersion for networkpolicy.
 {{- print "networking.k8s.io/v1" -}}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Create a default fully qualified job name for creating default buckets.
+Due to the job only being allowed to run once, we add the chart revision so helm
+upgrades don't cause errors trying to create the already ran job.
+Due to the helm delete not cleaning up these jobs, we add a random value to
+reduce collision
+*/}}
+{{- define "minio.createBucketsJobName" -}}
+{{- $name := include "minio.fullname" . | trunc 40 | trimSuffix "-" -}}
+{{- $rand := randAlphaNum 3 | lower }}
+{{- printf "%s-create-buckets.%d-%s" $name .Release.Revision $rand -}}
+{{- end -}}
