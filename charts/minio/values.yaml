@@ -1,11 +1,9 @@
-## Set default image, imageTag, and imagePullPolicy. mode is used to indicate the
-## minio server mode, i.e. standalone or distributed.
+## Set default image, imageTag, and imagePullPolicy.
 ## Distributed Minio ref: https://docs.minio.io/docs/distributed-minio-quickstart-guide
 ##
 image: "minio/minio"
 imageTag: "RELEASE.2017-12-28T01-21-00Z"
 imagePullPolicy: "Always"
-mode: "standalone"
 
 ## Enable/Disable
 enabled: true

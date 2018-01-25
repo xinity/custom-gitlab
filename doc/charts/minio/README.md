@@ -137,7 +137,6 @@ The chart does not expect to be of the `type: NodePort`, so **do not** set it as
 ## Upstream items
 
 The [upstream documentation][minio-chart] for the following does not need further explanation, and applies completely to this chart.
-- `mode`
 - `resources`
 - `nodeSelector`
 - `minioConfig`

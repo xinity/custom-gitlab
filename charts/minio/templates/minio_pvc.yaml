@@ -1,16 +1,11 @@
-{{- if eq .Values.mode "standalone" "shared" | and .Values.enabled }}
-{{- if .Values.persistence.enabled }}
+{{- if and .Values.enabled .Values.persistence.enabled }}
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: {{ template "minio.fullname" . }}
 spec:
   accessModes:
-    {{- if eq .Values.mode "shared" }}
-    - ReadWriteMany
-    {{- else }}
     - {{ .Values.persistence.accessMode | quote }}
-    {{- end }}
   resources:
     requests:
       storage: {{ .Values.persistence.size | quote }}
@@ -22,7 +17,6 @@ spec:
   storageClassName: ""
 {{- else }}
   storageClassName: "{{ .Values.persistence.storageClass }}"
-{{- end }}
 {{- end }}
 {{- end }}
 {{- end }}
