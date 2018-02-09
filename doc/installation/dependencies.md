@@ -8,6 +8,9 @@ Items and information needed:
 - Secrets for Certificates, Registry, Redis
 - A regional static IP in Google Cloud, with an A record in DNS
 
+
+[[_TOC_]]
+
 ## Google Cloud SDK
 
 Install this per [gcloud installation documentation][gcloud-install].
