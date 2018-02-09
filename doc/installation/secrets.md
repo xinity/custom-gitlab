@@ -8,6 +8,14 @@ For a functional deployment, different types of secrets are needed:
 
 ## Certificates
 
+### GitLab certificates
+
+#### Lets Encrypt
+
+If you are going to make use of Let's Encrypt certificates via [kube-lego](../kube-lego/README.md), then you can skip over [Wildcard certificates](#wildcard-certificates) and move to [Registry certificates](#registry-certificates)
+
+#### Wildcard certificates
+
 We advise that wildcard certificates are obtained to prevent the need to
 generate and maintain multiple sets of TLS certificates.
 
@@ -16,17 +24,6 @@ certificates. Ensure that the `.crt` file used is a properly structured full-cha
 certificate. Not using the full-chain certificate will result in a broken chain causing
 the certificate to not be trusted by many clients.
 
-> Note: GitLab Inc. employees have access to certificates generated specifically for
-development in this project. They are located in the `Cloud Native`
-vault in `1Password`. Only the `*chained.crt` certificate should be used.
-
-### GitLab certificates
-
-#### Lets Encrypt
-
-If you are going to make use of Let's Encrypt certificates via [kube-lego](../kube-lego/README.md), then you can skip over [Wildcard certificates](#wildcard-certificates) and move to [Registry certificates](#registry-certificates)
-
-#### Wildcard certificates
 Add the TLS wildcard certificate to cluster secrets with:
 
 ```

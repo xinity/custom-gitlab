@@ -4,7 +4,6 @@ Items and information needed:
 - GKE cluster >= 1.8.5 (via `gcloud`)
 - [kubectl][] latest version (part of `gcloud`)
 - [helm][] latest version
-- SSL certificates
 - Secrets for Certificates, Registry, Redis
 - A regional static IP in Google Cloud, with an A record in DNS
 

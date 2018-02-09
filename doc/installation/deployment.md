@@ -1,3 +1,13 @@
+# Deployment
+
+## Deploy Let's Encrypt
+
+> *Note:* Skip this step if you are using [Wildcard certificates](secrets.md#wildcard-certificates)
+
+Follow the steps in the [kube-lego documentation](../kube-lego/README.md) to deploy the Kubernetes Let's Encrypt Chart.
+
+## Deploy GitLab
+
 To deploy, we'll run `helm install` with our configuration file, from the
 root of this repository:
 
