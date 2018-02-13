@@ -1,6 +1,4 @@
 {{- if .Values.ingress.enabled -}}
-{{- $serviceName := include "fullname" . -}}
-{{- $servicePort := .Values.service.externalPort -}}
 {{- $releaseName := .Release.Name -}}
 {{- $ingressHosts := .Values.ingress.hosts -}}
 {{- $gitlabHost := .Values.global.hosts.gitlab -}}
