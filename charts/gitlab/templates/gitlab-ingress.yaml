@@ -5,10 +5,6 @@
 {{- $_ := set $gitlabHost "name" (include "gitlabHost" .) -}}
 {{- $ingressHosts := prepend $ingressHosts $gitlabHost -}}
 {{- $gitlabTLSSecret := include "gitlabTLSSecret" . -}}
-{{- $registryHost := .Values.global.hosts.registry -}}
-{{- $_ := set $registryHost "name" (include "registryHost" .) -}}
-{{- $ingressHosts := prepend $ingressHosts $registryHost -}}
-{{- $registryTLSSecret := include "registryTLSSecret" . -}}
 {{- $minioHost := .Values.global.hosts.minio -}}
 {{- $_ := set $minioHost "name" (include "minioHost" .) -}}
 {{- $ingressHosts := prepend $ingressHosts $minioHost -}}
@@ -41,7 +37,7 @@ spec:
               servicePort: {{ $host.servicePort }}
     {{- end -}}
 
-  {{- if or .Values.ingress.acme .Values.ingress.tls $registryTLSSecret $gitlabTLSSecret }}
+  {{- if or .Values.ingress.acme .Values.ingress.tls $gitlabTLSSecret }}
   tls:
   {{- end }}
   {{- if .Values.ingress.acme }}
@@ -55,11 +51,6 @@ spec:
     - hosts:
       - {{ template "gitlabHost" . }}
       secretName: {{ $gitlabTLSSecret }}
-  {{- end }}
-  {{- if $registryTLSSecret }}
-    - hosts:
-      - {{ template "registryHost" . }}
-      secretName: {{ $registryTLSSecret }}
   {{- end }}
   {{- if $minioTLSSecret }}
     - hosts:

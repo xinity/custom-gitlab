@@ -1,0 +1,41 @@
+{{- if .Values.ingress.enabled -}}
+{{- $releaseName := .Release.Name -}}
+{{- $registryTLSSecret := include "registryTLSSecret" . -}}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ template "fullname" . }}-registry
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    kubernetes.io/tls-acme: {{ eq .Values.ingress.acme true | quote }}
+    ingress.kubernetes.io/proxy-body-size: {{ .Values.ingress.proxyBodySize | quote }}
+  {{- range $key, $value := .Values.ingress.annotations }}
+    {{ $key }}: {{ $value | quote }}
+  {{- end }}
+spec:
+  rules:
+    - host: {{ template "registryHost" . }}
+      http:
+        paths:
+          - path: /
+            backend:
+            {{- with .Values.global.hosts.registry }}
+              serviceName: "{{ $releaseName }}-{{ .serviceName }}"
+              servicePort: {{ .servicePort }}
+            {{- end -}}
+  {{- if or .Values.ingress.acme $registryTLSSecret }}
+  tls:
+    - hosts:
+      - {{ template "registryHost" . }}
+      {{- if .Values.ingress.acme }}
+      secretName: {{ .Release.Name }}-acme-tls
+      {{- else }}
+      secretName: {{ $registryTLSSecret }}
+      {{- end -}}
+  {{- end -}}
+{{- end -}}
