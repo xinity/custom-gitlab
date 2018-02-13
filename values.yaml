@@ -6,11 +6,6 @@ global:
     domain: example.local
     https: true
 
-nginx:
-  ingress:
-    enabled: true
-    acme: true
-
 kube-lego:
   enabled: true
   LEGO_EMAIL: email@domain.tld
@@ -28,6 +23,9 @@ redis:
   enabled: false
 
 gitlab:
+  ingress:
+    enabled: true
+    acme: true
   omnibus:
     enabled: false
   migrations:
