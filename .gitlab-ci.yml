@@ -299,8 +299,6 @@ qa:
       --set global.hosts.https=true \
       --set global.hosts.tls.secretName=helm-charts-win-tls \
       --set nginx.service.loadBalancerIP="$DOMAIN_IP" \
-      --set nginx.ingress.acme=false \
-      --set kube-lego.enabled=false \
       --set registry.enabled=true \
       --set registry.replicas=1 \
       --set registry.tokenIssuer="gitlab-issuer" \
@@ -312,6 +310,8 @@ qa:
       --set redis.password.key=redis-password \
       --set minio.enabled=true \
       --set minio.defaultBuckets[0].name=registry \
+      --set kube-lego.enabled=false \
+      --set gitlab.ingress.acme=false \
       --set gitlab.sidekiq.enabled=true \
       --set gitlab.sidekiq.redis.serviceName=redis \
       --set gitlab.sidekiq.redis.password.secret=gitlab-redis \

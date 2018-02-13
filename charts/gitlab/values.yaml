@@ -3,30 +3,49 @@
 # Declare variables to be passed into your templates.
 ingress:
   enabled: false
+  proxyBodySize: "512m"
+  acme: false
   # Used to create Ingress record (should used with service.type: ClusterIP).
-  hosts:
-    # - name: gitlab.example.local
+  hosts: []
+    # - name: prometheus.example.local
+    #   serviceName: omnibus
+    #   servicePort: prometheus
   annotations:
-    kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   tls:
     # Secrets must be manually created in the namespace.
-    # - hosts:
-    #   - registry.example.local
-    #   secretName: registry-example-tls
+    # - secretName: chart-example-tls
+    #   hosts:
+    #     - chart-example.local
 
 global:
   hosts:
     domain: example.local
     hostSuffix:
     https: false
-    gitlab: {}
+    tls: {}
+      # secretName:
+    gitlab:
       #name: gitlab.example.local
       #https: false
+      serviceName: unicorn
+      servicePort: workhorse
+      tls: {}
+        # secretName:
     registry:
       #name: registry.example.local
       #https: false
       serviceName: registry
+      servicePort: registry
+      tls: {}
+        # secretName:
+    minio:
+      #name: minio.example.local
+      #https: false
+      serviceName: minio-svc
+      servicePort: service
+      tls: {}
+        # secretName:
 
 gitaly:
   enabled: false
