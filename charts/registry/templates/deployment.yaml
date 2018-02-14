@@ -34,6 +34,9 @@ spec:
         - name: registry
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ default "" .Values.image.pullPolicy | quote }}
+          env:
+            - name: GODEBUG
+              value: "netdns=cgo"
           volumeMounts:
           - name: registry-server-config
             mountPath: /etc/docker/registry/
