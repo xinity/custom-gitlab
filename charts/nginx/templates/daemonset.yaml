@@ -11,6 +11,8 @@ metadata:
     prometheus.io/port: "10254"
     prometheus.io/scrape: "true"
 spec:
+  updateStrategy:
+    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -20,8 +22,6 @@ spec:
         checksum/configmap: {{ .Files.Get "configmap.yaml" | sha256sum }}
         checksum/configmaptcp: {{ .Files.Get "configmap-tcp.yaml" | sha256sum }}
     spec:
-      updateStrategy:
-        type: RollingUpdate
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.images.nginxIngress.repository }}:{{ .Values.images.nginxIngress.tag }}"
