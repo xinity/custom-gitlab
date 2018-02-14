@@ -13,8 +13,14 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "nginx"
     kubernetes.io/tls-acme: {{ eq .Values.ingress.acme true | quote }}
-    ingress.kubernetes.io/proxy-body-size: {{ .Values.ingress.proxyBodySize | quote }}
+    nginx.ingress.kubernetes.io/proxy-body-size: {{ default .Values.ingress.proxyBodySize .Values.global.hosts.registry.proxyBodySize | quote }}
+    nginx.ingress.kubernetes.io/proxy-read-timeout: {{ default  .Values.ingress.proxyReadTimeout .Values.global.hosts.registry.proxyReadTimeout | quote }}
+    nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
+    nginx.ingress.kubernetes.io/proxy-buffering: "off"
   {{- range $key, $value := .Values.ingress.annotations }}
+    {{ $key }}: {{ $value | quote }}
+  {{- end }}
+  {{- range $key, $value := .Values.global.hosts.registry.annotations }}
     {{ $key }}: {{ $value | quote }}
   {{- end }}
 spec:

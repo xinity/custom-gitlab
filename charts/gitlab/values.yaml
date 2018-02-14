@@ -4,6 +4,8 @@
 ingress:
   enabled: false
   proxyBodySize: "512m"
+  proxyReadTimeout: 600
+  proxyConnectTimeout: 15
   acme: false
   # Used to create Ingress record (should used with service.type: ClusterIP).
   hosts: []
@@ -39,6 +41,10 @@ global:
       servicePort: registry
       tls: {}
         # secretName:
+      annotations: {}
+        # kubernetes.io/tls-acme: "true"
+      proxyBodySize: "0"
+      proxyReadTimeout: 900
     minio:
       #name: minio.example.local
       #https: false
