@@ -52,6 +52,10 @@ global:
       servicePort: service
       tls: {}
         # secretName:
+      annotations: {}
+        # kubernetes.io/tls-acme: "true"
+      proxyBodySize: "0"
+      proxyReadTimeout: 900
 
 gitaly:
   enabled: false

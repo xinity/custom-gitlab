@@ -1,0 +1,47 @@
+{{- if .Values.ingress.enabled -}}
+{{- $releaseName := .Release.Name -}}
+{{- $minioTLSSecret := include "minioTLSSecret" . -}}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ template "fullname" . }}-minio
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    kubernetes.io/tls-acme: {{ eq .Values.ingress.acme true | quote }}
+    nginx.ingress.kubernetes.io/proxy-body-size: {{ default .Values.ingress.proxyBodySize .Values.global.hosts.minio.proxyBodySize | quote }}
+    nginx.ingress.kubernetes.io/proxy-read-timeout: {{ default  .Values.ingress.proxyReadTimeout .Values.global.hosts.minio.proxyReadTimeout | quote }}
+    nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
+    nginx.ingress.kubernetes.io/proxy-buffering: "off"
+  {{- range $key, $value := .Values.ingress.annotations }}
+    {{ $key }}: {{ $value | quote }}
+  {{- end }}
+  {{- range $key, $value := .Values.global.hosts.minio.annotations }}
+    {{ $key }}: {{ $value | quote }}
+  {{- end }}
+spec:
+  rules:
+    - host: {{ template "minioHost" . }}
+      http:
+        paths:
+          - path: /
+            backend:
+            {{- with .Values.global.hosts.minio }}
+              serviceName: "{{ $releaseName }}-{{ .serviceName }}"
+              servicePort: {{ .servicePort }}
+            {{- end -}}
+  {{- if or .Values.ingress.acme $minioTLSSecret }}
+  tls:
+    - hosts:
+      - {{ template "minioHost" . }}
+      {{- if .Values.ingress.acme }}
+      secretName: {{ .Release.Name }}-acme-tls
+      {{- else }}
+      secretName: {{ $minioTLSSecret }}
+      {{- end -}}
+  {{- end -}}
+{{- end -}}
