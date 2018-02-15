@@ -81,6 +81,8 @@ spec:
               value: {{ default $concurrency .concurrency | quote }}
             - name: SIDEKIQ_TIMEOUT
               value: {{ default $timeout .timeout | quote }}
+            - name: WAIT_FOR_TIMEOUT
+              value: 10
           volumeMounts:
           - name: sidekiq-config
             mountPath: '/var/opt/gitlab/templates'
