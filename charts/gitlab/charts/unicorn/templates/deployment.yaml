@@ -48,7 +48,7 @@ spec:
             - name: CONFIG_DIRECTORY
               value: '/var/opt/gitlab/config/gitlab/'
             - name: WAIT_FOR_TIMEOUT
-              value: 10
+              value: "10"
           volumeMounts:
             - name: unicorn-config
               mountPath: '/var/opt/gitlab/templates'
