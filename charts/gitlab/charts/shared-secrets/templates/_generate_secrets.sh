@@ -61,5 +61,3 @@ if [ -n "$env" ]; then
 EOF
   generate_secret_if_needed rails-secrets --from-file secrets.yml
 fi
-
-cleanup;
