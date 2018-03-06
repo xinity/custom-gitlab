@@ -31,6 +31,7 @@ spec:
           - --default-backend-service={{ .Release.Namespace }}/{{ template "fullname" . }}-default-backend
           - --configmap={{ .Release.Namespace }}/{{ template "fullname" . }}
           - --ingress-class={{ .Release.Name }}-nginx
+          - --election-id={{ .Release.Name }}-leader
           - --tcp-services-configmap={{ .Release.Namespace }}/{{ template "fullname" . }}-tcp
           env:
             - name: POD_NAME
