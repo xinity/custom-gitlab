@@ -4,3 +4,8 @@ dependencies:
   repository: https://kubernetes-charts.storage.googleapis.com/
   condition: certmanager.install
   alias: certmanager
+- name: external-dns
+  version: 0.5.2
+  repository: https://kubernetes-charts.storage.googleapis.com/
+  condition: externaldns.install
+  alias: externaldns
