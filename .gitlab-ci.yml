@@ -198,7 +198,7 @@ stable:
     kubernetes: active
 
 qa:
-  image: registry.gitlab.com/gitlab-org/gitlab-omnibus-builder:ruby_docker-0.0.7
+  image: registry.gitlab.com/gitlab-org/gitlab-build-images:gitlab-qa
   stage: qa
   services:
   - docker:dind
@@ -208,9 +208,8 @@ qa:
     QA_SCREENSHOTS_DIR: "$CI_PROJECT_DIR/screenshots"
   script:
     - docker login -u gitlab-ci-token -p "$CI_JOB_TOKEN" "$CI_REGISTRY"
-    - gem install gitlab-qa
     - source variables
-    - GITLAB_USERNAME=root GITLAB_PASSWORD=$ROOT_PASSWORD gitlab-qa Test::Instance::Any EE nightly https://$QA_ENVIRONMENT_URL
+    - GITLAB_USERNAME=root GITLAB_PASSWORD=$ROOT_PASSWORD bin/qa Test::Instance::Any EE nightly https://$QA_ENVIRONMENT_URL
 
   artifacts:
     when: on_failure
