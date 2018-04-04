@@ -212,7 +212,6 @@ qa:
     - source variables
     - git clone https://gitlab.com/gitlab-org/gitlab-qa.git
     - cd gitlab-qa
-    - pwd
     - bundle install
     - GITLAB_USERNAME=root GITLAB_PASSWORD=$ROOT_PASSWORD bin/qa Test::Instance::Any EE nightly https://$QA_ENVIRONMENT_URL
 
