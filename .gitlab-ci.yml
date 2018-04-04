@@ -206,10 +206,12 @@ qa:
     DOCKER_DRIVER: overlay2
     DOCKER_HOST: tcp://docker:2375
     QA_SCREENSHOTS_DIR: "$CI_PROJECT_DIR/screenshots"
+    GIT_STRATEGY: none
   script:
     - docker login -u gitlab-ci-token -p "$CI_JOB_TOKEN" "$CI_REGISTRY"
     - source variables
-    - GITLAB_USERNAME=root GITLAB_PASSWORD=$ROOT_PASSWORD bin/qa Test::Instance::Any EE nightly https://$QA_ENVIRONMENT_URL
+    - git clone https://gitlab.com/gitlab-org/gitlab-qa.git
+    - GITLAB_USERNAME=root GITLAB_PASSWORD=$ROOT_PASSWORD gitlab-qa/bin/qa Test::Instance::Any EE nightly https://$QA_ENVIRONMENT_URL
 
   artifacts:
     when: on_failure
