@@ -8,3 +8,20 @@ dependencies:
   version: 5.5.3
   repository: https://kubernetes-charts.storage.googleapis.com/
   condition: prometheus.install
+- name: redis
+  repository: file://../helm.gitlab.io/charts/redis/
+  alias: redis-queue
+  version: 0.0.1
+  condition: redis-queue.enabled
+- name: redis
+  repository: file://../helm.gitlab.io/charts/redis/
+  alias: redis-cache
+  version: 0.0.1
+  condition: redis-cache.enabled
+- name: redis-ha
+  repository: file://../helm.gitlab.io/charts/redis-ha/
+  alias: redis-persistant
+  version: 3.0
+  condition: redis-persistant.enabled
+
+
