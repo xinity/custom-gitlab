@@ -24,6 +24,9 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           command: ['/bin/bash', '/scripts/generate-secrets']
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: LANG
+              value: "C.UTF-8"
           volumeMounts:
             - name: scripts
               mountPath: /scripts

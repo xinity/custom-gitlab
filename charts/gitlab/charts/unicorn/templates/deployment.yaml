@@ -41,6 +41,8 @@ spec:
           args:
             - /scripts/wait-for-deps
           env:
+            - name: LANG
+              value: "C.UTF-8"
             - name: GITALY_FEATURE_DEFAULT_ON
               value: "1"
             - name: CONFIG_TEMPLATE_DIRECTORY
@@ -65,6 +67,8 @@ spec:
             - containerPort: {{ .Values.service.workhorseInternalPort }}
               name: workhorse
           env:
+            - name: LANG
+              value: "C.UTF-8"
             - name: GITALY_FEATURE_DEFAULT_ON
               value: "1"
             - name: CONFIG_TEMPLATE_DIRECTORY
