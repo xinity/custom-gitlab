@@ -1,4 +1,29 @@
 dependencies:
+- name: gitlab-services
+  version: 0.1.0
+  repository: file://subcharts/gitlab
+  alias: gitlab
+- name: certmanager-issuer
+  version: 0.1.0
+  repository: file://subcharts/certmanager-issuer
+- name: minio
+  version: 0.4.3
+  repository: file://subcharts/minio
+- name: nginx
+  version: 0.0.1
+  repository: file://subcharts/nginx
+- name: redis
+  version: 0.0.1
+  repository: file://subcharts/redis
+- name: redis-ha
+  version: 3.0
+  repository: file://subcharts/redis-ha
+- name: registry
+  version: 0.0.1
+  repository: file://subcharts/registry
+- name: shared-secrets
+  version: 0.1.0
+  repository: file://subcharts/shared-secrets
 - name: cert-manager
   version: 0.2.2
   repository: https://kubernetes-charts.storage.googleapis.com/
