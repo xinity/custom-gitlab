@@ -32,6 +32,14 @@ workerProcesses: 2
 workerTimeout: 60
 workhorse:
   sentryDSN: ""
+  extraArgs: []
+  resources:
+    # limits:
+    #  cpu: 1
+    #  memory: 2G
+    requests:
+      cpu: 50m
+      memory: 200Mi
 omniauth:
   providers: []
   # - name: google_oauth2
