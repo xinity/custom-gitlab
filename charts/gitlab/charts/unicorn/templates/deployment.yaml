@@ -102,11 +102,11 @@ spec:
               mountPath: '/home/git/gitlab/config/initializers/smtp_settings.rb'
               subPath: smtp_settings.rb
             - name: uploads
-              mountPath: /home/git/gitlab/public/uploads
+              mountPath: /home/git/gitlab/public/uploads/tmp
             - name: lfs-objects
-              mountPath: /home/git/gitlab/shared/lfs-objects
+              mountPath: /home/git/gitlab/shared/lfs-objects/tmp
             - name: artifacts
-              mountPath: /home/git/gitlab/shared/artifacts
+              mountPath: /home/git/gitlab/shared/artifacts/tmp
           livenessProbe:
             exec:
               command:
@@ -173,11 +173,11 @@ spec:
               mountPath: '/home/git/gitlab/config/initializers/smtp_settings.rb'
               subPath: smtp_settings.rb
             - name: uploads
-              mountPath: /home/git/gitlab/public/uploads
+              mountPath: /home/git/gitlab/public/uploads/tmp
             - name: lfs-objects
-              mountPath: /home/git/gitlab/shared/lfs-objects
+              mountPath: /home/git/gitlab/shared/lfs-objects/tmp
             - name: artifacts
-              mountPath: /home/git/gitlab/shared/artifacts
+              mountPath: /home/git/gitlab/shared/artifacts/tmp
           livenessProbe:
             exec:
               command:
