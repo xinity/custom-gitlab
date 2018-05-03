@@ -250,8 +250,11 @@ Tables below contain all the possible charts configurations that can be supplied
 | gitlab.unicorn.registry.certificate.secret          | Registry certificate                           | gitlab-registry                                            |
 | gitlab.unicorn.registry.certificate.key             | Registry certificate key                       | registry-auth.key                                          |
 | gitlab.unicorn.resources.requests.cpu               | Unicorn minimum cpu                            | 200m                                                       |
-| gitlab.unicorn.resources.requests.memory            | Unicorn minimum memory                         | 1.4G                                                       |
+| gitlab.unicorn.resources.requests.memory            | Unicorn minimum memory                         | 2G                                                         |
 | gitlab.unicorn.workhorse.sentryDSN                  | DSN for Sentry instance for error reporting    | ""                                                         |
+| gitlab.unicorn.workhorse.extraArgs                  | Additional options for workhorse               | ""                                                         |
+| gitlab.unicorn.workhorse.resources.requests.cpu     | Workhorse minimum cpu                          | 50m                                                        |
+| gitlab.unicorn.workhorse.resources.requests.memory  | Workhorse minimum memory                       | 200Mi                                                      |
 | gitlab.migrations.image.repository                  | Migrations image repository                    | registry.gitlab.com/gitlab-org/build/cng/gitlab-rails-ee   |
 | gitlab.migrations.image.tag                         | Migrations image tag                           | latest                                                     |
 | gitlab.migrations.image.pullPolicy                  | Migrations pull policy                         | Always                                                     |
