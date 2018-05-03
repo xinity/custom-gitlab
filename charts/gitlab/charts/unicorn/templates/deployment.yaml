@@ -59,7 +59,7 @@ spec:
               mountPath: '/etc/gitlab'
               readOnly: true
       containers:
-        - name: {{ .Chart.Name }}-unicorn
+        - name: unicorn
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           args:
@@ -105,6 +105,8 @@ spec:
               mountPath: /home/git/gitlab/public/uploads
             - name: lfs-objects
               mountPath: /home/git/gitlab/shared/lfs-objects
+            - name: artifacts
+              mountPath: /home/git/gitlab/shared/artifacts
           livenessProbe:
             exec:
               command:
@@ -120,7 +122,7 @@ spec:
           #     port: {{ .Values.service.internalPort }}
           resources:
 {{ toYaml .Values.resources | indent 12 }}
-        - name: {{ .Chart.Name }}-workhorse
+        - name: workhorse
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           args:
@@ -174,6 +176,8 @@ spec:
               mountPath: /home/git/gitlab/public/uploads
             - name: lfs-objects
               mountPath: /home/git/gitlab/shared/lfs-objects
+            - name: artifacts
+              mountPath: /home/git/gitlab/shared/artifacts
           livenessProbe:
             exec:
               command:
@@ -265,6 +269,8 @@ spec:
       - name: uploads
         emptyDir: {}
       - name: lfs-objects
+        emptyDir: {}
+      - name: artifacts
         emptyDir: {}
     {{- if .Values.nodeSelector }}
       nodeSelector:
