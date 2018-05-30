@@ -89,4 +89,4 @@ Follow [This](https://cloud.google.com/dns/quickstart) to create the DNS entry.
 
 # Next Steps
 
-Continue with the [installation of the chart](../installation/README.md) once you have the cluster up and running, and have the static IP and DNS entry ready.
+Continue with the [deployment of the chart](../installation/deployment.md) once you have the cluster up and running, and have the static IP and DNS entry ready.
