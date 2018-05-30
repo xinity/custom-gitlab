@@ -37,16 +37,18 @@ The table below describes all variables.
 
 [GKE release notes]: https://cloud.google.com/kubernetes-engine/release-notes
 
-Run the script, passing in your desired parameters. (The script can work with default parameters except for `PROJECT` which is required.)
+From the /scripts directory, run the script, passing in your desired parameters. (The script can work with default parameters except for `PROJECT` which is required.)
 
 ```bash
-PROJECT=<gcloud project id> ./scripts/gke_bootstrap_script.sh up
+cd ./scripts
+PROJECT=<gcloud project id> ./gke_bootstrap_script.sh up
 ```
 
 The script can also be used to clean up the created GKE resources by running
 
 ```bash
-PROJECT=<gcloud project id> ./scripts/gke_bootstrap_script.sh down
+cd ./scripts
+PROJECT=<gcloud project id> ./gke_bootstrap_script.sh down
 ```
 
 With the cluster created, continue to [creating the DNS entry](#dns-entry).
