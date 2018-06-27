@@ -8,7 +8,7 @@ image:
   repository: registry.gitlab.com/gitlab-org/build/cng/gitaly
   pullSecrets: []
   # pullPolicy: IfNotPresent
-  # tag: latest
+  tag: "gitaly-healthcheck-fix"
 service:
   name: gitaly
   type: ClusterIP
