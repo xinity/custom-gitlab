@@ -144,6 +144,7 @@ postgresql:
 
 gitlab-runner:
   install: true
+  image: gitlab/gitlab-runner:alpine-v11.0.0
   rbac:
     create: true
   runners:
