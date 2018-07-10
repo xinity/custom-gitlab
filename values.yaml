@@ -25,6 +25,7 @@ global:
   gitaly:
     authToken: {}
   minio:
+    enabled: true
     credentials: {}
   shell:
     authToken: {}

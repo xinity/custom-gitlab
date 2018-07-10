@@ -31,6 +31,8 @@ global:
     password: {}
   gitaly:
     authToken: {}
+  minio:
+    enabled:
 backups:
   bucketNames:
     backups: gitlab-backups

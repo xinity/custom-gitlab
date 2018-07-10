@@ -96,6 +96,8 @@ global:
     password: {}
   gitaly:
     authToken: {}
+  minio:
+    enabled:
 redis:
   password: {}
 gitaly:
