@@ -27,6 +27,22 @@ global:
   minio:
     enabled: true
     credentials: {}
+  objectStorage:
+    lfs:
+      bucket: git-lfs
+      connection: {}
+    artifacts:
+      bucket: gitlab-artifacts
+      connection: {}
+    uploads:
+      bucket: gitlab-uploads
+      connection: {}
+    registry:
+      bucket: registry
+      storage: {}
+    backups:
+      bucket: gitlab-backups
+    # `gitlab-runner` objectStorage configured at `gitlab-runner.runners.cache` below.
   shell:
     authToken: {}
     hostKeys: {}

@@ -55,6 +55,16 @@ global:
     authToken: {}
   minio:
     enabled:
+  objectStorage:
+    lfs:
+      bucket:
+      connection: {}
+    artifacts:
+      bucket:
+      connection: {}
+    uploads:
+      bucket:
+      connection: {}
 gitaly:
   # host: '0.0.0.0'
   # port: 8075
@@ -65,18 +75,12 @@ gitaly:
 artifacts:
   enabled: true
   proxy_download: true
-  bucket: gitlab-artifacts
-  # connection: {}
 lfs:
   enabled: true
   proxy_download: true
-  bucket: git-lfs
-  # connection: {}
 uploads:
   enabled: true
   proxy_download: true
-  bucket: gitlab-uploads
-  # connection: {}
 minio:
   enabled: true
   credentials:

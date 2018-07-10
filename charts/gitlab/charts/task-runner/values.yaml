@@ -33,6 +33,13 @@ global:
     authToken: {}
   minio:
     enabled:
+  objectStorage:
+    lfs:
+      connection: {}
+    artifacts:
+      connection: {}
+    uploads:
+      connection: {}
 backups:
   bucketNames:
     backups: gitlab-backups
@@ -67,8 +74,6 @@ gitaly:
 lfs:
   enabled: true
   proxy_download: true
-  # bucket:
-  # connection: {}
 minio:
   enabled: true
   bucket: git-lfs

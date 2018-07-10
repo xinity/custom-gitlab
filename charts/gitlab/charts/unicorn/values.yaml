@@ -98,6 +98,16 @@ global:
     authToken: {}
   minio:
     enabled:
+  objectStorage:
+    lfs:
+      bucket:
+      connection: {}
+    artifacts:
+      bucket:
+      connection: {}
+    uploads:
+      bucket:
+      connection: {}
 redis:
   password: {}
 gitaly:
@@ -110,18 +120,12 @@ gitaly:
 artifacts:
   enabled: true
   proxy_download: true
-  bucket: gitlab-artifacts
-  # connection: {}
 lfs:
   enabled: true
   proxy_download: true
-  bucket: git-lfs
-  # connection: {}
 uploads:
   enabled: true
   proxy_download: true
-  bucket: gitlab-uploads
-  # connection: {}
 minio:
   enabled: true
   serviceName: 'minio-svc'
