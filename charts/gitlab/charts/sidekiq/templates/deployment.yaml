@@ -216,6 +216,28 @@ spec:
               items:
                 - key: {{ template "gitlab.psql.password.key" $ }}
                   path: postgres/psql-password
+
+          {{- if ( include "gitlab.objectstorage.lfs.secret" $ ) }}
+          - secret:
+              name: {{ template "gitlab.objectstorage.lfs.secret" $ }}
+              items:
+                - key: {{ template "gitlab.objectstorage.lfs.key" $ }}
+                  path: objectstorage/lfs
+          {{- end }}
+          {{- if ( include "gitlab.objectstorage.artifacts.secret" $ ) }}
+          - secret:
+              name: {{ template "gitlab.objectstorage.artifacts.secret" $ }}
+              items:
+                - key: {{ template "gitlab.objectstorage.artifacts.key" $ }}
+                  path: objectstorage/artifacts
+          {{- end }}
+          {{- if ( include "gitlab.objectstorage.uploads.secret" $ ) }}
+          - secret:
+              name: {{ template "gitlab.objectstorage.uploads.secret" $ }}
+              items:
+                - key: {{ template "gitlab.objectstorage.uploads.key" $ }}
+                  path: objectstorage/uploads
+          {{- end }}
           {{- if $minioEnabled }}
           - secret:
               name: {{ $minioSecret }}

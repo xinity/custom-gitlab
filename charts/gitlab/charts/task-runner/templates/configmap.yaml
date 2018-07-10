@@ -49,11 +49,7 @@ data:
         enabled: {{ eq .Values.lfs.enabled true }}
         object_store:
           enabled: true
-          {{- if .Values.global.minio.enabled }}
-          remote_directory: {{ .Values.minio.bucket }}
-          {{- else }}
-          remote_directory: {{ .Values.lfs.bucket }}
-          {{- end }}
+          remote_directory: {{ template "gitlab.objectstorage.lfs.bucket" . }}
           direct_upload: true
           background_upload: false
           proxy_download: {{ eq .Values.lfs.proxy_download true }}
@@ -66,9 +62,8 @@ data:
             host: {{ template "gitlab.minio.hostname" . }}
             endpoint: {{ template "gitlab.minio.endpoint" . }}
             path_style: true
-          {{- else if .Values.lfs.connection}}
-          connection:
-{{ toYaml .Values.lfs.connection | indent 12}}
+          {{- else if (include "gitlab.objectstorage.lfs.secret" .) }}
+          connection: <%= YAML.load_file("/etc/gitlab/objectstorage/lfs").to_json() %>
           {{- end }}
       pages:
         enabled: false
@@ -128,6 +123,10 @@ data:
     if [ -e /init-config/minio ]; then
       mkdir /init-secrets/minio
       cp /init-config/minio/* /init-secrets/minio/
+    fi
+    if [ -e /init-config/objectstorage ]; then
+      mkdir -p /init-secrets/objectstorage
+      cp /init-config/objectstorage/* /init-secrets/objectstorage/
     fi
 
     cat << EOF > /init-secrets/.s3cfg

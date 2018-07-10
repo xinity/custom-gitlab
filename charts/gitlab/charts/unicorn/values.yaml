@@ -120,12 +120,15 @@ gitaly:
 artifacts:
   enabled: true
   proxy_download: true
+  bucket:
 lfs:
   enabled: true
   proxy_download: true
+  bucket:
 uploads:
   enabled: true
   proxy_download: true
+  bucket:
 minio:
   enabled: true
   serviceName: 'minio-svc'
