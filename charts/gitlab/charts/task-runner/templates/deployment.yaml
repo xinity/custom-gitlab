@@ -119,21 +119,21 @@ spec:
               items:
                 - key: registry-auth.key
                   path: registry/gitlab-registry.key
-          {{- if ( include "gitlab.objectstorage.lfs.secret" . ) }}
+          {{- if .Values.global.objectStorage.lfs.connection }}
           - secret:
               name: {{ template "gitlab.objectstorage.lfs.secret" . }}
               items:
                 - key: {{ template "gitlab.objectstorage.lfs.key" . }}
                   path: objectstorage/lfs
           {{- end }}
-          {{- if ( include "gitlab.objectstorage.artifacts.secret" . ) }}
+          {{- if .Values.global.objectStorage.artifacts.connection }}
           - secret:
               name: {{ template "gitlab.objectstorage.artifacts.secret" . }}
               items:
                 - key: {{ template "gitlab.objectstorage.artifacts.key" . }}
                   path: objectstorage/artifacts
           {{- end }}
-          {{- if ( include "gitlab.objectstorage.uploads.secret" . ) }}
+          {{- if .Values.global.objectStorage.uploads.connection }}
           - secret:
               name: {{ template "gitlab.objectstorage.uploads.secret" . }}
               items:

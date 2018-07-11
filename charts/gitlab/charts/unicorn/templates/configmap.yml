@@ -100,7 +100,7 @@ data:
             host: {{ template "gitlab.minio.hostname" . }}
             endpoint: {{ template "gitlab.minio.endpoint" . }}
             path_style: true
-          {{- else if (include "gitlab.objectstorage.artifacts.secret" . ) }}
+          {{- else if .Values.global.objectStorage.artifacts.connection }}
           connection: <%= YAML.load_file("/etc/gitlab/objectstorage/artifacts").to_json() %>
           {{- end }}
       lfs:
@@ -120,7 +120,7 @@ data:
             host: {{ template "gitlab.minio.hostname" . }}
             endpoint: {{ template "gitlab.minio.endpoint" . }}
             path_style: true
-          {{- else if (include "gitlab.objectstorage.lfs.secret" . ) }}
+          {{- else if .Values.global.objectStorage.lfs.connection }}
           connection: <%= YAML.load_file("/etc/gitlab/objectstorage/lfs").to_json() %>
           {{- end }}
       uploads:
@@ -140,7 +140,7 @@ data:
             host: {{ template "gitlab.minio.hostname" . }}
             endpoint: {{ template "gitlab.minio.endpoint" . }}
             path_style: true
-          {{- else if (include "gitlab.objectstorage.uploads.secret" . ) }}
+          {{- else if .Values.global.objectStorage.uploads.connection }}
           connection: <%= YAML.load_file("/etc/gitlab/objectstorage/uploads").to_json() %>
           {{- end }}
       pages:
