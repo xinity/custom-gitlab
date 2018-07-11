@@ -80,8 +80,19 @@ spec:
               items:
                   - key: registry-auth.crt
                     path: certificate.crt
-          {{- if .Values.minio.enabled }}
+          {{- if .Values.global.minio.enabled }}
           - secret:
               name: {{ template "gitlab.minio.credentials.secret" . }}
+          {{- end }}
+          {{- if .Values.global.objectStorage.registry.storage.secret }}
+          - secret:
+              name: {{ .Values.global.objectStorage.registry.storage.secret }}
+              items:
+                - key: {{ default "config" .Values.global.objectStorage.registry.storage.key }}
+                  path: storage/config
+                {{- if .Values.global.objectStorage.registry.storage.extraKey }}
+                - key: {{ .Values.global.objectStorage.registry.storage.extraKey }}
+                  path: storage/{{ .Values.global.objectStorage.registry.storage.extraKey }}
+                {{- end }}
           {{- end }}
 {{- end -}}

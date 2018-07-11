@@ -37,8 +37,7 @@ data:
         # This is provided from the initContainer execution, at a known path.
         rootcertbundle: /etc/docker/registry/certificate.crt
     storage:
-      {{- if .Values.storage }}
-{{ toYaml .Values.storage | indent 6}}
+      {{- if .Values.global.objectStorage.registry.storage.secret }}
       {{- else if .Values.global.minio.enabled }}
       s3:
         accesskey: "ACCESS_KEY"
