@@ -28,7 +28,7 @@ Return the key for lfs storage bucket
 - This template presents an upgrade path from local->global
 */}}
 {{- define "gitlab.objectstorage.lfs.bucket" -}}
-{{- coalesce .Values.global.objectStorage.lfs.bucket .Values.lfs.bucket -}}
+{{- coalesce .Values.lfs.bucket .Values.global.objectStorage.lfs.bucket -}}
 {{- end -}}
 
 {{/*
@@ -50,7 +50,7 @@ Return the key for artifacts storage bucket
 - This template presents an upgrade path from local->global
 */}}
 {{- define "gitlab.objectstorage.artifacts.bucket" -}}
-{{- coalesce .Values.global.objectStorage.artifacts.bucket .Values.artifacts.bucket -}}
+{{- coalesce .Values.artifacts.bucket .Values.global.objectStorage.artifacts.bucket -}}
 {{- end -}}
 
 {{/*
@@ -72,5 +72,5 @@ Return the key for uploads storage bucket
 - This template presents an upgrade path from local->global
 */}}
 {{- define "gitlab.objectstorage.uploads.bucket" -}}
-{{- coalesce .Values.global.objectStorage.uploads.bucket .Values.uploads.bucket -}}
+{{- coalesce .Values.uploads.bucket .Values.global.objectStorage.uploads.bucket -}}
 {{- end -}}
