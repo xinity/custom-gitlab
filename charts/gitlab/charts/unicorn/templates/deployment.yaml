@@ -63,7 +63,7 @@ spec:
           resources:
 {{ toYaml .Values.init.resources | indent 12 }}
         - name: dependencies
-          image: "{{ .Values.image.repository }}:{{ coalesce .Values.image.tag (include "gitlab.versionTag" . ) }}"
+          image: "{{ .Values.image.repository }}/{{ .Values.image.unicorn_image }}:{{ coalesce .Values.image.tag (include "gitlab.versionTag" . ) }}"
           {{ template "gitlab.imagePullPolicy" . }}
           args:
             - /scripts/wait-for-deps
@@ -87,7 +87,7 @@ spec:
 {{- include "pullsecrets" .Values.image | indent 6}}
       containers:
         - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ coalesce .Values.image.tag (include "gitlab.versionTag" . ) }}"
+          image: "{{ .Values.image.repository }}/{{ .Values.image.unicorn_image }}:{{ coalesce .Values.image.tag (include "gitlab.versionTag" . ) }}"
           {{ template "gitlab.imagePullPolicy" . }}
           ports:
             - containerPort: {{ .Values.service.internalPort }}
@@ -144,7 +144,7 @@ spec:
           resources:
 {{ toYaml .Values.resources | indent 12 }}
         - name: gitlab-workhorse
-          image: "registry.gitlab.com/gitlab-org/build/cng/gitlab-workhorse:add-workhorse-container"
+          image: "{{ .Values.image.repository }}/{{ .Values.image.workhorse_image }}:{{ coalesce .Values.image.tag (include "gitlab.versionTag" . ) }}"
           {{ template "gitlab.imagePullPolicy" . }}
           ports:
             - containerPort: {{ .Values.service.workhorseInternalPort }}
@@ -152,9 +152,16 @@ spec:
           env:
             - name: GITLAB_WORKHORSE_EXTRA_ARGS
               value: {{ .Values.workhorse.extraArgs | quote }}
+            - name: CONFIG_TEMPLATE_DIRECTORY
+              value: '/var/opt/gitlab/templates'
+            - name: CONFIG_DIRECTORY
+              value: '/var/opt/gitlab/config/gitlab/'
           volumeMounts:
-            - name: unicorn-config
-              mountPath: '/var/opt/gitlab/config/gitlab'
+            - name: workhorse-config
+              mountPath: '/var/opt/gitlab/templates'
+            - name: unicorn-secrets
+              mountPath: '/etc/gitlab'
+              readOnly: true
       volumes:
 {{- if .Values.metrics.enabled }}
       - name: unicorn-metrics
@@ -164,6 +171,9 @@ spec:
       - name: unicorn-config
         configMap:
           name: {{ template "fullname" . }}
+      - name: workhorse-config
+        configMap:
+            name: workhorse-config
       - name: init-unicorn-secrets
         projected:
           defaultMode: 0400
@@ -247,7 +257,7 @@ spec:
       - name: unicorn-secrets
         emptyDir:
           medium: "Memory"
-    {{- if .Values.nodeSelector }}
+        {{- if .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml .Values.nodeSelector | indent 8 }}
     {{- end }}

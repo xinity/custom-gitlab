@@ -2,10 +2,12 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 image:
-  repository: registry.gitlab.com/gitlab-org/build/cng/gitlab-unicorn-ee
+  unicorn_image: gitlab-unicorn-ee
+  workhorse_image: gitlab-workhorse
+  repository: registry.gitlab.com/gitlab-org/build/cng
   pullSecrets: []
   # pullPolicy: IfNotPresent
-  # tag: latest
+  tag: latest
 init:
   image: busybox
   tag: latest
