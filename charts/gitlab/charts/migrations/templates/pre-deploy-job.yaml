@@ -2,12 +2,9 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ template "migrations.predeploy.jobname" . }}
+  name: {{ template "migrations.jobname" . }}
   labels:
 {{ include "gitlab.standardLabels" . | indent 4 }}
-  annotations:
-    "helm.sh/hook": pre-upgrade,post-install
-    "helm.sh/hook-delete-policy": hook-succeeded
 spec:
   template:
     metadata:

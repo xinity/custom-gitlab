@@ -1,12 +1,12 @@
-{{- if .Values.enabled }}
+{{- if and .Values.enabled }}
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ template "migrations.predeploy.jobname" . }}
+  name: {{ template "migrations.postdeploy.jobname" . }}
   labels:
 {{ include "gitlab.standardLabels" . | indent 4 }}
   annotations:
-    "helm.sh/hook": pre-upgrade,post-install
+    "helm.sh/hook": post-upgrade
     "helm.sh/hook-delete-policy": hook-succeeded
 spec:
   template:
@@ -42,10 +42,6 @@ spec:
             - /scripts/db-migrate
           {{ template "gitlab.imagePullPolicy" . }}
           env:
-            {{- if .Release.IsUpgrade -}}
-            - name: SKIP_POST_DEPLOYMENT_MIGRATIONS
-              value: "true"
-            {{- end -}}
             - name: GITLAB_SHARED_RUNNERS_REGISTRATION_TOKEN
               valueFrom:
                 secretKeyRef:
