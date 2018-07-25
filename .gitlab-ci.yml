@@ -281,7 +281,7 @@ qa:
     - if [ "$app_version" != "master"  ]; then
     -   qa_version="${app_version}-ee"
     - fi
-    - GITLAB_USERNAME=root GITLAB_PASSWORD=$ROOT_PASSWORD gitlab-qa Test::Instance::Any EE:$qa_version https://$QA_ENVIRONMENT_URL
+    - GITLAB_USERNAME=root GITLAB_PASSWORD=$ROOT_PASSWORD gitlab-qa Test::Instance::Any registry.gitlab.com/gitlab-org/omnibus-gitlab/gitlab-ce-qa:7fffa61f7fc6dc5b6d1aec58627be73770e16733 https://$QA_ENVIRONMENT_URL
 
   artifacts:
     when: on_failure
