@@ -2,9 +2,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 image:
-  unicorn_image: gitlab-unicorn-ee
-  workhorse_image: gitlab-workhorse
-  repository: registry.gitlab.com/gitlab-org/build/cng
+  repository: registry.gitlab.com/gitlab-org/build/cng/gitlab-unicorn-ee
   pullSecrets: []
   # pullPolicy: IfNotPresent
   # tag: latest
@@ -39,6 +37,7 @@ ingress:
 workerProcesses: 2
 workerTimeout: 60
 workhorse:
+  image: registry.gitlab.com/gitlab-org/build/cng/gitlab-workhorse
   sentryDSN: ""
   extraArgs: ""
 ldap:
