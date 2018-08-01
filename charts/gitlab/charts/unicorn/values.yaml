@@ -43,7 +43,7 @@ workhorse:
   resources:
     requests:
       cpu: 200m
-      memory: 2G
+      memory: 512M
 ldap:
   servers: {}
   # 'main' is the GitLab 'provider ID' of this LDAP server
