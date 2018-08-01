@@ -173,7 +173,7 @@ spec:
           name: {{ template "fullname" . }}
       - name: workhorse-config
         configMap:
-            name: workhorse-config
+            name: {{ .Release.Name }}-workhorse-config
       - name: init-unicorn-secrets
         projected:
           defaultMode: 0400

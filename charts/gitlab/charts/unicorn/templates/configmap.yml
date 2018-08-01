@@ -258,8 +258,8 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-    name: workhorse-config
-    labels:
+  name: {{.Release.Name }}-workhorse-config
+  labels:
 {{ include "gitlab.standardLabels" . | indent 4 }}
 data:
   installation_type: |
