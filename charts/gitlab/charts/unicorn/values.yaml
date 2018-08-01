@@ -37,7 +37,7 @@ ingress:
 workerProcesses: 2
 workerTimeout: 60
 workhorse:
-  image: registry.gitlab.com/gitlab-org/build/cng/gitlab-workhorse
+  image: registry.gitlab.com/gitlab-org/build/cng/gitlab-workhorse-ee
   sentryDSN: ""
   extraArgs: ""
   resources:
