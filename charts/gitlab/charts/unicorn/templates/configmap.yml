@@ -274,6 +274,7 @@ data:
       set -e
       mkdir -p /init-secrets/gitlab-workhorse
       cp /init-config/gitlab-workhorse/secret /init-secrets/gitlab-workhorse/secret
-
+      mkdir -p /init-secrets/redis
+      cp /init-config/redis/password /init-secrets/redis/
 # Leave this here - This line denotes end of block to the parser.
 {{- end }}

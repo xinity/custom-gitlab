@@ -292,13 +292,19 @@ spec:
           medium: "Memory"
       - name: init-workhorse-secrets
         projected:
-            defaultMode: 0400
-            sources:
-              - secret:
-                name: {{ template "gitlab.gitlab-workhorse.secret" . }}
-                items:
-                  - key: shared_secret
-                    path: gitlab-workhorse/secret
+          defaultMode: 0400
+          sources:
+          - secret:
+              name: {{ template "gitlab.gitlab-workhorse.secret" . }}
+              items:
+                - key: shared_secret
+                  path: gitlab-workhorse/secret
+          - secret:
+              name: {{ template "gitlab.redis.password.secret" . }}
+              items:
+                - key: {{ template "gitlab.redis.password.key" . }}
+                  path: redis/password
+
       - name: workhorse-secrets
         emptyDir:
           medium: "Memory"
