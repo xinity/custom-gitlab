@@ -83,6 +83,8 @@ global:
   service:
     annotations: {}
   antiAffinity: soft
+  workhorse:
+      secret: ''
 
 certmanager:
   # Install cert-manager chart. Set to false if you already have cert-manager

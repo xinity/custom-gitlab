@@ -62,6 +62,21 @@ spec:
             readOnly: false
           resources:
 {{ toYaml .Values.init.resources | indent 12 }}
+        - name: workhorse-configure
+          command: ['sh', '/config/configure']
+          image: {{ .Values.init.image }}:{{ .Values.init.tag }}
+          volumeMounts:
+          - name: workhorse-config
+            mountPath: /config
+            readOnly: true
+          - name: init-workhorse-secrets
+            mountPath: /init-config
+            readOnly: true
+          - name: workhorse-secrets
+            mountPath: /init-secrets
+            readOnly: false
+          resources:
+{{ toYaml .Values.init.resources | indent 12 }}
         - name: dependencies
           image: "{{ .Values.image.repository }}:{{ coalesce .Values.image.tag (include "gitlab.versionTag" . ) }}"
           {{ template "gitlab.imagePullPolicy" . }}
@@ -144,7 +159,7 @@ spec:
           resources:
 {{ toYaml .Values.resources | indent 12 }}
         - name: gitlab-workhorse
-          image: "{{ .Values.workhorse.image }}:{{ coalesce .Values.image.tag (include "gitlab.versionTag" . ) }}"
+          image: "{{ .Values.workhorse.image }}:{{ coalesce .Values.workhorse.tag (include "gitlab.versionTag" . ) }}"
           {{ template "gitlab.imagePullPolicy" . }}
           ports:
             - containerPort: {{ .Values.service.workhorseInternalPort }}
@@ -159,7 +174,7 @@ spec:
           volumeMounts:
             - name: workhorse-config
               mountPath: '/var/opt/gitlab/templates'
-            - name: unicorn-secrets
+            - name: workhorse-secrets
               mountPath: '/etc/gitlab'
               readOnly: true
           livenessProbe:
@@ -221,6 +236,11 @@ spec:
               items:
                 - key: registry-auth.key
                   path: registry/gitlab-registry.key
+          - secret:
+              name: {{ template "gitlab.gitlab-workhorse.secret" . }}
+              items:
+                - key: shared_secret
+                  path: gitlab-workhorse/secret
           {{- if .Values.global.minio.enabled }}
           - secret:
               name: {{ template "gitlab.minio.credentials.secret" . }}
@@ -268,6 +288,18 @@ spec:
                   path: smtp/smtp-password
           {{- end }}
       - name: unicorn-secrets
+        emptyDir:
+          medium: "Memory"
+      - name: init-workhorse-secrets
+        projected:
+            defaultMode: 0400
+            sources:
+              - secret:
+                name: {{ template "gitlab.gitlab-workhorse.secret" . }}
+                items:
+                  - key: shared_secret
+                    path: gitlab-workhorse/secret
+      - name: workhorse-secrets
         emptyDir:
           medium: "Memory"
     {{- if .Values.nodeSelector }}

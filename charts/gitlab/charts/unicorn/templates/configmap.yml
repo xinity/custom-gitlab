@@ -202,6 +202,7 @@ data:
         upload_pack: true
         receive_pack: true
       workhorse:
+        secret_file: /etc/gitlab/gitlab-workhorse/secret
       git:
         bin_path: /usr/bin/git
       webpack:
@@ -231,10 +232,11 @@ data:
   configure: |
     set -e
     mkdir -p /init-secrets/redis /init-secrets/shell /init-secrets/gitaly \
-      /init-secrets/registry /init-secrets/postgres /init-secrets/rails-secrets
+      /init-secrets/registry /init-secrets/postgres /init-secrets/rails-secrets /init-secrets/gitlab-workhorse
     cp /init-config/redis/password /init-secrets/redis/password
     cp /init-config/shell/.gitlab_shell_secret /init-secrets/shell/.gitlab_shell_secret
     cp /init-config/gitaly/gitaly_token /init-secrets/gitaly/gitaly_token
+    cp /init-config/gitlab-workhorse/secret /init-secrets/gitlab-workhorse/secret
     cp /init-config/registry/gitlab-registry.key /init-secrets/registry/gitlab-registry.key
     cp /init-config/postgres/psql-password /init-secrets/postgres/psql-password
     cp /init-config/rails-secrets/secrets.yml /init-secrets/rails-secrets/secrets.yml
@@ -268,6 +270,10 @@ data:
     [redis]
     URL = "tcp://{{ template "gitlab.redis.host" . }}:{{ template "gitlab.redis.port" }}"
     Password = "<%= File.read("/etc/gitlab/redis/password") %>"
+  configure: |
+      set -e
+      mkdir -p /init-secrets/gitlab-workhorse
+      cp /init-config/gitlab-workhorse/secret /init-secrets/gitlab-workhorse/secret
 
 # Leave this here - This line denotes end of block to the parser.
 {{- end }}
