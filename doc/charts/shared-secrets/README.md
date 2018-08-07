@@ -14,7 +14,7 @@ Table below contains all the possible charts configurations that can be supplied
 
 | Parameter                    | Description                            | Default                                  |
 | ---                          | ---                                    | ---                                      |
-| image.repository             | Gitaly image repository                | registry.gitlab.com/gitlab-org/build/cng/kubectl |
+| image.repository             | Gitaly image repository                | registry.gitlab.com/charts/components/images/kubectl |
 | image.tag                    | Gitaly image tag                       | 1f8690f03f7aeef27e727396927ab3cc96ac89e7 |
 | image.pullPolicy             | Gitaly image pull policy               | Always                                   |
 | image.pullSecrets            | Secrets for the image repository       |                                          |

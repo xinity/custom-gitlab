@@ -22,7 +22,7 @@ Table below contains all the possible charts configurations that can be supplied
 
 | Parameter                 | Description                                    | Default                                          |
 | ---                       | ---                                            | ---                                              |
-| image.repository          | Sidekiq image repository                       | registry.gitlab.com/gitlab-org/build/cng/gitlab-sidekiq-ee |
+| image.repository          | Sidekiq image repository                       | registry.gitlab.com/charts/components/images/gitlab-sidekiq-ee |
 | image.tag                 | Sidekiq image tag                              |                                                  |
 | image.pullPolicy          | Sidekiq image pull policy                      | Always                                           |
 | image.pullSecrets         | Secrets for the image repository               |                                                  |
@@ -62,7 +62,7 @@ image:
 
 By default, the Helm charts use the Enterprise Edition of GitLab. If desired, you can instead use the Community Edition. Learn more about the [difference between the two](https://about.gitlab.com/installation/ce-or-ee/).
 
-In order to use the Community Edition, set `image.repository` to `registry.gitlab.com/gitlab-org/build/cng/gitlab-sidekiq-ce`
+In order to use the Community Edition, set `image.repository` to `registry.gitlab.com/charts/components/images/gitlab-sidekiq-ce`
 
 ## External Services
 

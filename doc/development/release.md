@@ -89,7 +89,7 @@ Related to releasing using the proposed branching strategy
 
 Releasing a new version of the chart is handled by the helm release tasks in the [release tools repo](https://gitlab.com/gitlab-org/release-tools)
 
-By default, this task will be automatically run from CI when a new release image is tagged in the [CNG image repo](https://gitlab.com/gitlab-org/build/CNG)
+By default, this task will be automatically run from CI when a new release image is tagged in the [CNG image repo](https://gitlab.com/charts/components/images)
 
 > Currently the `helm-release-tools` branch from the release tools repo is used to release the chart
 

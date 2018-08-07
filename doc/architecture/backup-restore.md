@@ -1,25 +1,25 @@
 # Backup and restore
 
-This document explains the technical implementation of the backup and restore into/from CNG.
+This document explains the technical implementation of the backup and restore into/from GitLab Charts based installation.
 
 ## Task runner pod
 The [task runner chart](../../charts/gitlab/charts/task-runner) deploys a pod into the cluster. This pod will act as an entry point for interaction with other containers in the cluster.
 
 Using this pod user can run commands using `kubectl exec -it <pod name> -- <arbitrary command>`
 
-The task runner runs a container from the [task-runner image](https://gitlab.com/gitlab-org/build/CNG/tree/master/gitlab-task-runner).
+The task runner runs a container from the [task-runner image](https://gitlab.com/charts/components/images/tree/master/gitlab-task-runner).
 
-The image contains some custom scripts that are to be called as commands by the user, these scripts can be found [here](https://gitlab.com/gitlab-org/build/CNG/tree/master/gitlab-task-runner/scripts). These scripts are for running rake tasks, backup, restore, and some helper scripts for interacting with object storage.
+The image contains some custom scripts that are to be called as commands by the user, these scripts can be found [here](https://gitlab.com/charts/components/images/tree/master/gitlab-task-runner/scripts). These scripts are for running rake tasks, backup, restore, and some helper scripts for interacting with object storage.
 
 ## Backup utility
 
-[Backup utility](https://gitlab.com/gitlab-org/build/CNG/blob/master/gitlab-task-runner/scripts/bin/backup-utility) is one of the scripts
+[Backup utility](https://gitlab.com/charts/components/images/blob/master/gitlab-task-runner/scripts/bin/backup-utility) is one of the scripts
 in the task runner container and as the name suggests it is a script used for doing backups but also handles restoring of an existing backup.
 
 ### Backups
 
 The backup utility script when run without any arguments creates a backup tar and uploads it to object storage. The sequence of execution is:
-1. Backup the repositories and database using the [GitLab backup rake task](https://gitlab.com/gitlab-org/build/CNG/blob/master/gitlab-task-runner/scripts/bin/backup-utility#L121)
+1. Backup the repositories and database using the [GitLab backup rake task](https://gitlab.com/charts/components/images/blob/master/gitlab-task-runner/scripts/bin/backup-utility#L121)
 2. For each of object storage backends
    - tar the existing data in the corresponding object storage bucket naming it `<bucket-name>.tar`
    - Move the tar to the backup location on disk
@@ -35,7 +35,7 @@ using the `BACKUP_BUCKET_NAME` environment variable.
 ### Restore
 
 The backup utility when given an argument `--restore` attempts to restore from an existing backup to the running instance. This
-backup can be from either an omnibus-gitlab or a CNG Helm chart installation given that both the instance that was
+backup can be from either an omnibus-gitlab or a GitLab Helm chart installation given that both the instance that was
 backed up and the running instance runs the same version of gitlab. The restore expects a file in backup bucket using `-t <backup-name>` or a remote url using `-f <url>`.
 
 When given a `-t` parameter it looks into backup bucket in object storage for a backup tar with such name. When

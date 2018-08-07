@@ -19,7 +19,7 @@ Table below contains all the possible charts configurations that can be supplied
 | Parameter                        | Description                                    | Default                                          |
 | ---                              | ---                                            | ---                                              |
 | replicaCount                     | Unicorn number of replicas                     | 1                                                |
-| image.repository                 | Unicorn image repository                       | registry.gitlab.com/gitlab-org/build/cng/gitlab-unicorn-ee |
+| image.repository                 | Unicorn image repository                       | registry.gitlab.com/charts/components/images/gitlab-unicorn-ee |
 | image.tag                        | Unicorn image tag                              |                                                  |
 | image.pullPolicy                 | Unicorn image pull policy                      | Always                                           |
 | image.pullSecrets                | Secrets for the image repository               |                                                  |
@@ -86,7 +86,7 @@ image:
 
 By default, the Helm charts use the Enterprise Edition of GitLab. If desired, you can instead use the Community Edition. Learn more about the [difference between the two](https://about.gitlab.com/installation/ce-or-ee/).
 
-In order to use the Community Edition, set `image.repository` to `registry.gitlab.com/gitlab-org/build/cng/gitlab-unicorn-ce`
+In order to use the Community Edition, set `image.repository` to `registry.gitlab.com/charts/components/images/gitlab-unicorn-ce`
 
 ## Global Settings
 

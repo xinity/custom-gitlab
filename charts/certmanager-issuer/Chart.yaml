@@ -12,7 +12,7 @@ home: https://about.gitlab.com/
 icon: https://gitlab.com/gitlab-com/gitlab-artwork/raw/master/logo/logo-square.svg
 sources:
 - https://gitlab.com/charts/gitlab/tree/master/charts/certmanager-issuer
-- https://gitlab.com/gitlab-org/build/CNG/tree/master/kubectl
+- https://gitlab.com/charts/components/images/tree/master/kubectl
 - https://github.com/jetstack/cert-manager
 maintainers:
 - name: GitLab Inc.

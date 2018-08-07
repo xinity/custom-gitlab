@@ -21,7 +21,7 @@ The `gitlab-shell` sub-chart provides a SSH server configured for Git SSH access
 | Parameter             | Description                           | Default                                        |
 | ---                   | ---                                   | ---                                            |
 | replicaCount          | Shell replicas                        | 1                                              |
-| image.repository      | Shell image repository                | registry.com/gitlab-org/build/cng/gitlab-shell |
+| image.repository      | Shell image repository                | registry.gitlab.com/charts/components/images/gitlab-shell |
 | image.tag             | Shell image tag                       | latest                                         |
 | image.pullPolicy      | Shell image pull policy               | Always                                         |
 | image.pullSecrets     | Secrets for the image repository      |                                                |

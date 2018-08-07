@@ -17,7 +17,7 @@ The following tables lists the configurable parameters of the Redis chart and th
 
 | Parameter                        | Description                                                                                                                  | Default                                                   |
 | -------------------------------- | -----------------------------------------------------                                                                        | --------------------------------------------------------- |
-| `image.repository`               | Redis image                                                                                                                  | `registry.gitlab.com/gitlab-org/build/cng/gitlab-redis-ha`|
+| `image.repository`               | Redis image                                                                                                                  | `registry.gitlab.com/charts/components/images/gitlab-redis-ha`|
 | `image.tag`                      | Version of the Redis image to use                                                                                            | `latest`                                                  |
 | `image.pullPolicy`               | Pull policy for the Redis image                                                                                              |                                                           |
 | `image.pullSecrets`              | Secrets to use for image repository                                                                                          |                                                           |

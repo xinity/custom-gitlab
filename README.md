@@ -5,7 +5,7 @@
 > * There are [known issues and limitations](doc/architecture/beta.md#known-issues-and-limitations).
 
 
-We are working on a new cloud native method of deploying GitLab on Kubernetes, using the [Helm chart in this repository](#helm-charts) along with a [new set of Docker containers](https://gitlab.com/gitlab-org/build/CNG) that are specific to each component of GitLab.
+We are working on a new cloud native method of deploying GitLab on Kubernetes, using the [Helm chart in this repository](#helm-charts) along with a [new set of Docker images](https://gitlab.com/charts/components/images) that are specific to each component of GitLab.
 
 The `gitlab` chart is the best way to operate GitLab on Kubernetes. This chart contains all the required components to get started, and can scale to large deployments.
 

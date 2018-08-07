@@ -123,9 +123,9 @@ By default, the Helm charts use the Enterprise Edition of GitLab. If desired, yo
 
 *To deploy Community Edition, include these options in your helm install command:*
 ```
---set gitlab.migrations.image.repository=registry.gitlab.com/gitlab-org/build/cng/gitlab-rails-ce
---set gitlab.sidekiq.image.repository=registry.gitlab.com/gitlab-org/build/cng/gitlab-sidekiq-ce
---set gitlab.unicorn.image.repository=registry.gitlab.com/gitlab-org/build/cng/gitlab-unicorn-ce
+--set gitlab.migrations.image.repository=registry.gitlab.com/charts/components/images/gitlab-rails-ce
+--set gitlab.sidekiq.image.repository=registry.gitlab.com/charts/components/images/gitlab-sidekiq-ce
+--set gitlab.unicorn.image.repository=registry.gitlab.com/charts/components/images/gitlab-unicorn-ce
 ```
 
 ### RBAC

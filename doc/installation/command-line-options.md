@@ -134,7 +134,7 @@ See [nginx-ingress chart](../../charts/nginx/README.md)
 
 | Parameter                                           | Description                                    | Default                                                    |
 | ---                                                 | ---                                            | ---                                                        |
-| gitlab.gitaly.image.repository                      | Gitaly image repository                        | registry.gitlab.com/gitlab-org/build/cng/gitaly            |
+| gitlab.gitaly.image.repository                      | Gitaly image repository                        | registry.gitlab.com/charts/components/images/gitaly            |
 | gitlab.gitaly.image.tag                             | Gitaly image tag                               | latest                                                     |
 | gitlab.gitaly.image.pullPolicy                      | Gitaly image pull policy                       | Always                                                     |
 | gitlab.gitaly.service.name                          | Gitaly service name                            | gitaly                                                     |
@@ -157,7 +157,7 @@ See [nginx-ingress chart](../../charts/nginx/README.md)
 | gitlab.gitaly.persistence.matchLabels               | Label-value matches to bind                    |                                                  |
 | gitlab.gitaly.persistence.matchExpressions          | Label-expression matches to bind               |                                                  |
 | gitlab.gitlab-shell.replicaCount                    | Shell replicas                                 | 1                                                          |
-| gitlab.gitlab-shell.image.repository                | Shell image repository                         | registry.gitlab.com/gitlab-org/build/cng/gitlab-shell      |
+| gitlab.gitlab-shell.image.repository                | Shell image repository                         | registry.gitlab.com/charts/components/images/gitlab-shell      |
 | gitlab.gitlab-shell.image.tag                       | Shell image tag                                | latest                                                     |
 | gitlab.gitlab-shell.image.pullPolicy                | Shell image pull policy                        | Always                                                     |
 | gitlab.gitlab-shell.service.name                    | Shell service name                             | gitlab-shell                                               |
@@ -170,7 +170,7 @@ See [nginx-ingress chart](../../charts/nginx/README.md)
 | gitlab.gitlab-shell.authToken.key                   | Shell auth secret key                          | secret                                                     |
 | gitlab.gitlab-shell.unicorn.serviceName             | Unicorn service name                           | unicorn                                                    |
 | gitlab.gitlab-shell.redis.serviceName               | Redis service name                             | redis                                                      |
-| gitlab.sidekiq.image.repository                     | Sidekiq image repository                       | registry.gitlab.com/gitlab-org/build/cng/gitlab-sidekiq-ee |
+| gitlab.sidekiq.image.repository                     | Sidekiq image repository                       | registry.gitlab.com/charts/components/images/gitlab-sidekiq-ee |
 | gitlab.sidekiq.image.tag                            | Sidekiq image tag                              | latest                                                     |
 | gitlab.sidekiq.image.pullPolicy                     | Sidekiq image pull policy                      | Always                                                     |
 | gitlab.sidekiq.enabled                              | Sidekiq enabled flag                           | true                                                       |
@@ -186,7 +186,7 @@ See [nginx-ingress chart](../../charts/nginx/README.md)
 | gitlab.sidekiq.resources.requests.cpu               | Sidekiq minimum needed cpu                     | 100m                                                       |
 | gitlab.sidekiq.resources.requests.memory            | Sidekiq minimum needed memory                  | 600M                                                       |
 | gitlab.unicorn.replicaCount                         | Unicorn number of replicas                     | 1                                                          |
-| gitlab.unicorn.image.repository                     | Unicorn image repository                       | registry.gitlab.com/gitlab-org/build/cng/gitlab-unicorn-ee |
+| gitlab.unicorn.image.repository                     | Unicorn image repository                       | registry.gitlab.com/charts/components/images/gitlab-unicorn-ee |
 | gitlab.unicorn.image.tag                            | Unicorn image tag                              | latest                                                     |
 | gitlab.unicorn.image.pullPolicy                     | Unicorn image pull policy                      | Always                                                     |
 | gitlab.unicorn.service.name                         | Unicorn service name                           | unicorn                                                    |
@@ -215,7 +215,7 @@ See [nginx-ingress chart](../../charts/nginx/README.md)
 | gitlab.unicorn.resources.requests.memory            | Unicorn minimum memory                         | 1.4G                                                       |
 | gitlab.unicorn.workhorse.sentryDSN                  | DSN for Sentry instance for error reporting    | ""                                                         |
 | gitlab.unicorn.workhorse.extraArgs                  | String of extra parameters for workhorse       | ""                                                         |
-| gitlab.migrations.image.repository                  | Migrations image repository                    | registry.gitlab.com/gitlab-org/build/cng/gitlab-rails-ee   |
+| gitlab.migrations.image.repository                  | Migrations image repository                    | registry.gitlab.com/charts/components/images/gitlab-rails-ee   |
 | gitlab.migrations.image.tag                         | Migrations image tag                           | latest                                                     |
 | gitlab.migrations.image.pullPolicy                  | Migrations pull policy                         | Always                                                     |
 | gitlab.migrations.enabled                           | Migrations enable flag                         | true                                                       |

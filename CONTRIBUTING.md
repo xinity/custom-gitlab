@@ -47,7 +47,7 @@ request is as follows:
 1. Fork the project into your personal space on GitLab.com
 1. Create a feature branch, branch away from `master`
 1. Write code and charts changes.
-1. If deemed necessary, provide MR to the [Cloud Native GitLab containers][CNG].
+1. If deemed necessary, provide MR to the [Cloud Native GitLab images][images].
     - Provide the related Issue and MR link from that repository.
 1. [Generate a changelog entry with `bin/changelog`][changelog]
 1. If you have multiple commits please combine them into a few logically
@@ -172,4 +172,4 @@ available at [http://contributor-covenant.org/version/1/1/0/](http://contributor
 [git-squash]: https://git-scm.com/book/en/Git-Tools-Rewriting-History#Squashing-Commits
 [definition-of-done]: http://guide.agilealliance.org/guide/definition-of-done.html
 [contributor-covenant]: http://contributor-covenant.org
-[CNG]: https://gitlab.com/gitlab-org/build/CNG/
+[images]: https://gitlab.com/charts/components/images/
