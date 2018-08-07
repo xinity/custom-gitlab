@@ -243,9 +243,9 @@ spec:
                 - key: registry-auth.key
                   path: registry/gitlab-registry.key
           - secret:
-              name: {{ template "gitlab.gitlab-workhorse.secret" . }}
+              name: {{ template "gitlab.workhorse.secret" . }}
               items:
-                - key: shared_secret
+                - key: {{ template "gitlab.workhorse.key" . }}
                   path: gitlab-workhorse/secret
           {{- if .Values.global.minio.enabled }}
           - secret:
@@ -301,9 +301,9 @@ spec:
           defaultMode: 0400
           sources:
           - secret:
-              name: {{ template "gitlab.gitlab-workhorse.secret" . }}
+              name: {{ template "gitlab.workhorse.secret" . }}
               items:
-                - key: shared_secret
+                - key: {{ template "gitlab.workhorse.key" . }}
                   path: gitlab-workhorse/secret
           - secret:
               name: {{ template "gitlab.redis.password.secret" . }}
