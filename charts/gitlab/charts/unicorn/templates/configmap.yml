@@ -231,7 +231,7 @@ data:
         issuer: {{ .Values.registry.tokenIssuer }}
   configure: |
       set -e
-      config_dir="/init-config-unicorn"
+      config_dir="/init-config"
       secret_dir="/init-secrets-unicorn"
 
       for secret in redis shell gitaly registry postgres rails-secrets gitlab-workhorse ; do
@@ -271,8 +271,8 @@ data:
   configure: |
       set -e
       mkdir -p /init-secrets-workhorse/gitlab-workhorse
-      cp /init-config-workhorse/gitlab-workhorse/secret /init-secrets-workhorse/gitlab-workhorse/secret
+      cp /init-config/gitlab-workhorse/secret /init-secrets-workhorse/gitlab-workhorse/secret
       mkdir -p /init-secrets-workhorse/redis
-      cp /init-config-workhorse/redis/password /init-secrets-workhorse/redis/
+      cp /init-config/redis/password /init-secrets-workhorse/redis/
 # Leave this here - This line denotes end of block to the parser.
 {{- end }}

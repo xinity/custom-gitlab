@@ -59,14 +59,11 @@ spec:
             mountPath: /config-workhorse
             readOnly: true
           - name: init-unicorn-secrets
-            mountPath: /init-config-unicorn
+            mountPath: /init-config
             readOnly: true
           - name: unicorn-secrets
             mountPath: /init-secrets-unicorn
             readOnly: false
-          - name: init-workhorse-secrets
-            mountPath: /init-config-workhorse
-            readOnly: true
           - name: workhorse-secrets
             mountPath: /init-secrets-workhorse
             readOnly: false
@@ -291,21 +288,6 @@ spec:
       - name: unicorn-secrets
         emptyDir:
           medium: "Memory"
-      - name: init-workhorse-secrets
-        projected:
-          defaultMode: 0400
-          sources:
-          - secret:
-              name: {{ template "gitlab.workhorse.secret" . }}
-              items:
-                - key: {{ template "gitlab.workhorse.key" . }}
-                  path: gitlab-workhorse/secret
-          - secret:
-              name: {{ template "gitlab.redis.password.secret" . }}
-              items:
-                - key: {{ template "gitlab.redis.password.key" . }}
-                  path: redis/password
-
       - name: workhorse-secrets
         emptyDir:
           medium: "Memory"
