@@ -231,8 +231,8 @@ data:
         issuer: {{ .Values.registry.tokenIssuer }}
   configure: |
       set -e
-      config_dir="$PWD/init-config-unicorn"
-      secret_dir="$PWD/init-secrets-unicorn"
+      config_dir="/init-config-unicorn"
+      secret_dir="/init-secrets-unicorn"
 
       for secret in redis shell gitaly registry postgres rails-secrets gitlab-workhorse ; do
         mkdir -p "${secret_dir}/${secret}"
