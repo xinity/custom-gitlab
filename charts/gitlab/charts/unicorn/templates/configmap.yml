@@ -230,32 +230,30 @@ data:
         key: /etc/gitlab/registry/gitlab-registry.key
         issuer: {{ .Values.registry.tokenIssuer }}
   configure: |
-    set -e
-    mkdir -p /init-secrets/redis /init-secrets/shell /init-secrets/gitaly \
-      /init-secrets/registry /init-secrets/postgres /init-secrets/rails-secrets /init-secrets/gitlab-workhorse
-    cp /init-config/redis/password /init-secrets/redis/password
-    cp /init-config/shell/.gitlab_shell_secret /init-secrets/shell/.gitlab_shell_secret
-    cp /init-config/gitaly/gitaly_token /init-secrets/gitaly/gitaly_token
-    cp /init-config/gitlab-workhorse/secret /init-secrets/gitlab-workhorse/secret
-    cp /init-config/registry/gitlab-registry.key /init-secrets/registry/gitlab-registry.key
-    cp /init-config/postgres/psql-password /init-secrets/postgres/psql-password
-    cp /init-config/rails-secrets/secrets.yml /init-secrets/rails-secrets/secrets.yml
-    if [ -e /init-config/minio ]; then
-      mkdir -p /init-secrets/minio
-      cp /init-config/minio/* /init-secrets/minio/
-    fi
-    if [ -e /init-config/objectstorage ]; then
-      mkdir -p /init-secrets/objectstorage
-      cp /init-config/objectstorage/* /init-secrets/objectstorage/
-    fi
-    if [ -e /init-config/omniauth ]; then
-      mkdir -p /init-secrets/omniauth
-      cp -r /init-config/omniauth/* /init-secrets/omniauth/
-    fi
-    if [ -e /init-config/smtp/smtp-password ]; then
-      mkdir -p /init-secrets/smtp
-      cp /init-config/smtp/smtp-password /init-secrets/smtp/
-    fi
+      set -e
+      config_dir="$PWD/init-config-unicorn"
+      secret_dir="$PWD/init-secrets-unicorn"
+
+      for secret in redis shell gitaly registry postgres rails-secrets gitlab-workhorse ; do
+        mkdir -p "${secret_dir}/${secret}"
+        cp -v -r "${config_dir}/${secret}/." "${secret_dir}/${secret}/"
+      done
+      if [ -e "${config_dir}/minio" ]; then
+        mkdir -p "${secret_dir}/minio"
+        cp -v -r "${config_dir}/minio/." "${secret_dir}/minio/"
+      fi
+      if [ -e "${config_dir}/objectstorage" ]; then
+        mkdir -p "${secret_dir}/objectstorage"
+        cp -v -r "${config_dir}/objectstorage/." "${secret_dir}/objectstorage/"
+      fi
+      if [ -e "${config_dir}/omniauth" ]; then
+        mkdir -p "${secret_dir}/omniauth"
+        cp -v -r "${config_dir}/omniauth/." "${secret_dir}/omniauth/"
+      fi
+      if [ -e "${config_dir}/smtp/smtp-password" ]; then
+        mkdir -p "${secret_dir}/smtp"
+        cp -v -r "${config_dir}/smtp/smtp-password" "${secret_dir}/smtp/"
+      fi
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -272,9 +270,9 @@ data:
     Password = "<%= File.read("/etc/gitlab/redis/password") %>"
   configure: |
       set -e
-      mkdir -p /init-secrets/gitlab-workhorse
-      cp /init-config/gitlab-workhorse/secret /init-secrets/gitlab-workhorse/secret
-      mkdir -p /init-secrets/redis
-      cp /init-config/redis/password /init-secrets/redis/
+      mkdir -p /init-secrets-workhorse/gitlab-workhorse
+      cp /init-config-workhorse/gitlab-workhorse/secret /init-secrets-workhorse/gitlab-workhorse/secret
+      mkdir -p /init-secrets-workhorse/redis
+      cp /init-config-workhorse/redis/password /init-secrets-workhorse/redis/
 # Leave this here - This line denotes end of block to the parser.
 {{- end }}

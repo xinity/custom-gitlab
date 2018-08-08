@@ -48,32 +48,27 @@ spec:
       {{- end }}
       initContainers:
         - name: configure
-          command: ['sh', '/config/configure']
+          command: ['sh']
+          args: [ '-c', 'sh -x /config-unicorn/configure ; sh -x /config-workhorse/configure']
           image: {{ .Values.init.image }}:{{ .Values.init.tag }}
           volumeMounts:
           - name: unicorn-config
-            mountPath: /config
+            mountPath: /config-unicorn
+            readOnly: true
+          - name: workhorse-config
+            mountPath: /config-workhorse
             readOnly: true
           - name: init-unicorn-secrets
-            mountPath: /init-config
+            mountPath: /init-config-unicorn
             readOnly: true
           - name: unicorn-secrets
-            mountPath: /init-secrets
+            mountPath: /init-secrets-unicorn
             readOnly: false
-          resources:
-{{ toYaml .Values.init.resources | indent 12 }}
-        - name: workhorse-configure
-          command: ['sh', '/config/configure']
-          image: {{ .Values.init.image }}:{{ .Values.init.tag }}
-          volumeMounts:
-          - name: workhorse-config
-            mountPath: /config
-            readOnly: true
           - name: init-workhorse-secrets
-            mountPath: /init-config
+            mountPath: /init-config-workhorse
             readOnly: true
           - name: workhorse-secrets
-            mountPath: /init-secrets
+            mountPath: /init-secrets-workhorse
             readOnly: false
           resources:
 {{ toYaml .Values.init.resources | indent 12 }}
