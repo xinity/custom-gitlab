@@ -5,6 +5,10 @@ metadata:
   name: {{ template "fullname" . }}
   labels:
 {{ include "gitlab.standardLabels" . | indent 4 }}
+  {{- if .Values.global.operator.enabled }}
+  annotations:
+    gitlab.com/version: {{ .Values.global.gitlabVersion }}
+  {{- end }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -17,6 +21,9 @@ spec:
         app: {{ template "name" . }}
         release: {{ .Release.Name }}
       annotations:
+        {{- if .Values.global.operator.enabled }}
+        gitlab.com/version: {{ .Values.global.gitlabVersion }}
+        {{- end }}
         checksum/config: {{ include (print $.Template.BasePath "/configmap.yml") . | sha256sum }}
 {{- if .Values.metrics.enabled }}
 {{ toYaml .Values.metrics.annotations | indent 8 }}

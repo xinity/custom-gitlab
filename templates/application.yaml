@@ -102,3 +102,144 @@ spec:
   - apiVersion: policy/v1beta1
     kind: PodDisruptionBudget
 {{- end -}}
+{{- if .Values.global.operator.enabled }}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: gitlab-crd-installer
+  annotations:
+    "helm.sh/hook-weight": "-1"
+    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  template:
+    metadata:
+      labels:
+        app: gitlab-crd-installer
+    spec:
+      serviceAccount: gitlab-crd-installer
+      restartPolicy: Never
+      containers:
+      - name: hyperkube
+        image: gcr.io/google_containers/hyperkube:v1.9.0
+        command:
+        - ./kubectl
+        - apply
+        - -f
+        - /crd/crd.yaml
+        volumeMounts:
+        - name: crd
+          mountPath: /crd
+      volumes:
+      - name: crd
+        configMap:
+          name: gitlab-crd-installer
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gitlab-crd-installer
+  annotations:
+    "helm.sh/hook-weight": "-2"
+    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook-delete-policy": hook-succeeded
+data:
+  crd.yaml: |
+    apiVersion: apiextensions.k8s.io/v1beta1
+    kind: CustomResourceDefinition
+    metadata:
+      creationTimestamp: null
+      labels:
+        controller-tools.k8s.io: "1.0"
+      name: gitlabs.gitlab.com
+    spec:
+      group: gitlab.com
+      names:
+        kind: GitLab
+        plural: gitlabs
+      scope: Namespaced
+      validation:
+        openAPIV3Schema:
+          properties:
+            apiVersion:
+              type: string
+            kind:
+              type: string
+            metadata:
+              type: object
+            spec:
+              properties:
+                type:
+                  type: string
+                version:
+                  type: string
+              required:
+              - version
+              - type
+              type: object
+            status:
+              type: object
+          type: object
+      version: v1beta1
+    ---
+    apiVersion: gitlab.com/v1beta1
+    kind: GitLab
+    metadata:
+      labels:
+        controller-tools.k8s.io: "1.0"
+      name: gitlab
+    spec:
+      version: {{ .Values.global.gitlabVersion | quote }}
+      type: "ee"
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: gitlab-crd-installer
+  labels:
+    app: gitlab-crd-installer
+  annotations:
+    "helm.sh/hook-weight": "-2"
+    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook-delete-policy": hook-succeeded
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: gitlab-crd-installer
+  annotations:
+    "helm.sh/hook-weight": "-2"
+    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook-delete-policy": hook-succeeded
+rules:
+- apiGroups:
+  - apiextensions.k8s.io
+  resources:
+  - customresourcedefinitions
+  verbs:
+  - "*"
+- apiGroups:
+  - gitlab.com
+  resources:
+  - gitlabs
+  verbs:
+  - "*"
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: gitlab-crd-installer
+  annotations:
+    "helm.sh/hook-weight": "-2"
+    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook-delete-policy": hook-succeeded
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: gitlab-crd-installer
+subjects:
+  - kind: ServiceAccount
+    name: gitlab-crd-installer
+    namespace: default
+{{- end -}}
