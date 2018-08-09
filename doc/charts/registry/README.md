@@ -32,6 +32,7 @@ registry:
   certificate:
   replicas:
   storage:
+  bucket:
   ingress:
     enabled:
     tls:
@@ -63,7 +64,7 @@ Table below contains all the possible charts configurations that can be supplied
 | tokenIssuer              | JWT token issuer                        | gitlab-issuer        |
 | certificate.secret       | JWT certificate                         | gitlab-registry      |
 | replicas                 | Number of replicas                      | 1                    |
-| minio.bucket             | Minio registry bucket name              | registry             |
+| minio.bucket             | Legacy registry bucket name             | Undefined by default |
 
 ## Chart configuration examples
 ### pullSecrets
