@@ -4,7 +4,7 @@
 image:
   repository: registry.gitlab.com/gitlab-org/build/cng/gitlab-unicorn-ee
   pullSecrets: []
-  # pullPolicy: IfNotPresent
+  pullPolicy: Always
   # tag: latest
 init:
   image: busybox
