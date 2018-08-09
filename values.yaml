@@ -3,6 +3,8 @@
 
 global:
   # gitlabVersion: master
+  operator:
+    enabled: false
   application:
     create: false
     links: []
