@@ -136,6 +136,9 @@ spec:
             - name: shared-upload-directory
               mountPath: /srv/gitlab/public/uploads/tmp
               readOnly: false
+            - name: shared-artifact-directory
+              mountPath: /srv/gitlab/shared
+              readOnly: false
           livenessProbe:
             exec:
               command:
@@ -174,6 +177,9 @@ spec:
               readOnly: true
             - name: shared-upload-directory
               mountPath: /srv/gitlab/public/uploads/tmp
+              readOnly: false
+            - name: shared-artifact-directory
+              mountPath: /srv/gitlab/shared
               readOnly: false
           livenessProbe:
             exec:
@@ -292,6 +298,9 @@ spec:
         emptyDir:
           medium: "Memory"
       - name: shared-upload-directory
+        emptyDir:
+          medium: "Memory"
+      - name: shared-artifact-directory
         emptyDir:
           medium: "Memory"
     {{- if .Values.nodeSelector }}
