@@ -353,7 +353,7 @@ danger-review:
       - branches
   script:
     - git version
-    - danger --fail-on-errors=true
+    - danger --fail-on-errors=true --base=master --head=HEAD
 
 # ---------------------------------------------------------------------------
 
