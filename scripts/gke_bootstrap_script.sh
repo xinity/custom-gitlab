@@ -16,7 +16,7 @@ PREEMPTIBLE=${PREEMPTIBLE-false}
 EXTRA_CREATE_ARGS=${EXTRA_CREATE_ARGS-""}
 USE_STATIC_IP=${USE_STATIC_IP-false};
 external_ip_name=${CLUSTER_NAME}-external-ip;
-DIR=$(dirname "$(readlink -f "$0")")
+DIR=$(cd "$(dirname "$0")"; pwd)
 
 source $DIR/common.sh;
 
@@ -96,7 +96,7 @@ if [ -z "$1" ]; then
   echo "You need to pass up or down";
 fi
 
-DIR=$(dirname "$(readlink -f "$0")")
+DIR=$(cd "$(dirname "$0")"; pwd)
 
 case $1 in
   up)
