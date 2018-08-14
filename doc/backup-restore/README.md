@@ -23,7 +23,8 @@ We provide a minio instance out of the box when using this charts unless an [ext
 
 It should look like this:
 
-`helm install gitlab --set gitlab.task-runner.backups.objectStorage.config.secret=my-s3cfg \
+`helm install gitlab \
+  --set gitlab.task-runner.backups.objectStorage.config.secret=my-s3cfg \
   --set gitlab.task-runner.backups.objectStorage.config.key=config .`
 
 s3cmd `.s3cfg` file documentation can be found [here](https://s3tools.org/kb/item14.htm)
