@@ -1,0 +1,162 @@
+{{- if .Values.global.operator.enabled }}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ template "fullname" . }}-crd-installer
+  labels:
+{{ include "gitlab.standardLabels" $ | indent 4 }}
+  annotations:
+    "helm.sh/hook-weight": "-1"
+    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  template:
+    metadata:
+      labels:
+        app: {{ template "fullname" . }}-crd-installer
+{{ include "gitlab.standardLabels" $ | indent 8 }}        
+    spec:
+      serviceAccount: {{ template "fullname" . }}-crd-installer
+      restartPolicy: Never
+      containers:
+      - name: hyperkube
+        image: gcr.io/google_containers/hyperkube:v1.9.0
+        command:
+        - ./kubectl
+        - apply
+        - -f
+        - /crd/crd.yaml
+        volumeMounts:
+        - name: crd
+          mountPath: /crd
+      volumes:
+      - name: crd
+        configMap:
+          name: {{ template "fullname" . }}-crd-installer
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "fullname" . }}-crd-installer
+  labels:
+{{ include "gitlab.standardLabels" $ | indent 4 }}
+  annotations:
+    "helm.sh/hook-weight": "-2"
+    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook-delete-policy": hook-succeeded
+data:
+  crd.yaml: |
+    apiVersion: apiextensions.k8s.io/v1beta1
+    kind: CustomResourceDefinition
+    metadata:
+      creationTimestamp: null
+      labels:
+        controller-tools.k8s.io: "1.0"
+      name: gitlabs.gitlab.com
+    spec:
+      group: gitlab.com
+      names:
+        kind: GitLab
+        plural: gitlabs
+      scope: Namespaced
+      validation:
+        openAPIV3Schema:
+          properties:
+            apiVersion:
+              type: string
+            kind:
+              type: string
+            metadata:
+              type: object
+            spec:
+              properties:
+                helmRelease:
+                  type: string
+                type:
+                  type: string
+                version:
+                  type: string
+              required:
+              - version
+              - type
+              - helmRelease
+              type: object
+            status:
+              type: object
+          type: object
+      version: v1beta1
+    status:
+      acceptedNames:
+        kind: ""
+        plural: ""
+      conditions: null
+
+    ---
+    apiVersion: gitlab.com/v1beta1
+    kind: GitLab
+    metadata:
+      labels:
+        controller-tools.k8s.io: "1.0"
+{{ include "gitlab.standardLabels" $ | indent 8 }}
+      name: {{ template "fullname" . }}
+    spec:
+      version: {{ .Values.global.gitlabVersion | quote }}
+      type: "ee"
+      helmRelease: {{ .Release.Name }}
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ template "fullname" . }}-crd-installer
+  labels:
+    app: {{ template "fullname" . }}-crd-installer
+{{ include "gitlab.standardLabels" $ | indent 4 }}
+  annotations:
+    "helm.sh/hook-weight": "-2"
+    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook-delete-policy": hook-succeeded
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ template "fullname" . }}-crd-installer
+  labels:
+{{ include "gitlab.standardLabels" $ | indent 4 }}
+  annotations:
+    "helm.sh/hook-weight": "-2"
+    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook-delete-policy": hook-succeeded
+rules:
+- apiGroups:
+  - apiextensions.k8s.io
+  resources:
+  - customresourcedefinitions
+  verbs:
+  - "*"
+- apiGroups:
+  - gitlab.com
+  resources:
+  - gitlabs
+  verbs:
+  - "*"
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ template "fullname" . }}-crd-installer
+  labels:
+{{ include "gitlab.standardLabels" $ | indent 4 }}
+  annotations:
+    "helm.sh/hook-weight": "-2"
+    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook-delete-policy": hook-succeeded
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ template "fullname" . }}-crd-installer
+subjects:
+  - kind: ServiceAccount
+    name: {{ template "fullname" . }}-crd-installer
+    namespace: {{ .Release.Namespace | quote }}
+{{- end }}
