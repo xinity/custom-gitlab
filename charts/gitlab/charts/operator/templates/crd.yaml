@@ -93,7 +93,75 @@ data:
         kind: ""
         plural: ""
       conditions: null
-
+    ---
+    apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+      name: {{ template "fullname" . }}
+      labels:
+{{ include "gitlab.standardLabels" $ | indent 8 }}
+    ---
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRole
+    metadata:
+      creationTimestamp: null
+      name: {{ template "fullname" . }}
+      labels:
+{{ include "gitlab.standardLabels" $ | indent 8 }}
+    rules:
+    - apiGroups:
+      - apps
+      resources:
+      - deployments
+      - statefulsets
+      verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+    - apiGroups:
+      - batch
+      resources:
+      - jobs
+      verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+    - apiGroups:
+      - gitlab.com
+      resources:
+      - gitlabs
+      verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+    ---
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRoleBinding
+    metadata:
+      creationTimestamp: null
+      name: {{ template "fullname" . }}
+      labels:
+{{ include "gitlab.standardLabels" $ | indent 8 }}
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: {{ template "fullname" . }}
+    subjects:
+    - kind: ServiceAccount
+      name: {{ template "fullname" . }}
+      namespace: {{ .Release.Namespace | quote }}
     ---
     apiVersion: gitlab.com/v1beta1
     kind: GitLab
@@ -141,6 +209,32 @@ rules:
   - gitlab.com
   resources:
   - gitlabs
+  verbs:
+  - "*"
+- apiGroups:
+  - rbac.authorization.k8s.io
+  resources:
+  - clusterroles
+  - clusterrolebindings
+  verbs:
+  - "*"
+- apiGroups:
+  - ""
+  resources:
+  - serviceaccounts
+  verbs:
+  - "*"
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  - statefulsets
+  verbs:
+  - "*"
+- apiGroups:
+  - batch
+  resources:
+  - jobs
   verbs:
   - "*"
 ---
