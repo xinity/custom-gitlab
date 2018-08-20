@@ -6,3 +6,12 @@ image:
   pullSecrets: []
   # pullPolicy: IfNotPresent
   # tag: latest
+
+# Install the operator as well
+install: true
+crd:
+  image:
+    repository: gcr.io/google_containers/hyperkube
+    tag: v1.9.0
+    pullSecrets: []
+    #pullPolicy: IfNotPresent
