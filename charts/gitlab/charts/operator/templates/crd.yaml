@@ -19,9 +19,11 @@ spec:
     spec:
       serviceAccount: {{ template "fullname" . }}-crd-installer
       restartPolicy: Never
+{{- include "pullsecrets" $.Values.image | indent 6}}
       containers:
       - name: hyperkube
-        image: gcr.io/google_containers/hyperkube:v1.9.0
+        image: "{{ .Values.image.crd..repository }}:{{ .Values.image.crd.tag }}"
+        {{ template "gitlab.crd.imagePullPolicy" . }}
         command:
         - ./kubectl
         - apply
