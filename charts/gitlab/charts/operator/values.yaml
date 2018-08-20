@@ -2,10 +2,12 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 image:
-  repository: 
+  repository: registry.gitlab.com/gitlab-org/distribution/gitlab-operator
+  tag: latest
   pullSecrets: []
   # pullPolicy: IfNotPresent
-  # tag: latest
+
+replicaCount: 1
 
 # Install the operator as well
 install: true
@@ -15,3 +17,11 @@ crd:
     tag: v1.9.0
     pullSecrets: []
     #pullPolicy: IfNotPresent
+
+resources:
+  # limits:
+  #  cpu: 1
+  #  memory: 2G
+  requests:
+    cpu: 100m
+    memory: 64M
