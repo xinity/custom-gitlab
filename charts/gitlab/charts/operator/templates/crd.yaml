@@ -1,4 +1,4 @@
-{{- if .Values.global.operator.enabled }}
+{{- if and .Values.global.operator.enabled .Values.install.enabled }}
 ---
 apiVersion: batch/v1
 kind: Job
@@ -7,7 +7,7 @@ metadata:
   labels:
 {{ include "gitlab.standardLabels" $ | indent 4 }}
   annotations:
-    "helm.sh/hook-weight": "-1"
+    "helm.sh/hook-weight": "-3"
     "helm.sh/hook": pre-install,pre-upgrade
     "helm.sh/hook-delete-policy": hook-succeeded
 spec:
@@ -22,7 +22,7 @@ spec:
 {{- include "pullsecrets" $.Values.image | indent 6}}
       containers:
       - name: hyperkube
-        image: "{{ .Values.crd.image.repository }}:{{ .Values.crd.image.tag }}"
+        image: "{{ .Values.install.image.repository }}:{{ .Values.install.image.tag }}"
         {{ template "gitlab.imagePullPolicy" . }}
         command:
         - ./kubectl
@@ -44,7 +44,7 @@ metadata:
   labels:
 {{ include "gitlab.standardLabels" $ | indent 4 }}
   annotations:
-    "helm.sh/hook-weight": "-2"
+    "helm.sh/hook-weight": "-4"
     "helm.sh/hook": pre-install,pre-upgrade
     "helm.sh/hook-delete-policy": hook-succeeded
 data:
@@ -195,19 +195,6 @@ data:
               {{ template "gitlab.imagePullPolicy" . }}
               resources:
 {{ toYaml .Values.resources | indent 16 }}
-    ---
-    apiVersion: gitlab.com/v1beta1
-    kind: GitLab
-    metadata:
-      labels:
-        controller-tools.k8s.io: "1.0"
-        revision: "{{ .Release.Revision }}"
-{{ include "gitlab.standardLabels" $ | indent 8 }}
-      name: {{ template "fullname" . }}
-    spec:
-      version: {{ .Values.global.gitlabVersion | quote }}
-      type: ""
-      helmRelease: {{ .Release.Name }}
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -217,7 +204,7 @@ metadata:
     app: {{ template "fullname" . }}-crd-installer
 {{ include "gitlab.standardLabels" $ | indent 4 }}
   annotations:
-    "helm.sh/hook-weight": "-2"
+    "helm.sh/hook-weight": "-4"
     "helm.sh/hook": pre-install,pre-upgrade
     "helm.sh/hook-delete-policy": hook-succeeded
 ---
@@ -228,7 +215,7 @@ metadata:
   labels:
 {{ include "gitlab.standardLabels" $ | indent 4 }}
   annotations:
-    "helm.sh/hook-weight": "-2"
+    "helm.sh/hook-weight": "-4"
     "helm.sh/hook": pre-install,pre-upgrade
     "helm.sh/hook-delete-policy": hook-succeeded
 rules:
@@ -280,7 +267,7 @@ metadata:
   labels:
 {{ include "gitlab.standardLabels" $ | indent 4 }}
   annotations:
-    "helm.sh/hook-weight": "-2"
+    "helm.sh/hook-weight": "-4"
     "helm.sh/hook": pre-install,pre-upgrade
     "helm.sh/hook-delete-policy": hook-succeeded
 roleRef:
