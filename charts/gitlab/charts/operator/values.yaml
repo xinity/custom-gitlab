@@ -9,9 +9,9 @@ image:
 
 replicaCount: 1
 
-# Install the operator as well
-install: true
-crd:
+install:
+  # Install the operator as well
+  enabled: true
   image:
     repository: gcr.io/google_containers/hyperkube
     tag: v1.9.0
