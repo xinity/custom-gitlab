@@ -22,8 +22,8 @@ spec:
 {{- include "pullsecrets" $.Values.image | indent 6}}
       containers:
       - name: hyperkube
-        image: "{{ .Values.image.crd..repository }}:{{ .Values.image.crd.tag }}"
-        {{ template "gitlab.crd.imagePullPolicy" . }}
+        image: "{{ .Values.crd.image.repository }}:{{ .Values.crd.image.tag }}"
+        {{ template "gitlab.imagePullPolicy" . }}
         command:
         - ./kubectl
         - apply
@@ -100,11 +100,12 @@ data:
     metadata:
       labels:
         controller-tools.k8s.io: "1.0"
+        revision: "{{ .Release.Revision }}"
 {{ include "gitlab.standardLabels" $ | indent 8 }}
       name: {{ template "fullname" . }}
     spec:
       version: {{ .Values.global.gitlabVersion | quote }}
-      type: "ee"
+      type: ""
       helmRelease: {{ .Release.Name }}
 ---
 apiVersion: v1
