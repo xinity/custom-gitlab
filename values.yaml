@@ -5,6 +5,12 @@ global:
   # gitlabVersion: master
   operator:
     enabled: false
+    migrations:
+      image:
+      initContainer:
+        image:
+        tag:
+      configMapName:
   application:
     create: false
     links: []
