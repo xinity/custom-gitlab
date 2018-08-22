@@ -22,6 +22,26 @@ data:
       name: gitlab-{{ .Release.Name }}
     spec:
       version: {{ include "gitlab.operator.gitlabVersion" . | quote }}
-      type: ""
       helmRelease: {{ .Release.Name }}
+      migrations:
+        configMapName: {{ .Values.global.operator.migrations.configMapName }}
+        initContainer:
+          image: {{ .Values.global.operator.migrations.initContainer.image }}
+          tag: {{ .Values.global.operator.migrations.initContainer.tag }}
+        image: {{ .Values.global.operator.migrations.image }}
+        railsSecret:
+          name: {{ template "gitlab.rails-secrets.secret" . }}
+          key: secrets.yml
+        redisPassword:
+          name: {{ template "gitlab.redis.password.secret" . }}
+          key: {{ template "gitlab.redis.password.key" . }}
+        psqlPassword:
+          name: {{ template "gitlab.psql.password.secret" . }}
+          key: {{ template "gitlab.psql.password.key" . }}
+        initialRootPassword:
+          name: {{ template "gitlab.migrations.initialRootPassword.secret" . }}
+          key: {{ template "gitlab.migrations.initialRootPassword.key" . }}
+        gitLabRunnerRegistationToken:
+          name: {{ template "gitlab.gitlab-runner.registrationToken.secret" . }}
+          key: runner-registration-token
 {{- end }}

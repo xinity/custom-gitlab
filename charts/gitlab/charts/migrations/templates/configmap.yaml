@@ -2,7 +2,11 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
+  {{- if .Values.global.operator.enabled }}
+  name: {{ .Values.global.operator.migrations.configMapName }}
+  {{- else }}
   name: {{ template "fullname" . }}
+  {{- end }}
   labels:
 {{ include "gitlab.standardLabels" . | indent 4 }}
 data:
