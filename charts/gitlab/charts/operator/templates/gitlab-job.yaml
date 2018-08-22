@@ -28,12 +28,12 @@ spec:
         - ./kubectl
         - apply
         - -f
-        - /crd/crd.yaml
+        - /gitlab/gitlab.yaml
         volumeMounts:
-        - name: crd
-          mountPath: /crd
+        - name: gitlab
+          mountPath: /gitlab
       volumes:
-      - name: crd
+      - name: gitlab
         configMap:
           name: {{ template "fullname" . }}-set-gitlab
 {{- end }}
