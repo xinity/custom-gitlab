@@ -7,8 +7,6 @@ image:
   pullSecrets: []
   # pullPolicy: IfNotPresent
 
-replicaCount: 1
-
 install:
   # Install the operator as well
   enabled: true

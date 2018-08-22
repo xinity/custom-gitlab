@@ -140,7 +140,7 @@ data:
       labels:
 {{ include "gitlab.standardLabels" . | indent 8 }}
     spec:
-      replicas: {{ .Values.replicaCount }}
+      replicas: 1
       selector:
         matchLabels:
           app: {{ template "name" . }}
