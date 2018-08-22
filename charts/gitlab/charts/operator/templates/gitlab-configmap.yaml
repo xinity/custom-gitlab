@@ -11,7 +11,7 @@ metadata:
     "helm.sh/hook": pre-install,pre-upgrade
     "helm.sh/hook-delete-policy": hook-succeeded
 data:
-  crd.yaml: |
+  gitlab.yaml: |
     apiVersion: gitlab.com/v1beta1
     kind: GitLab
     metadata:
