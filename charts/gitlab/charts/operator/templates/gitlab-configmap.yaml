@@ -19,9 +19,9 @@ data:
         controller-tools.k8s.io: "1.0"
         revision: "{{ .Release.Revision }}"
 {{ include "gitlab.standardLabels" $ | indent 8 }}
-      name: {{ template "fullname" . }}
+      name: gitlab-{{ .Release.Name }}
     spec:
-      version: {{ .Values.global.gitlabVersion | quote }}
+      version: {{ coalesce .Values.global.gitlabVersion .Chart.AppVersion | quote }}
       type: ""
       helmRelease: {{ .Release.Name }}
 {{- end }}

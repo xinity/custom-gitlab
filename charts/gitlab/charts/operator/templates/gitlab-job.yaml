@@ -14,7 +14,6 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ template "fullname" . }}-set-gitlab
 {{ include "gitlab.standardLabels" $ | indent 8 }}        
     spec:
       serviceAccount: {{ template "fullname" . }}-set-gitlab

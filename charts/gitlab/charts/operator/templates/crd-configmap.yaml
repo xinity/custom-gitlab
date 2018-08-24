@@ -143,13 +143,13 @@ data:
       replicas: 1
       selector:
         matchLabels:
-          app: {{ template "name" . }}
-          release: {{ .Release.Name }}
+          component: operator
+{{ include "gitlab.standardLabels" . | indent 10 }}
       template:
         metadata:
           labels:
-            app: {{ template "name" . }}
-            release: {{ .Release.Name }}
+            component: operator
+{{ include "gitlab.standardLabels" . | indent 12 }}
         spec:
           serviceAccountName: {{ template "fullname" . }}
           containers:
