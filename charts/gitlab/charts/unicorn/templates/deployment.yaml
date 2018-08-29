@@ -7,7 +7,7 @@ metadata:
 {{ include "gitlab.standardLabels" . | indent 4 }}
   {{- if .Values.global.operator.enabled }}
   annotations:
-    gitlab.com/version: {{ coalesce .Values.global.gitlabVersion .Chart.AppVersion }}
+    gitlab.com/version: {{ include "gitlab.operator.gitlabVersion" . }}
   {{- end }}
 spec:
   replicas: {{ .Values.replicaCount }}
@@ -22,7 +22,7 @@ spec:
         release: {{ .Release.Name }}
       annotations:
         {{- if .Values.global.operator.enabled }}
-        gitlab.com/version: {{ coalesce .Values.global.gitlabVersion .Chart.AppVersion }}
+        gitlab.com/version: {{ include "gitlab.operator.gitlabVersion" . }}
         {{- end }}
         checksum/config: {{ include (print $.Template.BasePath "/configmap.yml") . | sha256sum }}
 {{- if .Values.metrics.enabled }}
