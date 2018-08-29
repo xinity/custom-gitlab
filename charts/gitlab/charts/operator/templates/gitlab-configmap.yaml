@@ -21,7 +21,7 @@ data:
 {{ include "gitlab.standardLabels" $ | indent 8 }}
       name: gitlab-{{ .Release.Name }}
     spec:
-      version: {{ coalesce .Values.global.gitlabVersion .Chart.AppVersion | quote }}
+      version: {{ include "gitlab.operator.gitlabVersion" . | quote }}
       type: ""
       helmRelease: {{ .Release.Name }}
 {{- end }}
