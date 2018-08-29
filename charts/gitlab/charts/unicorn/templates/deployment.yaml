@@ -122,6 +122,10 @@ spec:
             - name: GITLAB_WORKHORSE_SENTRY_DSN
               value: {{ .Values.workhorse.sentryDSN }}
 {{- end }}
+{{- if .Values.global.operator.enabled }}
+            - name: BYPASS_SCHEMA_VERSION
+              value: 'true'
+{{- end }}
           volumeMounts:
 {{- if .Values.metrics.enabled }}
             - name: unicorn-metrics
