@@ -91,6 +91,10 @@ spec:
               value: '/var/opt/gitlab/config/gitlab/'
             - name: WORKHORSE_ARCHIVE_CACHE_DISABLED
               value: "1"
+{{- if .Values.global.operator.enabled }}
+            - name: BYPASS_SCHEMA_VERSION
+              value: 'true'
+{{- end }}
           volumeMounts:
             - name: unicorn-config
               mountPath: '/var/opt/gitlab/templates'
@@ -121,10 +125,6 @@ spec:
 {{- if .Values.workhorse.sentryDSN }}
             - name: GITLAB_WORKHORSE_SENTRY_DSN
               value: {{ .Values.workhorse.sentryDSN }}
-{{- end }}
-{{- if .Values.global.operator.enabled }}
-            - name: BYPASS_SCHEMA_VERSION
-              value: 'true'
 {{- end }}
           volumeMounts:
 {{- if .Values.metrics.enabled }}
