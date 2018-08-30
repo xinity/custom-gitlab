@@ -1,5 +1,5 @@
 ---
-title: Add Gitlab operator
+title: Add Gitlab operator to run upgrades of Gitlab
 merge_request: 435
 author:
 type: added
