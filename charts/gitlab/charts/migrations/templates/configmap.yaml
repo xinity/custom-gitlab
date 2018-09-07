@@ -2,11 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  {{- if .Values.global.operator.enabled }}
-  name: {{ coalesce .Values.global.operator.migrations.configMapName (include "fullname" .) }}
-  {{- else }}
   name: {{ template "fullname" . }}
-  {{- end }}
   labels:
 {{ include "gitlab.standardLabels" . | indent 4 }}
 data:
@@ -43,5 +39,17 @@ data:
     cp /init-config/postgres/psql-password  /init-secrets/postgres/psql-password
     cp /init-config/rails-secrets/secrets.yml /init-secrets/rails-secrets/secrets.yml
     cp /init-config/migrations/initial_root_password /init-secrets/migrations/initial_root_password
+{{- if .Values.global.operator.enabled }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-migrations-podspec
+  labels:
+{{ include "gitlab.standardLabels" . | indent 4 }}
+data:
+  template: |-
+{{ include (print $.Template.BasePath "/_podspec.yaml") . | indent 4 }}
+{{- end }}
 # Leave this here - This line denotes end of block to the parser.
 {{- end }}
