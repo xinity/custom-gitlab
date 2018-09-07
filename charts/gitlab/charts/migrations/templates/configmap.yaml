@@ -3,7 +3,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   {{- if .Values.global.operator.enabled }}
-  name: {{ .Values.global.operator.migrations.configMapName }}
+  name: {{ coalesce .Values.global.operator.migrations.configMapName (include "fullname" .) }}
   {{- else }}
   name: {{ template "fullname" . }}
   {{- end }}
