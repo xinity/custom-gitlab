@@ -24,11 +24,12 @@ data:
       version: {{ include "gitlab.operator.gitlabVersion" . | quote }}
       helmRelease: {{ .Release.Name }}
       migrations:
-        configMapName: {{ .Values.global.operator.migrations.configMapName }}
+        configMapName: {{ coalesce .Values.global.operator.migrations.configMapName (include "fullnameFor" (dict "Chart" "migrations" "Context" . )) }}
         initContainer:
           image: {{ .Values.global.operator.migrations.initContainer.image }}
           tag: {{ .Values.global.operator.migrations.initContainer.tag }}
         image: {{ .Values.global.operator.migrations.image }}
+        tag: {{ coalesce .Values.global.operator.migrations.tag (include "gitlab.versionTag" . ) }}
         railsSecret:
           name: {{ template "gitlab.rails-secrets.secret" . }}
           key: secrets.yml

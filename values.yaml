@@ -6,10 +6,10 @@ global:
   operator:
     enabled: false
     migrations:
-      image:
+      image: registry.gitlab.com/gitlab-org/build/cng/gitlab-rails-ee
       initContainer:
-        image:
-        tag:
+        image: busybox
+        tag: latest
       configMapName:
   application:
     create: false
@@ -253,4 +253,3 @@ gitlab-runner:
 #     enabled: false
 #   gitlab-shell:
 #     enabled: false
-
