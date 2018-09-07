@@ -38,90 +38,18 @@ data:
               properties:
                 helmRelease:
                   type: string
-                migrations:
+                migrationsJob:
                   properties:
-                    configMapName:
-                      type: string
-                    gitLabRunnerRegistationToken:
-                      properties:
-                        key:
-                          type: string
-                        name:
-                          type: string
-                      required:
-                      - name
-                      - key
+                    template:
                       type: object
-                    image:
-                      type: string
-                    initContainer:
-                      properties:
-                        image:
-                          type: string
-                        tag:
-                          type: string
-                      required:
-                      - image
-                      - tag
-                      type: object
-                    initialRootPassword:
-                      properties:
-                        key:
-                          type: string
-                        name:
-                          type: string
-                      required:
-                      - name
-                      - key
-                      type: object
-                    psqlPassword:
-                      properties:
-                        key:
-                          type: string
-                        name:
-                          type: string
-                      required:
-                      - name
-                      - key
-                      type: object
-                    railsSecret:
-                      properties:
-                        key:
-                          type: string
-                        name:
-                          type: string
-                      required:
-                      - name
-                      - key
-                      type: object
-                    redisPassword:
-                      properties:
-                        key:
-                          type: string
-                        name:
-                          type: string
-                      required:
-                      - name
-                      - key
-                      type: object
-                    tag:
-                      type: string
                   required:
-                  - image
-                  - tag
-                  - configMapName
-                  - initContainer
-                  - railsSecret
-                  - redisPassword
-                  - psqlPassword
-                  - initialRootPassword
-                  - gitLabRunnerRegistationToken
+                  - template
                   type: object
                 version:
                   type: string
               required:
               - version
-              - migrations
+              - migrationsJob
               - helmRelease
               type: object
             status:
