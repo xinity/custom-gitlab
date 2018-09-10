@@ -24,6 +24,6 @@ data:
       version: {{ include "gitlab.operator.gitlabVersion" . | quote }}
       helmRelease: {{ .Release.Name }}
       migrationsTemplate:
-        configMapName: {{ .Release.Name }}-migrations-podspec
+        configMapName: {{ .Release.Name }}-migrations-jobspec
         configMapKey: template
 {{- end }}

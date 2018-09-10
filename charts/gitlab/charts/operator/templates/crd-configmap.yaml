@@ -38,18 +38,21 @@ data:
               properties:
                 helmRelease:
                   type: string
-                migrationsJob:
-                  properties:
-                    template:
-                      type: object
-                  required:
-                  - template
+                migrationsTemplate:
                   type: object
+                  properties:
+                    configMapName:
+                      type: string
+                    configMapKey:
+                      type: string
+                  required:
+                    - configMapName
+                    - configMapKey
                 version:
                   type: string
               required:
               - version
-              - migrationsJob
+              - migrationsTemplate
               - helmRelease
               type: object
             status:
@@ -94,6 +97,7 @@ data:
       - ""
       resources:
       - pods
+      - configmaps
       verbs:
       - get
       - list

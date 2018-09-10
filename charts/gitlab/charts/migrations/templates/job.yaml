@@ -1,16 +1,3 @@
 {{- if and .Values.enabled (not .Values.global.operator.enabled) }}
-apiVersion: batch/v1
-kind: Job
-metadata:
-  name: {{ template "migrations.jobname" . }}
-  labels:
-{{ include "gitlab.standardLabels" . | indent 4 }}
-spec:
-  template:
-    metadata:
-      labels:
-        app: {{ template "name" . }}
-        release: {{ .Release.Name }}
-    spec:
-{{ include (print $.Template.BasePath "/_podspec.yaml") . | indent 6 }}
+{{ include (print $.Template.BasePath "/_jobspec.yaml") . }}
 {{- end }}

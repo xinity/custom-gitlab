@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 image:
   repository: registry.gitlab.com/gitlab-org/distribution/gitlab-operator
-  tag: dj-generate-migrations-job
+  tag: latest
   pullSecrets: []
   pullPolicy: Always
 
