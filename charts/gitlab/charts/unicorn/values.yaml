@@ -40,6 +40,7 @@ hpa:
   targetAverageValue: 400m
 workhorse:
   image: registry.gitlab.com/gitlab-org/build/cng/gitlab-workhorse-ee
+  tag: download-pipeline-assets
   sentryDSN: ""
   extraArgs: ""
   resources:
