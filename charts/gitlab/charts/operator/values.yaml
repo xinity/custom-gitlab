@@ -16,8 +16,8 @@ install:
   # Install the operator as well
   enabled: true
   image:
-    repository: gcr.io/google_containers/hyperkube
-    tag: v1.9.0
+    repository: registry.gitlab.com/gitlab-org/build/cng/kubectl
+    tag: 1f8690f03f7aeef27e727396927ab3cc96ac89e7
     pullSecrets: []
     #pullPolicy: IfNotPresent
 

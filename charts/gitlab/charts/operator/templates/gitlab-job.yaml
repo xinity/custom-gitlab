@@ -21,11 +21,11 @@ spec:
       restartPolicy: Never
 {{- include "pullsecrets" $.Values.image | indent 6}}
       containers:
-      - name: hyperkube
+      - name: kubectl
         image: "{{ .Values.install.image.repository }}:{{ .Values.install.image.tag }}"
         {{ template "gitlab.imagePullPolicy" . }}
         command:
-        - ./kubectl
+        - kubectl
         - apply
         - -f
         - /gitlab/gitlab.yaml
