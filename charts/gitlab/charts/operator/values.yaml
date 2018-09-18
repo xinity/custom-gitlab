@@ -1,4 +1,4 @@
-# Default values for sidekiq.
+# Default values for the gitlab operator.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 image:
@@ -11,6 +11,7 @@ init:
   resources:
     requests:
       cpu: 50m
+      memory: 64M
 
 install:
   # Install the operator as well
