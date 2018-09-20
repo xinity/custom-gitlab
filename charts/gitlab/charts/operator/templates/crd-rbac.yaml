@@ -39,6 +39,8 @@ rules:
   resources:
   - clusterroles
   - clusterrolebindings
+  - roles
+  - rolebindings
   verbs:
   - "*"
 - apiGroups:
@@ -47,6 +49,7 @@ rules:
   - serviceaccounts
   - pods
   - configmaps
+  - secrets
   verbs:
   - "*"
 - apiGroups:

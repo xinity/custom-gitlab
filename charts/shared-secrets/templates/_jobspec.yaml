@@ -1,0 +1,33 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ template "shared-secrets.jobname" . }}
+  labels:
+{{ include "gitlab.standardLabels" . | indent 4 }}
+  annotations:
+    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  template:
+    metadata:
+      labels:
+        app: {{ template "name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      {{- if .Values.rbac.create }}
+      serviceAccountName: {{ template "fullname" . }}
+      {{- end }}
+      restartPolicy: Never
+{{- include "pullsecrets" .Values.image | indent 6}}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          command: ['/bin/bash', '/scripts/generate-secrets']
+          {{ template "gitlab.imagePullPolicy" . }}
+          volumeMounts:
+            - name: scripts
+              mountPath: /scripts
+      volumes:
+      - name: scripts
+        configMap:
+          name: {{ template "fullname" . }}

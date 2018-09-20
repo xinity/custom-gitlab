@@ -38,21 +38,46 @@ data:
               properties:
                 helmRelease:
                   type: string
-                migrationsTemplate:
+                templates:
                   type: object
                   properties:
-                    configMapName:
-                      type: string
-                    configMapKey:
-                      type: string
+                    sharedSecretsTemplate:
+                      type: object
+                      properties:
+                        configMapName:
+                          type: string
+                        configMapKey:
+                          type: string
+                        roleKey:
+                          type: string
+                        roleBindingKey:
+                          type: string
+                        serviceAccountKey:
+                          type: string
+                      required:
+                        - configMapKey
+                        - configMapName
+                        - roleKey
+                        - roleKey
+                        - serviceAccountKey
+                    migrationsTemplate:
+                      type: object
+                      properties:
+                        configMapName:
+                          type: string
+                        configMapKey:
+                          type: string
+                      required:
+                        - configMapName
+                        - configMapKey
                   required:
-                    - configMapName
-                    - configMapKey
+                    - migrationsTemplate
+                    - sharedSecretsTemplate
                 version:
                   type: string
               required:
               - version
-              - migrationsTemplate
+              - templates
               - helmRelease
               type: object
             status:
@@ -94,10 +119,27 @@ data:
       - patch
       - delete
     - apiGroups:
+      - rbac.authorization.k8s.io
+      resources:
+        - clusterroles
+        - clusterrolebindings
+        - roles
+        - rolebindings
+      verbs:
+        - get
+        - list
+        - create
+        - update
+        - watch
+        - patch
+        - delete
+    - apiGroups:
       - ""
       resources:
       - pods
       - configmaps
+      - serviceaccounts
+      - secrets
       verbs:
       - get
       - list
@@ -162,7 +204,8 @@ data:
           serviceAccountName: {{ template "fullname" . }}
           containers:
             - name: {{ .Chart.Name }}
-              image: "{{ .Values.image.repository }}:{{ coalesce .Values.image.tag (include "gitlab.versionTag" . ) }}"
+              image: ahmadposten/gitlaboperator
+              # image: "{{ .Values.image.repository }}:{{ coalesce .Values.image.tag (include "gitlab.versionTag" . ) }}"
               {{ template "gitlab.imagePullPolicy" . }}
               resources:
 {{ toYaml .Values.resources | indent 16 }}

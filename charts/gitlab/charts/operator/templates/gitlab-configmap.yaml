@@ -23,7 +23,14 @@ data:
     spec:
       version: {{ include "gitlab.operator.gitlabVersion" . | quote }}
       helmRelease: {{ .Release.Name }}
-      migrationsTemplate:
-        configMapName: {{ .Release.Name }}-migrations-jobspec
-        configMapKey: template
+      templates:
+        migrationsTemplate:
+          configMapName: {{ .Release.Name }}-migrations-jobspec
+          configMapKey: template
+        sharedSecretsTemplate:
+          configMapName: {{ .Release.Name }}-shared-secrets-jobspec
+          configMapKey: template
+          roleKey: role
+          roleBindingKey: roleBinding
+          serviceAccountKey: serviceAccount
 {{- end }}
