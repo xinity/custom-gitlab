@@ -7,10 +7,12 @@ metadata:
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
+{{- if and .Values.enabled (not .Values.global.operator.enabled) }}
   annotations:
     "helm.sh/hook": pre-install,pre-upgrade
     "helm.sh/hook-weight": "-5"
     "helm.sh/hook-delete-policy": hook-succeeded
+{{- end }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role

@@ -10,6 +10,9 @@ metadata:
     gitlab.com/version: {{ include "gitlab.operator.gitlabVersion" . }}
   {{- end }}
 spec:
+  {{- if .Values.global.operator.enabled }}
+  paused: true
+  {{- end }}
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:

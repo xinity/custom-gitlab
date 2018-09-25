@@ -23,3 +23,5 @@ data:
 {{ include (print $.Template.BasePath "/_rbac-serviceaccount.yaml") . | indent 4 }}
   roleBinding: |-
 {{ include (print $.Template.BasePath "/_rbac-rolebinding.yaml") . | indent 4 }}
+  selfSignedCertTemplate: |-
+{{ include (print $.Template.BasePath "/_self-signed-cert-job.yml") . | indent 4 }}

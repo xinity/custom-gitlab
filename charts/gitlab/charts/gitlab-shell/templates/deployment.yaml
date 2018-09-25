@@ -6,6 +6,9 @@ metadata:
   labels:
 {{ include "gitlab.standardLabels" . | indent 4 }}
 spec:
+  {{- if .Values.global.operator.enabled }}
+  paused: true
+  {{- end }}
   selector:
     matchLabels:
       app: {{ template "name" . }}

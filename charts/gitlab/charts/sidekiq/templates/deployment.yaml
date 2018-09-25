@@ -10,6 +10,7 @@
 {{- $resources := .Values.resources -}}
 {{- $nodeSelector := .Values.nodeSelector -}}
 {{- $minioEnabled := .Values.global.minio.enabled -}}
+{{- $operatorEnabled := .Values.global.operator.enabled -}}
 {{- $minioSecret := include "gitlab.minio.credentials.secret" . -}}
 {{- $redisSecret := include "gitlab.redis.password.secret" . -}}
 {{- $redisKey := include "gitlab.redis.password.key" . -}}
@@ -42,6 +43,9 @@ metadata:
 {{ include "gitlab.standardLabels" $ | indent 4 }}
     queue-pod-name: {{ .name }}
 spec:
+  {{- if $operatorEnabled  }}
+  paused: true
+  {{- end }}
   selector:
     matchLabels:
       app: {{ $name }}
