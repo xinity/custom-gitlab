@@ -5,7 +5,7 @@ metadata:
     controller-tools.k8s.io: "1.0"
     revision: "{{ .Release.Revision }}"
 {{ include "gitlab.standardLabels" $ | indent 4 }}
-  name: {{ template "gitlab.releasePrefixFullName" . }}
+  name: {{ template "fullname" . }}
 spec:
   version: {{ include "gitlab.operator.gitlabVersion" . | quote }}
   helmRelease: {{ .Release.Name }}
