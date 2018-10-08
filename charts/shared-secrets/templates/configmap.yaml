@@ -1,13 +1,21 @@
+{{- if .Values.enabled -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ template "fullname" . }}
   labels:
 {{ include "gitlab.standardLabels" . | indent 4 }}
+{{- if not .Values.global.operator.enabled }}
+  annotations:
+    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook-weight": "-3"
+    "helm.sh/hook-delete-policy": hook-succeeded
+{{- end }}
 data:
   generate-secrets: |
 {{ include (print $.Template.BasePath "/_generate_secrets.sh") . | indent 4 }}
 ---
+{{- if .Values.global.operator.enabled -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -25,3 +33,5 @@ data:
 {{ include (print $.Template.BasePath "/_rbac-rolebinding.yaml") . | indent 4 }}
   selfSignedCertTemplate: |-
 {{ include (print $.Template.BasePath "/_self-signed-cert-job.yml") . | indent 4 }}
+{{- end -}}
+{{- end -}}
