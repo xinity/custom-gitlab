@@ -44,9 +44,13 @@ describe "Restoring a backup" do
       image_selector = 'div > div.wiki > p > a > img'
 
       expect(page).to have_selector(image_selector)
-      image_src = page.find(image_selector)[:'data-src']
 
-      open(image_src) do |f|
+      image_src = page.find(image_selector)[:'data-src']
+      # data-src stores relative url segment. OpenURI's open requires a complete
+      # URL
+      image_url = URI.join(gitlab_url, image_src)
+
+      open(image_url) do |f|
         expect(f.status[0]).to eq '200'
       end
     end
