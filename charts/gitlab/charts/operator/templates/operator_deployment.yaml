@@ -1,4 +1,5 @@
-{{- if and .Values.global.operator.enabled }}
+{{- if .Values.global.operator.enabled }}
+{{- if not .Values.global.operator.nodeploy }}
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
@@ -27,4 +28,5 @@ spec:
           {{ template "gitlab.imagePullPolicy" . }}
           resources:
 {{ toYaml .Values.resources | indent 12 }}
+{{- end }}
 {{- end }}
