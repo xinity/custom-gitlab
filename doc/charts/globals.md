@@ -515,7 +515,7 @@ You can control the port use by the Ingress to pass SSH traffic, as well as the 
 
 See [authToken](gitlab/gitlab-shell#authtoken) in chart specific documentaion.
 
-### Authorization token
+### Host Keys
 
 See [hostKeys](gitlab/gitlab-shell#hostkeyssecret) in chart specific documentaion.
 
