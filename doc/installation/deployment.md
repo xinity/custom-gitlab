@@ -169,7 +169,7 @@ Mappings between chart versions and GitLab versions can be found [here](./versio
 
 #### GitLab operator
 
-If you would like to use GitLab operator please go through the [operator docs](./operator.md)
+If you would like to use GitLab operator, please follow the [documentation for using the operator](./operator.md)
 
 ### Deploy development branch
 

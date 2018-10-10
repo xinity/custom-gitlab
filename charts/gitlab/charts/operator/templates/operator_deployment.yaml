@@ -1,5 +1,4 @@
-{{- if .Values.global.operator.enabled }}
-{{- if not .Values.global.operator.nodeploy }}
+{{- if and .Values.global.operator.enabled (not .Values.global.operator.nodeploy) }}
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
