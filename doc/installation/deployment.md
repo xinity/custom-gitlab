@@ -167,9 +167,9 @@ You can also use `--version <installation version>` option if you would like to 
 
 Mappings between chart versions and GitLab versions can be found [here](./version-mappings.md)
 
-#### GitLab operator
+#### GitLab operator (experimental)
 
-If you would like to use GitLab operator please go through the [operator docs](./operator.md)
+If you would like to use GitLab operator to achieve zero downtime upgrades, please follow the [documentation for using the operator](./operator.md)
 
 ### Deploy development branch
 
