@@ -167,6 +167,10 @@ You can also use `--version <installation version>` option if you would like to 
 
 Mappings between chart versions and GitLab versions can be found [here](./version-mappings.md)
 
+#### GitLab operator
+
+If you would like to use GitLab operator please go through the [operator docs](./operator.md)
+
 ### Deploy development branch
 
 To deploy master or a specific branch, first clone the repository locally: `git clone git@gitlab.com:charts/gitlab.git`
