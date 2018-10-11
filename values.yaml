@@ -35,6 +35,7 @@ global:
     enabled: true
     credentials: {}
   appConfig:
+    enableUsagePing: true
     defaultCanCreateGroup: true
     usernameChangingEnabled: true
     issueClosingPattern:
