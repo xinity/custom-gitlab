@@ -14,8 +14,8 @@ We provide the flag `global.operator.enabled`, when set to true it enables the o
 
 The operator makes use of Kubernetes CustomResourceDefinitions (CRD). Since Helm will be used for the instllation, we need to ensure that this CRD is in place prior to attempting to use it. In order to do this, we have to run an additional command prior to use.
 
-1. `helm upgrade --install <release-name> . --reuse-values --set global.gitlab.operator.enabled=true --set global.operator.nodeploy=true ... ` where `...` shall be replaced by the rest of the values you would like to set.
-2. `helm upgrade <release-name> . --reuse-values --set global.operator.nodeploy=false ...`.
+1. `helm upgrade --install <release-name> . --set global.gitlab.operator.enabled=true --set global.operator.nodeploy=true ... ` where `...` shall be replaced by the rest of the values you would like to set.
+2. `helm upgrade <release-name> . --set global.gitlab.operator.enabled=true --set global.operator.nodeploy=false ...`.
 
 The first command will install only the `CRD` but will not actually attempt to deploy the operator. The second command will deploy the operator itself, now that the CRD is in place.
 
